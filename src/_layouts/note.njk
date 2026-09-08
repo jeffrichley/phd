@@ -1,0 +1,13 @@
+---
+layout: base.njk
+---
+<article class="page note">
+  <header class="page-header">
+    <p class="note-meta">{{ page.date.toISOString().slice(0, 10) }} · <span class="tag">{{ tag }}</span></p>
+    <h1>{{ title }}</h1>
+  </header>
+  {{ content | safe }}
+  <nav class="page-footer-nav">
+    <a class="prev" href="/notes/">&larr; All lab notes</a>
+  </nav>
+</article>
