@@ -4,8 +4,8 @@
 questions:
   - id: rq1
     short: "Does the simulator carry the physics?"
-    question: "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on — and what does the approximation cost?"
-    motivation: "The broadside added-mass term is Lighthill's reactive thrust: it is undulatory propulsion. If the simulator does not carry it, every learned gait is trained against the wrong physics — and the error is structured, not noise."
+    question: "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on, and what does the approximation cost?"
+    motivation: "The broadside added-mass term is Lighthill's reactive thrust: it is undulatory propulsion. If the simulator does not carry it, every learned gait is trained against the wrong physics, and the error is structured, not noise."
     hypotheses:
       - id: H1.1
         statement: "Stock GPU pipelines specify an added-mass reaction but do not realise it: a free-body probe measures effective mass equal to dry mass."

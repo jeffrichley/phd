@@ -31,19 +31,19 @@ ASME, IEEE, and ASEE.
 
 ## Selected publications
 
-- [*Glowworm Swarm Optimization: Theory, Algorithms, and Applications*](https://link.springer.com/book/10.1007/978-3-319-51595-3) — Kaipa & Ghose, Springer, 2017 (the book on the algorithm he co-developed)
-- [Glowworm swarm optimization for simultaneous capture of multiple local optima of multimodal functions](https://link.springer.com/article/10.1007/s11721-008-0021-5) — *Swarm Intelligence*, the founding GSO article
-- [His works at ODU Digital Commons](https://digitalcommons.odu.edu/mae_books/2/) — the university's own record of his publications
+- [*Glowworm Swarm Optimization: Theory, Algorithms, and Applications*](https://link.springer.com/book/10.1007/978-3-319-51595-3). Kaipa & Ghose, Springer, 2017 (the book on the algorithm he co-developed)
+- [Glowworm swarm optimization for simultaneous capture of multiple local optima of multimodal functions](https://link.springer.com/article/10.1007/s11721-008-0021-5). *Swarm Intelligence*, the founding GSO article
+- [His works at ODU Digital Commons](https://digitalcommons.odu.edu/mae_books/2/). The university's own record of his publications
 
 ## Recognition
 
 Associate editorships at IEEE RA-L and ASME JCISE, and division leadership in ASME's
 Computers and Information in Engineering division. (Individual awards will be listed
-here as they are verified — nothing on this site is asserted without a source.)
+here as they are verified; nothing on this site is asserted without a source.)
 
 ## Why this advisor for this dissertation
 
-The dissertation's spine — bio-inspired undulatory locomotion driven by a mechanical
-oscillator, with morphological computation doing part of the control — sits squarely in
+The dissertation's spine (bio-inspired undulatory locomotion driven by a mechanical
+oscillator, with morphological computation doing part of the control) sits squarely in
 Dr. Kaipa's bio-inspired robotics line. He teaches bio-inspired locomotion, and the
 program's framing of embodiment-as-mechanism is one he can defend, not merely permit.

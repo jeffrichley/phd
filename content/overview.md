@@ -8,7 +8,7 @@ status_strip:
   run_count: 3
   open_hypotheses: 3
 meta:
-  program: "PhD in Engineering — Mechanical Engineering concentration, ODU MAE"
+  program: "PhD in Engineering (Mechanical Engineering concentration), ODU MAE"
   advisor: "Dr. Krishnanand Kaipa"
   committee: "Form D1 in progress"
 spine:

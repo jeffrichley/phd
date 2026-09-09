@@ -18,7 +18,7 @@ figures:
     group: rq1
   - n: 3
     file: figures/fig3_throughput.png
-    caption: "Throughput scaling on one A100 (historical path-C benchmark, July 2026). The sealed fork-on measurement is separate: 644k steps/s at 16,384 envs, ~1% below fork-off on the same commit — a viability result, with no parity claimed across solver paths."
+    caption: "Throughput scaling on one A100 (historical path-C benchmark, July 2026). The sealed fork-on measurement is separate: 644k steps/s at 16,384 envs, ~1% below fork-off on the same commit: a viability result, with no parity claimed across solver paths."
     alt: "Log-log plot of environment steps per second versus parallel environment count, rising steadily to the tens of thousands of environments."
     runs: [exp-003]
     group: rq1

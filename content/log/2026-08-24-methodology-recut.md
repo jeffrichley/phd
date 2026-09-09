@@ -2,7 +2,7 @@
 title: Paper 2's methodology recut and preregistered
 date: 2026-08-24
 tag: decision
-excerpt: The skill-acquisition study's suite, oscillator freeze, and analysis plan were rewritten around the locked thesis claim — before any confirmatory data exists.
+excerpt: The skill-acquisition study's suite, oscillator freeze, and analysis plan were rewritten around the locked thesis claim, before any confirmatory data exists.
 ---
 <!-- Sources: papers/compositional-skill-reuse/notebook/{methodology,analysis-plan}.md
      (rewritten 2026-08-24); decisions 0007/0008/0009; wayfinder #9, #24. -->
@@ -12,7 +12,7 @@ version was archived rather than patched. The recut:
 
 - **Suite rebalanced toward switches.** Fifteen acquisition targets now deliberately span
   the dial/switch boundary, including objective gait switches and gait-composition
-  targets — because the claim is about where the boundary falls, the suite must contain
+  targets; the claim is about where the boundary falls, so the suite must contain
   it.
 - **The oscillator is frozen before training.** One limit-cycle oscillator with a shared
   drive generates every gait's travelling wave; freezing it fixes the propulsive

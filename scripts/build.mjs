@@ -88,7 +88,7 @@ function finish($, name) {
   // global path rewrites + invariants
   $('a[href="tpl-feed-index.html"]').attr("href", FEED_INDEX);
   $('a[href="tpl-landing.html"]').attr("href", "index.html"); // tpl wordmark → internal front door
-  $("title").text($("title").text().replace(/Lifelong Learning in Embodied Robotics/g, SITE_NAME).replace(/\{\{[^}]*\}\}.*$/, SITE_NAME));
+  $("title").text($("title").text().replace(/Lifelong Learning in Embodied Robotics/g, SITE_NAME).replace(/\{\{[^}]*\}\}.*$/, SITE_NAME).replace(/ — /g, " · "));
   // strip OD authoring scaffolding that renders as visible content
   $(".note").each((_, el) => {
     if (/^(On this section|Awaiting you|Blocking on you|Dependency|Test)\b|Rows are generated|content\//.test($(el).text().trim()))
@@ -156,7 +156,11 @@ function finish($, name) {
   $(".pagehead__meta > span").each((_, el) => {
     const label = $(el).text().trim().split(/\s/)[0];
     const v = { Program: overview.meta?.program, Advisor: overview.meta?.advisor, Committee: overview.meta?.committee, Updated: BUILD_DATE }[label];
-    if (v) $(el).html(`${label} <span class="mono">${v}</span>`);
+    if (!v) return;
+    // Committee and Advisor link straight to their sections; no scrolling to find them
+    if (label === "Committee") $(el).html(`${label} <a class="mono" href="approvals.html#roster">${v}</a>`);
+    else if (label === "Advisor") $(el).html(`${label} <a class="mono" href="people-krishnanand-kaipa.html">${v}</a>`);
+    else $(el).html(`${label} <span class="mono">${v}</span>`);
   });
   // journey spine: re-render every <li> from overview.spine (stale exemplar text otherwise ships)
   const spineOl = $("ol.spine").first();
@@ -183,7 +187,7 @@ function finish($, name) {
     if (foot.length) foot.html(`<span>${l}</span><span>${r}</span>`);
   }
   $('a.card[href="timeline.html"] .card__body').text(
-    "The program spine — coursework, the three studies, candidacy, defense — with the deliverable attached to each stage and honest status on every one."
+    "The program spine (coursework, the three studies, candidacy, defense), with the deliverable attached to each stage and honest status on every one."
   );
   // OD's card grid stops at §08: append §09 (feed) and §10 (disciplines) after the §08 card
   const notesCard = $('a.card[href="notes.html"]').first();
@@ -191,13 +195,13 @@ function finish($, name) {
   <span class="card__num">§09</span>
   <span class="card__title">Lab log</span>
   <p class="card__body">The published, dated record of results, findings, decisions, and
-    milestones — the page to watch between meetings.</p>
+    milestones; the page to watch between meetings.</p>
   <span class="card__foot"><span>${logEntries.length} entries</span><span>Live</span></span>
 </a>\n<a class="card" href="disciplines.html">
   <span class="card__num">§10</span>
   <span class="card__title">Disciplines</span>
-  <p class="card__body">The rules this record is kept by — falsifiers named first, preregistered
-    analysis, sealed artifacts, append-only history — each one enforced somewhere checkable.</p>
+  <p class="card__body">The rules this record is kept by (falsifiers named first, preregistered
+    analysis, sealed artifacts, append-only history), each one enforced somewhere checkable.</p>
   <span class="card__foot"><span>${tenetCount} tenets</span><span>In force</span></span>
 </a>`);
   else warn("index: §08 card not found; §09/§10 cards not inserted");
@@ -388,7 +392,7 @@ function finish($, name) {
   if (litEntries.length === 0) {
     $(".empty").removeAttr("hidden").html(`<strong>No entries published yet.</strong>
           A source appears here only after its document has been retrieved, read, and
-          verified — see <a href="disciplines.html">§10 Disciplines</a>. The threads above
+          verified; see <a href="disciplines.html">§10 Disciplines</a>. The threads above
           name where each entry will land.`);
   } else {
     for (const e of litEntries) {
@@ -462,6 +466,13 @@ function finish($, name) {
 </li>`);
     });
   }
+  $(".card__title").each((_, el) => $(el).text($(el).text().replace(" — ", ": ")));
+  // anchor ids so cross-page links can land on the right section without scrolling
+  $(".eyebrow-rule").each((_, el) => {
+    const t = $(el).text().trim();
+    if (t === "Committee roster") $(el).closest("section").attr("id", "roster");
+    if (t === "Decision ledger") $(el).closest("section").attr("id", "decisions");
+  });
   if (committee.chair_html) {
     fillSlot($, "committee.chair", committee.chair_html);
     $('[data-od-slot="committee.chair"]').closest(".card").find(".status")
@@ -534,6 +545,12 @@ function finish($, name) {
     else if ($(".hero__cta").length) $(".hero__cta").after(`\n<figure class="media media--16x9">${vid}</figure>${fm.hero_media.caption ? `<p class="small muted">${fm.hero_media.caption}</p>` : ""}`);
     else warn("landing: hero_media declared but no insertion point found");
   }
+  // OD copy: dash-free per Jeff's style rule
+  $(".mock__cap").each((_, el) => $(el).text($(el).text().replace(" — ", ": ")));
+  $("p, .note").each((_, el) => {
+    const h = $(el).html();
+    if (h && h.includes("sense that the link works — not")) $(el).html(h.replace("works — not", "works, not"));
+  });
   // publications band
   (fm.pubs ?? []).forEach((p, i) => {
     const key = `pub.00${i + 1}`;
@@ -560,6 +577,7 @@ function genContentPage(name, { kicker, title, lead, bodyHtml, currentHref, prev
   $('[data-od-slot="page.meta"]').remove();
   $('[data-od-slot="page.status"]').remove();
   $("[data-od-block]").remove();
+  $(".doc__margin .note, .margin-stack .note").remove(); // tpl demo margin notes, not content
   $('meta[name="description"]').attr("content", escAttr(lead));
   fillSlot($, "page.body", bodyHtml);
   if (dropPagenav) $(".pagenav").remove();
@@ -679,7 +697,7 @@ for (const e of litEntries) {
   genContentPage(`${d.id}.html`, {
     kicker: `§05 · Related work · Thread ${d.thread.toUpperCase()}`,
     title: d.cite,
-    lead: `${threadName}. Bearing on ${(d.bearing_on ?? []).map((r) => r.toUpperCase()).join(", ") || "—"} — and where it stops: ${d.stops}`,
+    lead: `${threadName}. Bearing on ${(d.bearing_on ?? []).map((r) => r.toUpperCase()).join(", ") || "—"}; where it stops: ${d.stops}`,
     bodyHtml: md(e.content),
     currentHref: "literature.html",
     prev: { href: "literature.html", title: "§05 Related work" },

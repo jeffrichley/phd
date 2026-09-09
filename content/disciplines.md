@@ -4,14 +4,14 @@
 # isn't enforced somewhere checkable, it doesn't belong on this page.
 kicker: "§10 · Disciplines"
 title: "How this record is kept"
-lead: "The rules this program runs on — each one enforced somewhere you can check, not aspirational."
+lead: "The rules this program runs on, each one enforced somewhere you can check, not aspirational."
 ---
 
 ## Falsifiers are named before the plot
 
 Every headline claim carries, written down in advance, the result that would prove it
-wrong. The thesis claim's falsifier — *if transfer benefit scales with task similarity,
-the memory is overhead* — was locked on 2026-08-17, before any transfer experiment
+wrong. The thesis claim's falsifier, *if transfer benefit scales with task similarity,
+the memory is overhead*, was locked on 2026-08-17, before any transfer experiment
 existed. A falsifier named after the plot is a rationalization; named before, the outcome
 is a result either way. An earlier, stronger version of the claim was rejected precisely
 because the task suite would have falsified it trivially.
@@ -28,28 +28,27 @@ numbers arrive they are judged against a plan that could not have bent to meet t
 
 ## Claims cite sealed artifacts only
 
-A number enters a manuscript only from an immutable, timestamped artifact package — a
+A number enters a manuscript only from an immutable, timestamped artifact package: a
 dated, frozen data drop with the generating commit recorded. The bias-floor study is
 sealed at stamp `20260811T212616Z`; the throughput study at `20260812T162510Z` against
 a named commit. Re-running the code can add a new sealed package; nothing can quietly
 change an old one.
 
-*In force at:* [§03 Experiments](experiments.html) — expand any completed row
+*In force at:* [§03 Experiments](experiments.html): expand any completed row
 
 ## No citation without retrieved evidence
 
-A source is cited only after the actual document has been retrieved, read, and filed —
-a real PDF or a resolved registry record, never an abstract-level acquaintance. This is
-why [§05 Related work](literature.html) currently shows named threads with empty entry
-slots: the program's reference library holds dozens of verified sources, and entries
-appear here only as each one is re-verified into this public record. An empty slot is
-honest; a plausible-looking citation that no one has read is not.
+A source is cited only after the actual document has been retrieved, read, and filed:
+a real PDF or a resolved registry record, never an abstract-level acquaintance. Every
+entry on [§05 Related work](literature.html) passed that gate before it appeared, and
+several central-looking sources waited outside it until their documents were actually
+read. An empty slot is honest; a plausible-looking citation that no one has read is not.
 
 ## Adversarial review comes before friendly review
 
 Before the first paper went to the advisor, it went through a deliberate "Reviewer 2"
-pass — an adversarial review hunting for overclaims, missing baselines, and
-reproducibility gaps — and the packet the advisor received included that review and the
+pass: an adversarial review hunting for overclaims, missing baselines, and
+reproducibility gaps. The packet the advisor received included that review and the
 disposition of every weakness it found. This site itself was audited the same way before
 it was shared.
 
@@ -58,18 +57,18 @@ it was shared.
 ## The record is append-only
 
 From the moment an entry is published to this site's readers, it is never edited after
-the fact — a correction or superseding decision is a new dated entry against a named
+the fact; a correction or superseding decision is a new dated entry against a named
 version, and the repository history is the audit trail. What you read here is what was
 true when it was written, or a new dated entry saying otherwise.
 
-*In force at:* [§07 Committee &amp; approvals](approvals.html) · [§08 Advisor log](notes.html)
+*In force at:* [§07 Committee &amp; approvals](approvals.html#decisions) · [§08 Advisor log](notes.html)
 
 ## Empty means not done
 
 Nothing on this site is padded to look finished. Unfilled sections render as labelled
 placeholders; a hypothesis stays **○ Open** until a preregistered run reports; a figure
-plate stays empty until there is a run behind it; statuses are exact words — *drafted,
-delivered, under review, submitted* — never optimistic blurs. If a surface here looks
+plate stays empty until there is a run behind it; statuses are exact words (*drafted,
+delivered, under review, submitted*), never optimistic blurs. If a surface here looks
 sparse, that is the state of the work, and it will fill in public.
 
 ## Two claims, two bars
