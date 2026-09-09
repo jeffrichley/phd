@@ -168,20 +168,34 @@ function finish($, name) {
     const span = $(".pagehead__meta span").filter((_, el) => $(el).text().trim().startsWith(prefix));
     if (span.length) span.first().html(html); else warn(`${name}: pagehead counter "${prefix}" not found`);
   }
-  // The "Stage N of M" denominator derives wherever the string appears, not wherever a
-  // particular class does. It was first fixed on §06 by selecting .stagemark, which
-  // od/landing.html does not carry, so the public front door kept saying "of 07" against
-  // eight stages: a correct derivation scoped to the page the defect was first seen on.
-  // Applied here so a third occurrence needs no third fix.
+  // The program-position counter said "Stage 01 of 08", which reads as barely started to a
+  // reader who has not scrolled past a completed study at the RA-L submission gate. There
+  // is also no current stage to name: stage 1 is active while stage 2 is complete. So the
+  // string does not assert a position at all; it renders the states that are not open,
+  // derived off state: rather than from a rule about which stage counts as current.
   //
-  // The numerator is untouched. "Stage 01" asserts a current position and there is no rule
-  // for what that is while stage 1 is active and stage 2 is complete. See phd-lab#58.
-  const stageTotal = String(timelineC.stages.length).padStart(2, "0");
-  $("span, p, li").filter((_, el) => /^Stage\s+\d+\s+of\s+\d+$/.test($(el).text().replace(/\s+/g, " ").trim()))
-    .each((_, el) => {
-      const h = $(el).html();
-      if (h) $(el).html(h.replace(/(of\s+)\d+(\s*)$/, `$1${stageTotal}$2`));
-    });
+  // The clause count derives too. Three non-open stages produce three clauses without a
+  // code change, and a stage going from active to done changes its own word. See phd-lab#58.
+  //
+  // Matched on the text "Stage N of M" rather than on a class, because od/landing.html
+  // carries the counter in a bare span and od/timeline.html carries it in .stagemark. A
+  // per-row label naming the stage its row is about does not match this shape and is left
+  // alone, including the plural "Stages 03-05" ranges on the landing page.
+  const stageMarks = timelineC.stages
+    .filter((st) => st.state !== "open")
+    .sort((a, b) => a.n - b.n)
+    .map((st) => ({ n: String(st.n).padStart(2, "0"), word: st.state === "done" ? "complete" : st.state }));
+  if (stageMarks.length) {
+    $("span, p, li").filter((_, el) => /^Stage\s+\d+\s+of\s+\d+$/.test($(el).text().replace(/\s+/g, " ").trim()))
+      .each((_, el) => {
+        // keep whatever emphasis the element already used: .stagemark bolds its number,
+        // the landing hero's meta spans do not, and neither should gain or lose it here
+        const bold = /<b>/.test($(el).html() ?? "");
+        $(el).html(stageMarks
+          .map((m) => `Stage ${bold ? `<b>${m.n}</b>` : m.n} ${m.word}`)
+          .join(" · "));
+      });
+  } else warn("stage counter: every stage is open, so no state clause was rendered");
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
