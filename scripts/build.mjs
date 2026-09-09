@@ -182,6 +182,9 @@ function finish($, name) {
     const foot = $(`a.card[href="${href}"] .card__foot`);
     if (foot.length) foot.html(`<span>${l}</span><span>${r}</span>`);
   }
+  $('a.card[href="timeline.html"] .card__body').text(
+    "The program spine — coursework, the three studies, candidacy, defense — with the deliverable attached to each stage and honest status on every one."
+  );
   // OD's card grid stops at §08: append §09 (feed) and §10 (disciplines) after the §08 card
   const notesCard = $('a.card[href="notes.html"]').first();
   if (notesCard.length) notesCard.after(`\n<a class="card" href="lab-log.html">
