@@ -698,7 +698,7 @@ function genContentPage(name, { kicker, title, lead, bodyHtml, currentHref, prev
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
   $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
-  $("title").text(`${title} — Lifelong Learning for Snake-Form Underwater Robots`);
+  $("title").text(`${title} · ${SITE_NAME}`); // middot, matching the hand-built pages
   fillSlot($, "page.kicker", kicker);
   fillSlot($, "page.title", title);
   fillSlot($, "page.lead", lead);
@@ -751,7 +751,7 @@ logEntries.forEach((e, i) => {
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
   $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
-  $("title").text(`${e.data.title} — Lab log`);
+  $("title").text(`${e.data.title} · Lab log · ${SITE_NAME}`);
   $('meta[name="description"]').attr("content", escAttr(e.data.excerpt ?? ""));
   const dateEl = $('[data-od-slot="entry.date"]');
   dateEl.attr("datetime", e.date).text(e.date);
@@ -784,7 +784,7 @@ logEntries.forEach((e, i) => {
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
   $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
-  $("title").text("§09 Lab log — Lifelong Learning for Snake-Form Underwater Robots");
+  $("title").text(`§09 Lab log · ${SITE_NAME}`);
   fillSlot($, "feed.kicker", "§09 · Lab log");
   fillSlot($, "feed.title", "Lab log");
   fillSlot($, "feed.lead", "Dated record of results, findings, and decisions — newest first.");
@@ -840,7 +840,7 @@ for (const p of listDir(`${C}/people`)) {
     dropPagenav: true,
     kicker: "§07 · Committee",
     title: d.name,
-    lead: `${d.role} — ${d.title_line}`,
+    lead: `${d.role} · ${d.title_line}`, // middot, not an em dash: this renders as prose
     bodyHtml: md(p.content) + (links ? `<p class="small">${links}</p>` : ""),
     currentHref: "approvals.html",
   });
