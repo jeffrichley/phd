@@ -47,7 +47,7 @@ questions:
     motivation: "The first half is the generality claim: study 2 establishes the advantage on one body, and an advantage that is a property of that body rather than of the architecture is not a thesis. The second half is the mechanism: RQ2 asks whether transfer benefit scales, and this asks what predicts the scaling. A slenderness sweep makes the lateral-to-axial ratio a continuous independent variable rather than a fixed property of one robot."
     hypotheses:
       - id: H4.1
-        statement: "The structured-memory advantage over nearest-skill warm-starting, established on the reference body in study 2, holds on every body in the sweep. Falsifier: on any body the advantage's confidence interval includes or falls below zero, which would mean the advantage was a property of the reference body rather than of the architecture."
+        statement: "The structured-memory advantage over nearest-skill warm-starting, established on the reference body in study 2, holds on every body in the sweep. Falsifier: on any body in the sweep the advantage's confidence interval includes or falls below zero. That would mean the advantage was a property of the reference body rather than of the architecture, and the thesis does not survive it."
         status: open
         evidence: []
       - id: H4.2
@@ -55,7 +55,7 @@ questions:
         status: open
         evidence: []
       - id: H4.3
-        statement: "The relationship estimated across the anguilliform sweep, which the carangiform body never enters, predicts that body's regime structure. Falsifier: the prediction interval fails to cover the carangiform result, which bounds the mechanism to whole-body reactive thrust rather than to fluid coupling generally, and is reported as that bound."
+        statement: "The relationship estimated across the anguilliform sweep, which the carangiform body never enters, predicts that body's regime structure. Falsifier: the prediction interval fails to cover the carangiform result. H4.3 is refuted, and the consequence is that the mechanism is specific to whole-body reactive thrust rather than general to fluid coupling, which is reported as that bound."
         status: open
         evidence: []
 ---
