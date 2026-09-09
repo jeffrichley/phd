@@ -28,6 +28,10 @@ questions:
         statement: "Blends of two parent skills fail rather than landing between their parents (measured with the compose operator's blend step, residual off)."
         status: open
         evidence: []
+      - id: H2.3
+        statement: "Retention is structural: the structured memory's backward transfer on earlier skills is ≈ 0, within one confidence-interval half-width of the skill's own retained success, and strictly better than every continual-learning baseline."
+        status: open
+        evidence: []
   - id: rq3
     short: "Certified envelopes and refusal"
     question: "Can certified operating envelopes let a planner refuse missions outside the library's coverage, naming the uncovered facet, at a lower false-confidence rate than an opaque similarity threshold?"
