@@ -20,6 +20,7 @@ pubs:
     status: "Complete; at the submission gate"
     html: "<strong>Validated Marine Added-Mass Dynamics for GPU Simulation: A Fossen Plugin on Isaac Lab Newton</strong>. J. E. Richley, sole author. Six-page letter targeting IEEE RA-L; through advisor review, submission pending."
 code_html: 'This site and its content pipeline are public at <a href="https://github.com/jeffrichley/phd">github.com/jeffrichley/phd</a>. The research code (the simulation platform and hydrodynamics plugin) is private during publication; a code and data package accompanies each paper at submission, citing sealed artifacts only.'
+contact_html: 'Jeff Richley · <span class="mono">jrich107@odu.edu</span>'
 thrusts:
   - title: "The fluid coupling, measured"
     body: "GPU simulators specify added-mass physics they do not realise. This work supplies the validation protocol and a hydrodynamics plugin that closes the gap and quantifies what force-only approximations cost."

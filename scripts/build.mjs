@@ -19,7 +19,7 @@ const md = (s) => marked.parse(s.trim());
 const mdInline = (s) => marked.parseInline(s.trim());
 const escAttr = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 const SITE_NAME = "Lifelong Learning for Snake-Form Underwater Robots";
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
+const BUILD_DATE = new Date().toLocaleDateString("sv-SE"); // local date, no UTC evening skew
 // checklist item honoring the data-done mechanic: "[x] " prefix marks done, and the
 // attribute, glyph, and sr-only prefix always change together (contract §7)
 const checkItem = (raw) => {
@@ -78,7 +78,7 @@ const litEntries = listDir(`${C}/literature`, (f) => /^lit-\d+\.md$/.test(f));
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 for (const dir of ["css", "js"]) fs.cpSync(path.join(OD, dir), path.join(OUT, dir), { recursive: true });
-fs.cpSync("assets/video", path.join(OUT, "assets/video"), { recursive: true });
+fs.cpSync("assets", path.join(OUT, "assets"), { recursive: true });
 fs.cpSync("figures", path.join(OUT, "figures"), { recursive: true });
 
 const FEED_INDEX = "lab-log.html";
@@ -329,6 +329,10 @@ function finish($, name) {
   </td>
 </tr>`);
   }
+  // pagehead counter is static template text: set it from the real ledger
+  $(".pagehead__meta span").each((_, el) => {
+    if ($(el).text().trim().startsWith("Records")) $(el).text(`Records ${experiments.length}`);
+  });
   // align filter chips with the contract's status vocabulary (unfilled can never occur; queued/superseded can)
   const unfilledChip = $('[data-filter-value="unfilled"]');
   if (unfilledChip.length) {
