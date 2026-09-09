@@ -136,7 +136,10 @@ function finish($, name) {
     .replace("precisely where it stops — that boundary is the gap", "precisely where it stops; that boundary is the gap")
     .replace("Not a decision — a note for the record", "Not a decision, a note for the record")
     .replace("you disagreed with too — six months on", "you disagreed with too; six months on")
-    .replace("after the fact — the commit history is the", "after the fact; the commit history is the");
+    .replace("after the fact — the commit history is the", "after the fact; the commit history is the")
+    .replace("something
+                else — each page owns its own evidence", "something
+                else; each page owns its own evidence");
   fs.writeFileSync(path.join(OUT, name), html);
 }
 
@@ -573,7 +576,7 @@ function genContentPage(name, { kicker, title, lead, bodyHtml, currentHref, prev
   $("#rail").replaceWith(railFrom);
   if (currentHref) setCurrent($, currentHref);
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
-  $('[data-od-slot="site.subtitle"]').text("Dissertation progress — Jeff Richley, ODU MAE");
+  $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
   $("title").text(`${title} — Lifelong Learning for Snake-Form Underwater Robots`);
   fillSlot($, "page.kicker", kicker);
@@ -626,7 +629,7 @@ logEntries.forEach((e, i) => {
   setCurrent($, "tpl-feed-index.html"); // railFrom still carries the pre-rewrite href; finish() rewrites it
   // chrome slots
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
-  $('[data-od-slot="site.subtitle"]').text("Dissertation progress — Jeff Richley, ODU MAE");
+  $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
   $("title").text(`${e.data.title} — Lab log`);
   $('meta[name="description"]').attr("content", escAttr(e.data.excerpt ?? ""));
@@ -659,7 +662,7 @@ logEntries.forEach((e, i) => {
   $("#rail").replaceWith(railFrom);
   setCurrent($, "tpl-feed-index.html"); // pre-rewrite href; finish() rewrites it
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
-  $('[data-od-slot="site.subtitle"]').text("Dissertation progress — Jeff Richley, ODU MAE");
+  $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
   $("title").text("§09 Lab log — Lifelong Learning for Snake-Form Underwater Robots");
   fillSlot($, "feed.kicker", "§09 · Lab log");
