@@ -2,7 +2,14 @@
 # → landing.html. Pitch = committee-narrative.md's locked one-paragraph pitch, with these
 # deviations recorded: hedge (Jeff 2026-09-08, "predicted to be" distinct regimes until
 # the bridge measurement runs); dash-free restructuring (Jeff 2026-09-09); and the opening
-# order, which deliberately differs from §1.0 (Jeff 2026-09-09).
+# order, which deliberately differs from §1.0 (Jeff 2026-09-09); and one added sentence on
+# generality (Jeff 2026-09-09).
+#
+# The added sentence is the one before "Simulation is the apparatus". The paragraph named
+# studies 1 through 3 and left the generality question unanswered exactly where a reader
+# forms it: everything after "measured on the platform" concerns that platform, so whether
+# any of it holds for a different body had no answer here. Thrust card 02 was already titled
+# "across bodies" with nothing behind it. Jeff's wording, phd-lab#56.
 #
 # The opening order is a decision, not drift. §1.0 was inverted to lead with the added-mass
 # measurement (phd-lab#32) because its reader is a fluid dynamicist who already owns added
@@ -54,5 +61,8 @@ gait shares (the oscillator driving the travelling wave and the thrust it produc
 nothing else. This dissertation shows that an inspectable, structured skill memory is
 what converts the categorical remainder into forward transfer, and that the same
 structure lets a planner certify each skill's operating envelope and refuse a mission
-outside it. Simulation is the apparatus; its hydrodynamic fidelity is validated rather
+outside it. Because the floor belongs to the body, the body becomes the last variable: the
+same measurements run across a slenderness sweep and out to a swimmer that makes thrust by a
+different mechanism, so what the structure buys is a property of the architecture rather than
+of one robot. Simulation is the apparatus; its hydrodynamic fidelity is validated rather
 than assumed.
