@@ -73,7 +73,7 @@ always carry "as of <month year>".
 | Committee roster | approvals, people/ | Only people who have said yes |
 | Run/hypothesis/entry counts | index cards, status strip | Derived by the build — never hand-edit |
 
-## Promoting a source to §05 Related work
+## Promoting a source to §05 Literature corpus
 
 The program library (`phd-lab/library/`: notes + PDFs + refs.bib) is the integrity gate —
 **no `lit-###.md` without a retrieved, verified document behind it.** To promote:

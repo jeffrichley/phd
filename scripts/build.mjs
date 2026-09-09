@@ -713,12 +713,12 @@ for (const e of litEntries) {
   const d = e.data;
   const threadName = threads.find((t) => t.id === d.thread)?.name ?? "";
   genContentPage(`${d.id}.html`, {
-    kicker: `§05 · Related work · Thread ${d.thread.toUpperCase()}`,
+    kicker: `§05 · Literature corpus · Thread ${d.thread.toUpperCase()}`,
     title: d.cite,
     lead: `${threadName}. Bearing on ${(d.bearing_on ?? []).map((r) => r.toUpperCase()).join(", ") || "—"}; where it stops: ${d.stops}`,
     bodyHtml: md(e.content),
     currentHref: "literature.html",
-    prev: { href: "literature.html", title: "§05 Related work" },
+    prev: { href: "literature.html", title: "§05 Literature corpus" },
   });
 }
 // People profiles (linked from §07; not rail sections)

@@ -1,5 +1,30 @@
 # Notes for the next OpenDesign session
 
+**§05 RENAMED, 2026-09-09: "Related work" is now "Literature corpus."** 23 occurrences
+across 18 files, including all nine hand-built rails and **all four `tpl-*.html`
+templates**. The templates are the ones that would quietly reintroduce the old label on a
+regeneration, which is the same failure shape as the numbering warning below.
+
+The name change is not cosmetic. "Related work" is a paper-level section that positions one
+contribution against its near neighbours. §05 is a field survey, 21 entries growing toward
+100+, threaded by argument, each entry naming where its source stops. It also had to avoid
+colliding with §01's new "Literature survey": §01 carries the argument under ODU's own word,
+§05 is the browsable evidence it is assembled from.
+
+The URL stays `literature.html` and the section number stays §05, so no link anywhere
+changed. `content/literature/lit-014.md` still uses "related work" as ordinary prose and was
+deliberately left alone.
+
+**The rail table in `CONTENT-CONTRACT.md` was also missing §10 Disciplines entirely**, and
+still described the rail as "nine sections plus the log" when the built rail renders ten
+plus the log. §10 is now listed under "The process" alongside §09, matching how the live
+rail groups it. A regeneration from the older table would have dropped the Disciplines link
+from every page and looked correct doing it, because the contract described exactly what it
+would have produced.
+
+Still missing there, reported rather than fixed: §10 has a row now but no description and no
+content schema, where §09 gets four sentences. `content/people/` has neither.
+
 **SECTION COUNT IS NOW DERIVED, 2026-09-09.** Three of your files asserted that §01 has
 eleven sections, and the build re-asserted it on every run from a string literal in
 `scripts/build.mjs`. §01 has thirteen. The count is now computed from

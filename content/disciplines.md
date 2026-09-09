@@ -40,7 +40,7 @@ change an old one.
 
 A source is cited only after the actual document has been retrieved, read, and filed:
 a real PDF or a resolved registry record, never an abstract-level acquaintance. Every
-entry on [§05 Related work](literature.html) passed that gate before it appeared, and
+entry on [§05 Literature corpus](literature.html) passed that gate before it appeared, and
 several central-looking sources waited outside it until their documents were actually
 read. An empty slot is honest; a plausible-looking citation that no one has read is not.
 

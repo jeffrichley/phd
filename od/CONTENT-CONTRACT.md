@@ -425,14 +425,14 @@ in the internal section structure, and its full-bleed hero has nowhere to put a 
 `index.html` §00 — does use the rail, per the same decision. If the build ever points
 `tpl-landing.html` at `landing.html`, that conflict has to be settled first.
 
-### The rail — nine sections plus the log
+### The rail — ten sections plus the log
 
 Three fixed groups; only the links repeat.
 
 | Group | Sections |
 |---|---|
-| The record | §00 Overview · §01 Proposal · §02 Questions & hypotheses · §03 Experiments · §04 Results & figures · §05 Related work |
-| The process | §06 Timeline · §07 Committee & approvals · §08 Advisor log · **§09 Lab log** |
+| The record | §00 Overview · §01 Proposal · §02 Questions & hypotheses · §03 Experiments · §04 Results & figures · §05 Literature corpus |
+| The process | §06 Timeline · §07 Committee & approvals · §08 Advisor log · **§09 Lab log** · §10 Disciplines |
 | Outward | ↗ Public page |
 
 **§09 Lab log** is the feed — the dated record of results, findings, decisions, and

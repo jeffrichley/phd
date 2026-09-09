@@ -30,7 +30,7 @@ no package.json, nothing installed.
 | `questions.html` | 12.1 KB | §02 Research questions + hypothesis ledger. |
 | `experiments.html` | 15.5 KB | §03 Run ledger. |
 | `results.html` | 10.4 KB | §04 Figure plates. |
-| `literature.html` | 12.2 KB | §05 Related work, threaded by argument. |
+| `literature.html` | 12.2 KB | §05 Literature corpus, threaded by argument. |
 | `timeline.html` | 11.7 KB | §06 Program spine + 90-day list (static). |
 | `approvals.html` | 16.4 KB | §07 Committee roster + published decision ledger. |
 | `notes.html` | 8.1 KB | §08 Advisor meeting log. |
