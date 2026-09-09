@@ -22,4 +22,4 @@ the task suite itself would falsify. The substrate floor is conceded up front, a
 claim lives above it.
 
 Every page on this site hangs off this decision — the full unpacking is on
-[The Question](/question/).
+[§02 Questions](questions.html).

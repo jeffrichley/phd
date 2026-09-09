@@ -7,13 +7,25 @@ status_strip:
   advisor_decision: "Proposal drafted — delivery to advisor due 2026-09-15"
   run_count: 3
   open_hypotheses: 3
+meta:
+  program: "PhD in Engineering — Mechanical Engineering concentration, ODU MAE"
+  advisor: "Dr. Krishnanand Kaipa"
+  committee: "Form D1 in progress"
 spine:
   - when: "2025-01"
-    what: "Program start (ODU MAE PhD, advisor Dr. Krishnanand Kaipa)"
+    what: "Program start"
+    note: "ODU MAE PhD; advisor Dr. Krishnanand Kaipa"
+    state: done
   - when: "2026-06 – 07"
-    what: "Platform stands up: the lighthill hydro plugin and the anguilla sim; the seven-rung added-mass validation battery passes"
+    what: "Platform stands up"
+    note: "The lighthill hydro plugin and the anguilla sim; the seven-rung added-mass validation battery passes"
+    state: done
   - when: "2026-08"
-    what: "Thesis claim locked with its falsifier; paper 1 through advisor review; paper 2 methodology preregistered"
+    what: "The claims lock"
+    note: "Thesis claim locked with its falsifier; paper 1 through advisor review; paper 2 methodology preregistered"
+    state: done
   - when: "2026-09"
-    what: "Paper 1 at the RA-L submission gate; Fall 2026 build begins (MAE 897 + MAE 899)"
+    what: "Submission gate and Fall build"
+    note: "Paper 1 at the RA-L submission gate; the skill-library build begins (MAE 897 + MAE 899)"
+    state: active
 ---

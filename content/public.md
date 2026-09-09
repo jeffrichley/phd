@@ -11,6 +11,13 @@ cta_secondary:
 hero_media:
   file: "assets/video/waypoints.mp4"
   caption: "A trained policy steering the snake through a 20-waypoint course in simulation."
+meta:
+  program: "PhD in Engineering — ME concentration, ODU"
+  advisor: "Dr. Krishnanand Kaipa"
+pubs:
+  - id: pub-001
+    status: "Complete — at the submission gate"
+    html: "<strong>Validated Marine Added-Mass Dynamics for GPU Simulation: A Fossen Plugin on Isaac Lab Newton</strong> — J. E. Richley, sole author. Six-page letter targeting IEEE RA-L; through advisor review, submission pending."
 thrusts:
   - title: "The fluid coupling, measured"
     body: "GPU simulators specify added-mass physics they do not realise. This work supplies the validation protocol and a hydrodynamics plugin that closes the gap — and quantifies what force-only approximations cost."

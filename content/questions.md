@@ -3,6 +3,7 @@
 # paper 2 methodology + analysis plan (locked 2026-08-24); wayfinder #8 (paper 3 carve).
 questions:
   - id: rq1
+    short: "Does the simulator carry the physics?"
     question: "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on — and what does the approximation cost?"
     motivation: "The broadside added-mass term is Lighthill's reactive thrust: it is undulatory propulsion. If the simulator does not carry it, every learned gait is trained against the wrong physics — and the error is structured, not noise."
     hypotheses:
@@ -15,6 +16,7 @@ questions:
         status: supported
         evidence: [exp-002]
   - id: rq2
+    short: "Transfer benefit: flat or scaling?"
     question: "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale?"
     motivation: "This is the thesis claim's named falsifier, tested within the baseline family: each new skill is warm-started from both a near and a far source, same method and tuning. Scaling benefit means the remainder was parametric and the memory is overhead."
     hypotheses:
@@ -27,6 +29,7 @@ questions:
         status: open
         evidence: []
   - id: rq3
+    short: "Certified envelopes and refusal"
     question: "Can certified operating envelopes let a planner refuse missions outside the library's coverage, naming the uncovered facet, at a lower false-confidence rate than an opaque similarity threshold?"
     motivation: "Coverage as set containment is checkable; similarity has no principled yes/no. The falsifier is a similarity-threshold sweep that matches the inspectable memory's false-confidence rate."
     hypotheses:
