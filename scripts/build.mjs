@@ -94,7 +94,16 @@ function finish($, name) {
       $(el).remove();
   });
   const runTpl = $("#runTemplate");
+  // NOTE: closest("section") is safe only because od/experiments.html's sole <section>
+  // wraps nothing but this scaffolding block; revisit if OD restructures the page.
   if (runTpl.length) (runTpl.closest("section").length ? runTpl.closest("section") : runTpl.parent()).remove();
+  // authoring copy outside .note elements: pipeline descriptions and resting-shape captions
+  $("section").each((_, el) => { if ($(el).text().includes("CONTENT-CONTRACT")) $(el).remove(); });
+  $("p").each((_, el) => {
+    const t = $(el).text();
+    if (/resting shape|data-od-slot|CONTENT-CONTRACT/.test(t) || /content\/(proposal|experiments|notes|decisions|results|committee|log|questions|timeline)/.test(t)) $(el).remove();
+  });
+  $(".pagehead__meta span").each((_, el) => { if ($(el).text().includes("content/")) $(el).remove(); });
   // meta description: drop moustache residue (callers set real descriptions first)
   $('meta[name="description"]').each((_, el) => {
     if (/\{\{/.test($(el).attr("content") ?? "")) $(el).remove();
@@ -110,9 +119,12 @@ function finish($, name) {
   if ($("#rail").length && !$('#rail a[href="landing.html"]').length) {
     $("#rail").append(`\n    <div class="rail__group"><p class="rail__label">Outward</p><a class="rail__link" href="landing.html"><span class="rail__num">↗</span><span>Public page</span></a></div>`);
   }
-  // footer slots on generated pages
+  // footer slots on generated pages; hand-built pages get a matching footer appended (§8.7)
   $('[data-od-slot="site.footer.line"]').text("Jeff Richley · ODU MAE PhD · advisor Dr. Krishnanand Kaipa");
   $('[data-od-slot="site.footer.updated"]').text(BUILD_DATE);
+  if (!$("footer").length && name !== "landing.html") {
+    $("body").append(`\n<footer class="sitefoot"><div class="sitefoot__inner"><span>Jeff Richley · ODU MAE PhD · advisor Dr. Krishnanand Kaipa</span><span class="mono">Updated ${BUILD_DATE}</span></div></footer>`);
+  }
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
@@ -333,6 +345,9 @@ function finish($, name) {
       : 'Runs: <span class="dash">—</span>';
     figcap.html(`<b>Figure ${f.n}</b> — ${mdInline(f.caption)}<br><span class="mono" style="font-size:var(--t-micro)">${runsHtml}</span>`);
   });
+  // reserved plates (RQ2/RQ3/ablations) keep their honest empty state, but the
+  // authoring-guidance callouts inside them are written to the author, not the reader
+  for (const panel of ["#p-rq2", "#p-rq3", "#p-abl"]) $(`${panel} .callout`).remove();
   // headline numbers: match stat labels loosely
   $(".stat").each((_, el) => {
     const k = $(el).find(".stat__k").text().trim().toLowerCase();
@@ -352,6 +367,22 @@ function finish($, name) {
   for (const t of threads) {
     fillSlot($, `lit.thread.${t.id}.name`, t.name);
     fillSlot($, `lit.thread.${t.id}.claim`, mdInline(t.claim));
+    // filter chips shipped with labels naming threads that don't exist — relabel from content
+    const chipEl = $(`[data-filter-group="thread"][data-filter-value="${t.id}"]`);
+    if (chipEl.length) chipEl.text(`${t.id.toUpperCase()} · ${t.chip ?? t.name}`);
+  }
+  // no lit-###.md records exist yet: the four exemplar entry cards assert entries that
+  // aren't there (contract §8.1/§8.8) — delete them and show the honest empty note
+  const litEntries = listDir(`${C}/literature`);
+  if (litEntries.length === 0) {
+    $('[data-od-slot^="lit.0"]').each((_, el) => {
+      const card = $(el).closest(".card");
+      (card.length ? card : $(el)).remove();
+    });
+    $(".empty").removeAttr("hidden").html(`<strong>No entries published yet.</strong>
+          A source appears here only after its document has been retrieved, read, and
+          verified — see <a href="disciplines.html">§10 Disciplines</a>. The threads above
+          name where each entry will land.`);
   }
   finish($, "literature.html");
 }
