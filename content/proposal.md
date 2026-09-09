@@ -283,10 +283,9 @@ Coursework is calendar-locked and partly known. Research milestones are given re
 the approval of this proposal, written T0, because the approval date is not yet knowable and
 a calendar date for it would be invented rather than estimated.
 
-**On the calendar.** Study 1 ran from the platform's first commit to a consistency-passed
-manuscript between July and September 2026, and is complete and at the IEEE RA-L submission
-gate. Fall 2026 is MAE 897 Undulatory Propulsion and MAE 899, and it carries the
-skill-library platform build and the first ten-seed training campaign. Fifteen coursework
+**On the calendar.** Study 1 is complete and at the IEEE RA-L submission gate. Fall 2026
+is MAE 897 Undulatory Propulsion and MAE 899, and it carries the skill-library platform
+build and the first ten-seed training campaign. Fifteen coursework
 credits remain beyond it. Which terms carry the rest depends on the Plan of Study. The
 department does not publish an 800-level offering rotation beyond the current term, so
 remaining courses are placed as offerings are announced, and the MAE 897 independent studies
