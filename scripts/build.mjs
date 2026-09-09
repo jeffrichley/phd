@@ -518,6 +518,15 @@ function finish($, name) {
     list.empty();
     for (const item of timelineC.ninety_days) list.append("\n" + checkItem(item));
   }
+  // "Stage 01 of 07" said 07 while the page listed eight, once study 4 added a stage.
+  // Only the denominator is derived here. The numerator asserts a current position and
+  // there is no rule for what that is while stage 1 is active and stage 2 is complete,
+  // so it is deliberately left alone rather than guessed at. See phd-lab#35.
+  $(".stagemark").each((_, el) => {
+    const t = $(el).html();
+    if (t && / of \d+\s*$/.test($(el).text()))
+      $(el).html(t.replace(/ of \d+(\s*)$/, ` of ${String(timelineC.stages.length).padStart(2, "0")}$1`));
+  });
   finish($, "timeline.html");
 }
 
