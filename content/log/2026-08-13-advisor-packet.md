@@ -15,6 +15,3 @@ deliberate "Reviewer 2" pass run before any real reviewer sees the paper, with t
 weaknesses found and their dispositions listed. Claims in the paper are sealed against
 stamped, reproducible artifact packages — every number in the text traces to a dated,
 frozen data drop.
-
-Timing note: the platform's first commit was July 9; a consistency-complete paper draft
-existed by July 22. Research throughput is not this degree's constraint.

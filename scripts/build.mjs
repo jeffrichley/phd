@@ -76,6 +76,13 @@ function finish($, name) {
   $('a[href="tpl-landing.html"]').attr("href", "index.html"); // tpl wordmark → internal front door
   const SITE_NAME = "Lifelong Learning for Snake-Form Underwater Robots";
   $("title").text($("title").text().replace(/Lifelong Learning in Embodied Robotics/g, SITE_NAME).replace(/\{\{[^}]*\}\}.*$/, SITE_NAME));
+  // §10 Disciplines joins "The process" in every rail, directly after §09
+  const labLink = $('#rail a[href="lab-log.html"]').first();
+  if (labLink.length && !$('#rail a[href="disciplines.html"]').length) {
+    const cur = name === "disciplines.html" ? ' aria-current="page"' : "";
+    if (cur) $("#rail a").removeAttr("aria-current");
+    labLink.after(`\n      <a class="rail__link" href="disciplines.html"${cur}><span class="rail__num">§10</span><span>Disciplines</span></a>`);
+  }
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
@@ -101,6 +108,22 @@ function finish($, name) {
     if ($(`[data-od-slot="milestone.${n}.when"]`).length) fillSlot($, `milestone.${n}.when`, m.when);
     if ($(`[data-od-slot="milestone.${n}.note"]`).length) fillSlot($, `milestone.${n}.note`, mdInline(m.what));
   });
+  // OD's card grid stops at §08: append §09 (feed) and §10 (disciplines) after the §08 card
+  const notesCard = $('a.card[href="notes.html"]').first();
+  if (notesCard.length) notesCard.after(`\n<a class="card" href="lab-log.html">
+  <span class="card__num">§09</span>
+  <span class="card__title">Lab log</span>
+  <p class="card__body">The published, dated record of results, findings, decisions, and
+    milestones — the page to watch between meetings.</p>
+  <span class="card__foot"><span>${logEntries.length} entries</span><span>Live</span></span>
+</a>\n<a class="card" href="disciplines.html">
+  <span class="card__num">§10</span>
+  <span class="card__title">Disciplines</span>
+  <p class="card__body">The rules this record is kept by — falsifiers named first, preregistered
+    analysis, sealed artifacts, append-only history — each one enforced somewhere checkable.</p>
+  <span class="card__foot"><span>8 tenets</span><span>In force</span></span>
+</a>`);
+  else warn("index: §08 card not found; §09/§10 cards not inserted");
   finish($, "index.html");
 }
 
@@ -281,6 +304,11 @@ function finish($, name) {
     rep.find("[data-od-item]").remove();
     $(".empty").removeAttr("hidden");
   } else warn("approvals: decision rendering not yet implemented for non-empty set");
+  if (committee.chair_html) {
+    fillSlot($, "committee.chair", committee.chair_html);
+    $('[data-od-slot="committee.chair"]').closest(".card").find(".status")
+      .replaceWith(statusSpan("active", "Advising"));
+  }
   finish($, "approvals.html");
 }
 
@@ -334,6 +362,29 @@ function finish($, name) {
     media.prepend(`<video controls muted loop playsinline preload="metadata" src="${fm.hero_media.file}"></video>`);
   }
   finish($, "landing.html");
+}
+
+// ---------- generated content pages (tpl-content): §10 Disciplines, people ----------
+function genContentPage(name, { kicker, title, lead, bodyHtml, currentHref }) {
+  const $ = page("tpl-content.html");
+  $("#rail").replaceWith(railFrom);
+  if (currentHref) setCurrent($, currentHref);
+  fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
+  $('[data-od-slot="site.subtitle"]').text("Dissertation progress — Jeff Richley, ODU MAE");
+  $('[data-od-slot="site.stage"]').remove();
+  $("title").text(`${title} — Lifelong Learning for Snake-Form Underwater Robots`);
+  fillSlot($, "page.kicker", kicker);
+  fillSlot($, "page.title", title);
+  fillSlot($, "page.lead", lead);
+  $('[data-od-slot="page.meta"]').remove();
+  $('[data-od-slot="page.status"]').remove();
+  $("[data-od-block]").remove();
+  fillSlot($, "page.body", bodyHtml);
+  for (const key of ["page.prev", "page.next"]) {
+    const el = $(`[data-od-slot="${key}"]`);
+    if (el.length) el.replaceWith('<span class="pagenav__link pagenav__link--none"></span>');
+  }
+  finish($, name);
 }
 
 // ---------- §09 Lab log: feed index + entries ----------
@@ -420,5 +471,25 @@ logEntries.forEach((e, i) => {
   rep.find("[data-od-item]").remove();
   rep.append(items.join("\n"));
   finish($, FEED_INDEX);
+}
+// §10 Disciplines
+{
+  const d = mdFile(`${C}/disciplines.md`);
+  genContentPage("disciplines.html", {
+    kicker: d.data.kicker, title: d.data.title, lead: d.data.lead,
+    bodyHtml: md(d.content), currentHref: "disciplines.html",
+  });
+}
+// People profiles (linked from §07; not rail sections)
+for (const p of listDir(`${C}/people`)) {
+  const d = p.data;
+  const links = (d.links ?? []).map((l) => `<a href="${l.href}">${l.label}</a>`).join(" · ");
+  genContentPage(`people-${d.slug}.html`, {
+    kicker: "§07 · Committee",
+    title: d.name,
+    lead: `${d.role} — ${d.title_line}`,
+    bodyHtml: md(p.content) + (links ? `<p class="small">${links}</p>` : ""),
+    currentHref: "approvals.html",
+  });
 }
 console.log(`Built ${fs.readdirSync(OUT).filter((f) => f.endsWith(".html")).length} pages into ${OUT}/`);

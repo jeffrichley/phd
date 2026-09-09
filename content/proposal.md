@@ -5,7 +5,7 @@ prepared_for: "Dr. Krishnanand Kaipa, CRAMLab, ODU MAE"
 dated: 2026-09-08
 subtitle: "Lifelong skill acquisition for snake-form underwater robots — embodiment as the variable, learning as the means"
 risks:
-  - risk: "Coursework pace, not research, gates the calendar (measured: sim + first paper built in ~13 days; 15 coursework credits remain)"
+  - risk: "Coursework pace, not research, gates the calendar (15 coursework credits remain)"
     likelihood: medium
     impact: high
     mitigation: "Three MAE 897 independent studies mapped onto the three remaining research pieces; MAE 899 front-loadable; 800-level offering-rotation and Plan of Study requests already in flight"
