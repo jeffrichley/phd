@@ -83,6 +83,17 @@ The program library (`phd-lab/library/`: notes + PDFs + refs.bib) is the integri
    statement is assembled from these.
 3. Review gate, then publish.
 
+## Re-capturing the landing screenshots
+
+`assets/shots/` holds captures of the live proposal (desktop) and experiments (phone)
+pages, referenced by `od/landing.html`. They are deliberately not auto-refreshed; re-capture
+after any material change to those pages, from the LIVE site after deploy, and eyeball the
+PNG before committing. Desktop: headless Chrome `--screenshot --window-size=1400,980`.
+Phone: **never** rely on `--window-size=430` — Windows headless Chrome clamps the window to
+about 500px and crops instead of reflowing. Use the iframe harness: a local HTML page with a
+430×930 iframe of the target URL, captured at `--window-size=900,930`, then
+`ffmpeg -vf "crop=430:930:0:0"`.
+
 ## Publishing
 
 ```
