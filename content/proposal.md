@@ -24,7 +24,7 @@ risks:
   - risk: "The slenderness sweep shows no relationship between anisotropy and where the regime boundary falls"
     likelihood: medium
     impact: low
-    mitigation: "The direction is predicted in advance, so a null is a reportable bound rather than a missing result: it would say embodiment sets a level but not a structure, which fails the mechanism claim while leaving the generality claim standing. The two are separable by design. Study 4 is also the last of the four and carries no other study's dependency"
+    mitigation: "The direction is predicted in advance, so a null is a reportable bound rather than a missing result: it would say embodiment sets a level but not a structure, which fails the mechanism claim while leaving the generality claim standing. The two are separable by design. Study 4 also needs only studies 1 and 2, whose apparatus and baseline it reuses, and is independent of study 3"
   - risk: "Generating bodies across the aspect-ratio range is harder than a configuration change in the existing rig"
     likelihood: medium
     impact: medium
@@ -366,10 +366,10 @@ set by when coursework ends rather than by when the research is ready.
 three months, and its analysis and manuscript by roughly T0 plus five. Study 3 begins from
 study 2's certified skill cards, since its retrieval policy is decided by the slope study 2
 measures, and reaches submission by roughly T0 plus eight to nine. Study 4 runs on the
-apparatus study 1 already validated and depends on no other study's output, so it is
-schedulable against compute rather than against a predecessor; it is placed last because it
-is the least constrained, not because it is least important, and reaches submission by
-roughly T0 plus eleven to twelve. The defense follows once all four manuscripts are
+apparatus study 1 already validated and measures the transfer penalty study 2 defines, so it
+needs both. It is independent of study 3, since nothing in its questions touches
+certification, so it is schedulable against compute rather than against study 3's work, and
+it reaches submission by roughly T0 plus eleven to twelve. The defense follows once all four manuscripts are
 submitted, which is the ODU gate rather than acceptance.
 
 **On the size of those intervals.** Study 1 went from the platform's first commit to a
