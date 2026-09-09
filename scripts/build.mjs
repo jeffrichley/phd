@@ -577,6 +577,28 @@ function finish($, name) {
     $('[data-od-slot="committee.chair"]').closest(".card").find(".status")
       .replaceWith(statusSpan("active", "Advising"));
   }
+  // Jeff's ruling: one committee, and the empty seats stay visible as seats rather than
+  // becoming prose. What they must not show is a raw slot key, which is what a committee
+  // member saw. So each unnamed seat carries a status instead, written through statusSpan
+  // so glyph and word stay in step per the contract.
+  //
+  // Two words rather than one, because the seats are empty for different reasons. Members 2
+  // and 3 are being recruited now under a form in progress; the external seat cannot be
+  // filled until candidacy. "Not yet selected" on the external seat would read as a delay
+  // rather than as a schedule.
+  const SEAT_STATE = {
+    "Member 2": ["open", "Not yet selected"],
+    "Member 3": ["open", "Not yet selected"],
+    "External member": ["pending", "After candidacy"],
+  };
+  $(".card__num").each((_, el) => {
+    const seat = SEAT_STATE[$(el).text().trim()];
+    if (seat) $(el).siblings(".status").replaceWith(statusSpan(seat[0], seat[1]));
+  });
+  // his own two lines explain why the seats are empty, and had never reached a page
+  const standing = [committee.advisory_committee, committee.dissertation_committee].filter(Boolean);
+  if (standing.length) fillSlot($, "committee.standing", mdInline(standing.join(" ")));
+  else warn("approvals: committee.md authors neither advisory_committee nor dissertation_committee");
   finish($, "approvals.html");
 }
 

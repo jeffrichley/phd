@@ -1,33 +1,24 @@
 # Notes for the next OpenDesign session
 
-**THRUST CARDS ON landing.html ARE GENERATED NOW, 2026-09-09.** Your three cards were
-hand-addressed, each with its own numbered slot pair (`public.thrust.1.title` through
-`.3.body`) and a hand-written "Maps to RQ<n>" foot. The right half of every foot was an
-unfilled dash on the public front door, and a fourth thrust would have had no slot to land
-in and would have vanished.
+**§07's ROSTER SEATS SHOW A STATUS, NOT A SLOT KEY, 2026-09-09.** Your three unnamed seats
+rendered their own `slot__key` text to the reader, so a committee member opening §07 saw
+`COMMITTEE.MEMBER.2` in uppercase mono. Unfilled slots are a contract feature and honest on
+a working page, but §07's entire audience is the committee.
 
-The build now clones a card per authored thrust in `content/public.md` and derives each
-foot from the matching research question in `content/questions.md`, as "N of M supported".
-The grid class follows the count, so four thrusts render `grid--4` rather than wrapping
-under `grid--3`. **Do not re-add numbered thrust slots.** If you restyle the card, restyle
-one and let the build repeat it.
+**The seats stay.** Jeff's ruling: one committee, and the empty seats remain visible as
+seats so a reader can see the committee's shape and which parts are settled. Their
+`data-od-slot` divs are removed and each unnamed seat now carries a status instead, written
+through `statusSpan` so glyph and word stay in step. **Members 2 and 3 read "Not yet
+selected"; the external seat reads "After candidacy"**, because the seats are empty for
+different reasons and one word for both would call a schedule a delay.
 
-The eyebrow above them read "Three thrusts" and is now "The thrusts". A section heading
-that counts the cards beneath it goes stale the moment a card is added, and study 4 will
-add one.
+A new `committee.standing` slot sits above the grid, filled from the two lines
+`content/committee.md` already authored and which had never reached any page. That is where
+the explanation of why the seats are empty now lives, in Jeff's own words rather than in a
+template key.
 
-`Last updated —` was deleted rather than wired. `Last build <date>` already renders further
-down the same page, derived and correct, and two date fields on one page invite a reader to
-notice they disagree.
-
-`Stage 01 of 07` on the same strip is deliberately untouched. §06 has stage 1 active while
-stage 2 is complete, so there is no single current stage to derive. It needs a rule before
-it needs a wiring.
-
-**Related, and it is your files rather than the build:** `questions.html` §02 has the same
-cap. It carries slots for exactly three research questions, so a fourth emits
-`WARN: slot not found: rq.4.question` and never renders. That page needs the same
-clone-one-and-repeat treatment before a fourth question is authored.
+No names and no seat count are shown beyond the chair, per his 2026-09-08 carve-out: nobody
+appears on the roster until they have agreed to serve.
 
 **COUNTERS ARE DERIVED NOW, 2026-09-09. Do not hand-maintain the numbers in
 `.stagemark` or `.pagehead__meta`.** Your topbar and pagehead counters shipped as static

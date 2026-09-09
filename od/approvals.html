@@ -126,6 +126,10 @@
       <!-- ============================ roster ============================ -->
       <section class="sec sec--rule">
         <p class="eyebrow-rule">Committee roster</p>
+        <div class="slot slot--inline" data-od-slot="committee.standing">
+          <span class="slot__key">committee.standing</span>
+          <p class="slot__hint">Where the forms stand, and why seats are empty.</p>
+        </div>
         <div class="grid grid--2">
           <div class="card">
             <div class="row" style="justify-content:space-between">
@@ -142,17 +146,11 @@
               <span class="card__num">Member 2</span>
               <span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">○</span>No decision</span>
             </div>
-            <div class="slot slot--inline mb-0" data-od-slot="committee.member.2">
-              <span class="slot__key">committee.member.2</span><p class="slot__hint"><span class="dash">—</span></p>
-            </div>
           </div>
           <div class="card">
             <div class="row" style="justify-content:space-between">
               <span class="card__num">Member 3</span>
               <span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">○</span>No decision</span>
-            </div>
-            <div class="slot slot--inline mb-0" data-od-slot="committee.member.3">
-              <span class="slot__key">committee.member.3</span><p class="slot__hint"><span class="dash">—</span></p>
             </div>
           </div>
           <div class="card">
@@ -160,11 +158,8 @@
               <span class="card__num">External member</span>
               <span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">○</span>No decision</span>
             </div>
-            <div class="slot slot--inline mb-0" data-od-slot="committee.external">
-              <span class="slot__key">committee.external</span>
-              <p class="slot__hint">Outside the department, sometimes outside the institution. Check
-                your handbook for whether one is required.</p>
-            </div>
+          </div>
+        </div>
           </div>
         </div>
       </section>
