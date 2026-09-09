@@ -686,11 +686,22 @@ function finish($, name) {
     else if ($(".hero__cta").length) $(".hero__cta").after(`\n<figure class="media media--16x9">${vid}</figure>${fm.hero_media.caption ? `<p class="small muted">${fm.hero_media.caption}</p>` : ""}`);
     else warn("landing: hero_media declared but no insertion point found");
   }
-  // publications band
+  // publications band. OD ships pub.001 and pub.002 only, so a third publication warned
+  // and vanished. Papers 2 and 3 are planned and this page says so, so the cap was on
+  // their path. Clone the previous card for anything the template does not carry, which
+  // is the same fix as §1.5 and §1.7 and the last of that family.
   (fm.pubs ?? []).forEach((p, i) => {
     const key = `pub.00${i + 1}`;
-    const slotEl = $(`[data-od-slot="${key}"]`);
-    if (!slotEl.length) { warn(`landing: no slot ${key}`); return; }
+    let slotEl = $(`[data-od-slot="${key}"]`);
+    if (!slotEl.length) {
+      const prev = $(`[data-od-slot="pub.00${i}"]`).closest("li.card");
+      if (!prev.length) { warn(`landing: no slot or clone base for ${key}`); return; }
+      const clone = prev.clone();
+      clone.find("[data-od-slot]").attr("data-od-slot", key).attr("class", "slot slot--inline").empty();
+      clone.find(".card__num").text(`pub-${String(i + 1).padStart(3, "0")}`);
+      prev.after(clone);
+      slotEl = $(`[data-od-slot="${key}"]`);
+    }
     slotEl.closest(".card").find(".tag").first().text(p.status);
     fillSlot($, key, p.html);
   });
