@@ -461,13 +461,36 @@ function finish($, name) {
 // ---------- literature.html (§05) ----------
 {
   const $ = page("literature.html");
-  for (const t of threads) {
+  // OD ships thread cards and filter chips for exactly a through d, keyed by letter. Same
+  // defect as the numeric ordinal caps: a growable collection addressed by a fixed key, and
+  // a letter is an ordinal in a hat. A fifth thread warned and rendered nothing, so both the
+  // card and its chip are cloned from the previous one for anything the template lacks.
+  threads.forEach((t, i) => {
+    const prev = threads[i - 1];
+    if (prev && !$(`[data-od-slot="lit.thread.${t.id}.name"]`).length) {
+      const card = $(`[data-od-slot="lit.thread.${prev.id}.name"]`).closest(".card");
+      if (!card.length) warn(`literature: no clone base for thread ${t.id}`);
+      else {
+        const clone = card.clone();
+        clone.find(".card__num").text(`Thread ${t.id.toUpperCase()}`);
+        clone.find("[data-od-slot]").each((_, el) => {
+          const key = $(el).attr("data-od-slot").replace(`.${prev.id}.`, `.${t.id}.`);
+          $(el).attr("data-od-slot", key)
+            .attr("class", key.endsWith(".claim") ? "slot slot--inline mb-0" : $(el).attr("class"))
+            .empty();
+        });
+        card.after(clone);
+      }
+      const prevChip = $(`[data-filter-group="thread"][data-filter-value="${prev.id}"]`);
+      if (prevChip.length && !$(`[data-filter-group="thread"][data-filter-value="${t.id}"]`).length)
+        prevChip.after(prevChip.clone().attr("data-filter-value", t.id).attr("aria-pressed", "false"));
+    }
     fillSlot($, `lit.thread.${t.id}.name`, t.name);
     fillSlot($, `lit.thread.${t.id}.claim`, mdInline(t.claim));
     // filter chips shipped with labels naming threads that don't exist — relabel from content
     const chipEl = $(`[data-filter-group="thread"][data-filter-value="${t.id}"]`);
     if (chipEl.length) chipEl.text(`${t.id.toUpperCase()} · ${t.chip ?? t.name}`);
-  }
+  });
   // entry cards: exemplars never survive (§8.8); real entries render from content/literature/lit-*.md
   const litList = $('[data-od-slot^="lit.0"]').first().closest("ul");
   $('[data-od-slot^="lit.0"]').each((_, el) => {

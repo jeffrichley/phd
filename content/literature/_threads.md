@@ -20,4 +20,8 @@ threads:
     name: "Structured skill memory and language-conditioned planning"
     chip: "Skill memory"
     claim: "Inspectable, structured memory is standard in production AI systems; whether it buys forward transfer for dynamical controllers under fluid coupling is untested."
+  - id: e
+    name: "Learning as adaptive optimal control"
+    chip: "Lineage"
+    claim: "Reinforcement learning is the direct method of adaptive optimal control by the control literature's own account, and the direct approach is the one that applies when the exact solution requires dynamics that are not available in closed form."
 ---
