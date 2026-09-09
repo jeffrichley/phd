@@ -1,5 +1,22 @@
 # Notes for the next OpenDesign session
 
+**SECTION REORDER IN proposal.html, done deliberately, 2026-09-09.** Your contract says do
+not reorder sections because the numbers are cross-linked. This was done anyway, **with
+Jeff's explicit authorization**, because ODU's Graduate Catalog requires the dissertation
+proposal to contain a literature survey section and §01 had none. A new **§1.2 Literature
+survey** (`id="s12"`, slot `proposal.literature`) was inserted between Problem and Gap,
+because a survey establishes command of the field and the gap asserts what is missing from
+it, so the gap only reads correctly after it.
+
+Everything from the old 1.2 through 1.10 shifted up by one, now 1.3 through 1.11. Five
+surfaces were renumbered together: section `id="sNN"` anchors, rail `href="#sNN"` links,
+`rail__num` and `sec__num` display numbers, the `<!-- === 1.N === -->` comments, and all
+**20 `§1.x` cross-references** across approvals, landing, literature, proposal, questions
+and timeline. Two references to §1.1 were correctly left alone. Each was verified to resolve
+to the section it semantically means, not merely to a section that exists. If you regenerate
+any of these files, you will reintroduce the old numbering and silently break those
+references.
+
 **IMPORTANT — these od/ files have been edited in place since delivery** (2026-09-09):
 site name corrected everywhere ("Lifelong Learning for Snake-Form Underwater Robots"),
 defence→defense, title-bar separators to middots, em dashes removed from editorial copy

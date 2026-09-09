@@ -33,6 +33,7 @@ slots:
   Abstract: proposal.abstract
   Problem statement: proposal.problem
   Stakes: proposal.problem.stakes
+  Literature survey: proposal.literature
   The gap: proposal.gap
   Thesis statement: proposal.thesis
   Approach: proposal.approach
@@ -75,6 +76,89 @@ parameter transfer is quietly paying it: acquisition cost that looks algorithmic
 actually set by the body–fluid coupling. And a mission planner that cannot see what a
 skill covers has no principled way to refuse a mission it cannot perform; it can only
 guess from similarity, and similarity is exactly what the coupling breaks.
+
+## Literature survey
+
+**Hydrodynamic fidelity in learning simulators.** Fossen (2011) supplies the specification
+every underwater simulator works from: a six-degree-of-freedom vectorial model whose terms
+are added mass, the added-mass Coriolis effect known as the Munk moment, damping, and the
+restoring wrench. Lamb (1932) supplies the analytic ground truth for the added-mass
+coefficients themselves, derived from potential flow for an idealised body. Recent GPU
+learning platforms adopt that specification directly. MarineGym (Chu et al., 2025) is the
+closest existing system to this work's platform, a per-link Fossen plugin reaching roughly
+250,000 frames per second on a single GPU, and MuJoCo's fluid model (Google DeepMind,
+2026) documents an added-mass term with an explicit acceleration reaction drawn from the
+same theory. What none of them does is check the specification against the ground truth.
+MarineGym never validates its force model analytically and never exercises an articulated
+swimmer, and MuJoCo's documentation nowhere states whether the specified reaction is
+actually realised as effective mass, so a reader of the documentation has no way to tell.
+Across this thread fidelity is asserted rather than measured.
+
+**Anguilliform propulsion and pattern generation.** Two classical theories divide the
+field. Taylor (1952) treats each body element as feeling the quasi-steady drag of a
+cylinder at the same speed and inclination, which makes thrust velocity-dependent and
+contains no acceleration reaction anywhere. Lighthill (1971) extends elongated-body theory
+to arbitrary amplitude and locates thrust in the reactive force between the undulating body
+and the water it accelerates, which makes lateral added mass the propulsion term itself.
+Modern computation settles the question for this regime: Daghooghi et al. (2025), using
+wall-resolved large-eddy simulation, find that pressure around an anguilliform swimmer
+scales with theoretical fluid acceleration, confirming added mass as the main propulsion
+mechanism. On the control side, Matsuoka (1985) proves that mutually inhibiting neurons
+with adaptation sustain oscillation, giving the standard locomotion oscillator its
+mathematical basis, and Ijspeert et al. (2007) show a single spinal pattern generator under
+one scalar descending drive producing both swimming and walking on a real robot, with an
+abrupt switch between gaits rather than a blend. That last result is the closest published
+evidence that gait modes are discrete regimes. What this thread does not contain is
+learning. Ijspeert's repertoire is wired by hand, the drive only selects among behaviours
+the designer built, and nothing is acquired, retained, or transferred.
+
+**Transfer and continual learning for locomotion.** Continual World (Wołczyk et al., 2021)
+established the benchmark and the vocabulary, twenty sequential manipulation tasks with
+formal metrics for forward transfer and forgetting. The methods it evaluates fall into two
+families this work adopts as baselines. Replay, represented by CLEAR (Rolnick et al.,
+2019), mixes new experience with a uniform buffer and behavioural cloning and virtually
+eliminates forgetting. Parameter isolation, represented by PackNet (Mallya and Lazebnik,
+2018), prunes and freezes weights per task and achieves zero forgetting by construction.
+Dohare et al. (2024) supply the failure mode both families must survive, showing that
+networks under continual training progressively lose the ability to learn at all. More
+recent robot systems push past stability toward reuse: GOLLUM (Srisuchinnawong and
+Manoonpong, 2025) has a physical hexapod acquire several locomotion skills in about an hour
+and combine learned skills to bootstrap new ones, LEGION (Meng et al., 2025) accumulates
+skills on a real arm with zero measured forgetting, and Expert Composer (Christmann et al.,
+2024) transitions smoothly between independently trained quadruped experts. In all of it
+embodiment is held constant and task variation is parametric. Continual World's authors
+explicitly scope transfer to low-level weight and feature reuse, and no method in the
+thread conditions on the physics of the medium the robot moves through.
+
+**Structured skill memory.** Voyager (Wang et al., 2024) is the canonical growing library,
+storing every verified behaviour as an executable program in a retrievable store and
+discovering several times more of its environment than prior methods. LOTUS (Wan et al.,
+2024) is the strongest robot-side version, accumulating skills discovered from unsegmented
+demonstrations and composing them through a meta-controller. On the language side, MemGPT
+(Packer et al., 2023) gives a fixed-context model self-managed external storage, and
+HippoRAG 2 (Gutiérrez et al., 2025) argues that a growing external memory is itself a form
+of continual learning, since retrieval adapts a system without modifying its weights. Hu et
+al. (2026) supply the counterpoint this dissertation has to answer: external memory does
+not remove the stability and plasticity tradeoff, it relocates it into retrieval. What is
+stored across this thread is text or code. Voyager's skills are programs over a high-level
+game interface and its authors state plainly that they are not solving the sensorimotor
+control problem, LOTUS selects over an opaque embedding and composes at execution time
+rather than to make acquisition cheaper, and none of these memories holds a dynamical
+controller.
+
+**What the four leave open.** Read in order, the threads converge on one untested question.
+The physics says the fluid coupling is the propulsion mechanism, and that gaits built on it
+switch rather than blend. The transfer literature assumes task variation lies on one
+continuous axis, which is exactly what the physics denies. The memory literature shows that
+inspectable, structured stores buy real capability, but only where the stored item is text
+or a program, and the one robot library that composes does so from an opaque store and at
+execution time rather than at acquisition. And the simulator literature means any study
+attempting to settle this must first show its apparatus reproduces the coupling rather than
+assuming it. No published work asks whether an inspectable, structured skill memory buys
+forward transfer when the skills are dynamical controllers under fluid coupling. That is
+the question this dissertation takes up. The corpus behind this survey, with each source's
+contribution and the specific limit it reaches, is browsable in
+[§05](literature.html).
 
 ## The gap
 
