@@ -24,7 +24,7 @@ risks:
   - risk: "The slenderness sweep shows no relationship between anisotropy and where the regime boundary falls"
     likelihood: medium
     impact: low
-    mitigation: "The direction is predicted in advance, so a null is a reportable bound rather than a missing result: it would say the boundary is set by something other than the body's anisotropy, which is itself a finding about the mechanism. Study 4 is also the last of the four and carries no other study's dependency"
+    mitigation: "The direction is predicted in advance, so a null is a reportable bound rather than a missing result: it would say embodiment sets a level but not a structure, which fails the mechanism claim while leaving the generality claim standing. The two are separable by design. Study 4 is also the last of the four and carries no other study's dependency"
   - risk: "Generating bodies across the aspect-ratio range is harder than a configuration change in the existing rig"
     likelihood: medium
     impact: medium
@@ -33,12 +33,12 @@ research_questions:
   - "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on, and what does the approximation cost?"
   - "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale? That is the pre-named falsifier."
   - "Can certified operating envelopes let a planner refuse missions outside the skill library's coverage with the uncovered facet named, at a lower false-confidence rate than any opaque similarity threshold?"
-  - "Does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls? RQ2 asks whether transfer benefit scales; this asks what predicts the scaling."
+  - "Does the structured-memory advantage hold across bodies of differing shape, and does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls? The first half asks whether the result is a property of the architecture or of one robot; the second asks what predicts the scaling RQ2 measures."
 contributions:
   - "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed. The measurements themselves, and what they establish about feasibility, are in §1.9."
   - "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
   - "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named"
-  - "Embodiment as a measured variable rather than a fixed setting: a slenderness sweep that tests whether added-mass anisotropy predicts where the categorical boundary between gait regimes falls, with a carangiform body run out of family to locate the relationship's bound"
+  - "The result shown to be a property of the architecture rather than of one robot: a slenderness sweep that tests whether the structured-memory advantage holds across bodies of differing shape, and whether added-mass anisotropy predicts where the categorical boundary between gait regimes falls, with a carangiform body run out of family to locate the mechanism's bound"
 slots:
   Abstract: proposal.abstract
   Problem statement: proposal.problem
@@ -219,14 +219,22 @@ Study 4 is evaluated on the same apparatus, with the body as the independent var
 Each body in the slenderness sweep has its lateral-to-axial added-mass ratio measured by
 the study 1 protocol before any learning, so the independent variable is measured rather
 than nominal, and Tuckerman's ellipsoid inertia factors give an analytic expectation at
-every aspect ratio to check that measurement against. H4.1 is tested by regressing the
-cross-regime transfer penalty, the additional samples-to-competence relative to
-within-regime transfer, on the difference in that ratio between source and target body,
-with the predicted direction stated in advance. H4.2 is a held-out prediction rather than
+every aspect ratio to check that measurement against. H4.1 is the generality
+test and it comes first, because an advantage that is a property of the reference body
+rather than of the architecture is not a thesis: the study 2 comparison is rerun on every
+body in the sweep, and the hypothesis fails if the advantage's confidence interval includes
+or falls below zero on any of them. H4.2 is the mechanism test, regressing the cross-regime
+transfer penalty, the additional samples-to-competence relative to within-regime transfer,
+on the difference in that ratio between source and target body, with the predicted
+direction stated in advance. Its falsifier is the same shape as H2.1's one level up: study
+2 asks whether the effect is flat in the task, study 4 asks whether it is flat in the body,
+and a flat result here would mean embodiment sets a level but not a structure, which fails
+the mechanism claim while leaving H4.1 standing. H4.3 is a held-out prediction rather than
 a fit: the relationship is estimated across the anguilliform bodies only, then used to
 predict regime structure for the carangiform body, which is run last and never enters the
 estimate. A prediction interval that fails to cover the carangiform result bounds the
-relationship to reactive-thrust swimmers, and that bound is the reported outcome.
+mechanism to whole-body reactive thrust rather than to fluid coupling generally, and that
+bound is the reported outcome.
 
 Retention is a qualifying property here, not a contribution. A method that loses earlier
 skills as it acquires new ones is not a serious candidate, so the design removes that

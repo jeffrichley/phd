@@ -42,16 +42,20 @@ questions:
         status: open
         evidence: []
   - id: rq4
-    short: "What predicts where the boundary falls"
-    question: "Does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls?"
-    motivation: "RQ2 asks whether transfer benefit is flat in task similarity or scales. This asks what predicts the scaling, which turns a measured effect into a mechanism. A slenderness sweep makes the lateral-to-axial ratio a continuous independent variable rather than a fixed property of one robot."
+    short: "Does it hold across bodies, and what predicts the boundary"
+    question: "Does the structured-memory advantage hold across bodies of differing shape, and does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls?"
+    motivation: "The first half is the generality claim: study 2 establishes the advantage on one body, and an advantage that is a property of that body rather than of the architecture is not a thesis. The second half is the mechanism: RQ2 asks whether transfer benefit scales, and this asks what predicts the scaling. A slenderness sweep makes the lateral-to-axial ratio a continuous independent variable rather than a fixed property of one robot."
     hypotheses:
       - id: H4.1
-        statement: "The cross-regime transfer penalty, measured as additional samples-to-competence relative to within-regime transfer, scales with the difference in lateral-to-axial added-mass ratio between source and target body. Predicted direction: greater anisotropy produces sharper regime separation and a larger penalty."
+        statement: "The structured-memory advantage over nearest-skill warm-starting, established on the reference body in study 2, holds on every body in the sweep. Falsifier: on any body the advantage's confidence interval includes or falls below zero, which would mean the advantage was a property of the reference body rather than of the architecture."
         status: open
         evidence: []
       - id: H4.2
-        statement: "The relationship established across the anguilliform sweep predicts regime structure for a carangiform body whose thrust is foil-dominated. Falsifier: it does not, which bounds the result to reactive-thrust swimmers and is reported as that bound."
+        statement: "The magnitude of that advantage, and the cross-regime transfer penalty it offsets, scale with the difference in lateral-to-axial added-mass ratio between source and target body. Predicted direction: greater anisotropy difference produces a larger penalty and a larger structured-memory advantage. Falsifier: the penalty is flat in anisotropy difference, or scales in the opposite direction. Flat means embodiment sets a level but not a structure, and the mechanism claim fails while H4.1 can still stand."
+        status: open
+        evidence: []
+      - id: H4.3
+        statement: "The relationship estimated across the anguilliform sweep, which the carangiform body never enters, predicts that body's regime structure. Falsifier: the prediction interval fails to cover the carangiform result, which bounds the mechanism to whole-body reactive thrust rather than to fluid coupling generally, and is reported as that bound."
         status: open
         evidence: []
 ---
