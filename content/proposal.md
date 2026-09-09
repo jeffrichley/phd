@@ -51,8 +51,8 @@ slots:
 ## Abstract
 
 A slender swimmer carries about three times the added mass broadside as axially, Lamb
-effective mass 1.345 against 1.115, measured on this platform, and that broadside term is
-the reactive thrust of undulatory swimming itself. Gait modes are therefore predicted to be
+effective mass 1.345 against 1.115, measured on this platform. That broadside term is not a
+drag correction; it is the reactive thrust of undulatory swimming itself. Gait modes are therefore predicted to be
 distinct dynamical regimes, not settings of one dial, a prediction the second study tests
 directly. A snake-form underwater robot that must acquire new skills over its working life,
 without a teacher at hand for each one, pays for that prediction directly: the standard
