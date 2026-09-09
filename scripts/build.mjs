@@ -168,6 +168,20 @@ function finish($, name) {
     const span = $(".pagehead__meta span").filter((_, el) => $(el).text().trim().startsWith(prefix));
     if (span.length) span.first().html(html); else warn(`${name}: pagehead counter "${prefix}" not found`);
   }
+  // The "Stage N of M" denominator derives wherever the string appears, not wherever a
+  // particular class does. It was first fixed on §06 by selecting .stagemark, which
+  // od/landing.html does not carry, so the public front door kept saying "of 07" against
+  // eight stages: a correct derivation scoped to the page the defect was first seen on.
+  // Applied here so a third occurrence needs no third fix.
+  //
+  // The numerator is untouched. "Stage 01" asserts a current position and there is no rule
+  // for what that is while stage 1 is active and stage 2 is complete. See phd-lab#58.
+  const stageTotal = String(timelineC.stages.length).padStart(2, "0");
+  $("span, p, li").filter((_, el) => /^Stage\s+\d+\s+of\s+\d+$/.test($(el).text().replace(/\s+/g, " ").trim()))
+    .each((_, el) => {
+      const h = $(el).html();
+      if (h) $(el).html(h.replace(/(of\s+)\d+(\s*)$/, `$1${stageTotal}$2`));
+    });
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
@@ -541,15 +555,6 @@ function finish($, name) {
     list.empty();
     for (const item of timelineC.ninety_days) list.append("\n" + checkItem(item));
   }
-  // "Stage 01 of 07" said 07 while the page listed eight, once study 4 added a stage.
-  // Only the denominator is derived here. The numerator asserts a current position and
-  // there is no rule for what that is while stage 1 is active and stage 2 is complete,
-  // so it is deliberately left alone rather than guessed at. See phd-lab#35.
-  $(".stagemark").each((_, el) => {
-    const t = $(el).html();
-    if (t && / of \d+\s*$/.test($(el).text()))
-      $(el).html(t.replace(/ of \d+(\s*)$/, ` of ${String(timelineC.stages.length).padStart(2, "0")}$1`));
-  });
   finish($, "timeline.html");
 }
 
