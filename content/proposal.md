@@ -13,7 +13,7 @@ risks:
     likelihood: medium
     impact: medium
     mitigation: "Falsifier named before any data; the boundary result is reportable either way, and the near/far comparison is within the baseline family so it cannot be dismissed as a weak baseline"
-  - risk: "Peer-review latency on the three letters"
+  - risk: "Peer-review latency on the four letters"
     likelihood: high
     impact: low
     mitigation: "ODU's manuscript format gates on submission, not acceptance; submit early, arXiv on submit, up to two papers in review at once"
@@ -21,14 +21,24 @@ risks:
     likelihood: medium
     impact: low
     mitigation: "Disclosed limitation in paper 1; the validated plugin path does not depend on it"
+  - risk: "The slenderness sweep shows no relationship between anisotropy and where the regime boundary falls"
+    likelihood: medium
+    impact: low
+    mitigation: "The direction is predicted in advance, so a null is a reportable bound rather than a missing result: it would say the boundary is set by something other than the body's anisotropy, which is itself a finding about the mechanism. Study 4 is also the last of the four and carries no other study's dependency"
+  - risk: "Generating bodies across the aspect-ratio range is harder than a configuration change in the existing rig"
+    likelihood: medium
+    impact: medium
+    mitigation: "Unconfirmed and stated as such rather than assumed away. The sweep's analytic ground truth (Tuckerman ellipsoid inertia factors, already cited by study 1's validation protocol) holds whatever the generation cost, so the design does not depend on the answer; the number of bodies does, and is left open until it is known"
 research_questions:
   - "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on, and what does the approximation cost?"
   - "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale? That is the pre-named falsifier."
   - "Can certified operating envelopes let a planner refuse missions outside the skill library's coverage with the uncovered facet named, at a lower false-confidence rate than any opaque similarity threshold?"
+  - "Does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls? RQ2 asks whether transfer benefit scales; this asks what predicts the scaling."
 contributions:
   - "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed. The measurements themselves, and what they establish about feasibility, are in §1.9."
   - "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
   - "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named"
+  - "Embodiment as a measured variable rather than a fixed setting: a slenderness sweep that tests whether added-mass anisotropy predicts where the categorical boundary between gait regimes falls, with a carangiform body run out of family to locate the relationship's bound"
 slots:
   Abstract: proposal.abstract
   Problem statement: proposal.problem
@@ -181,16 +191,20 @@ the categorical remainder into forward transfer.
 
 ## Approach
 
-Three studies, one spine: structure buys what opacity cannot. Study 1 measures the fluid
+Four studies, one spine: structure buys what opacity cannot. Study 1 measures the fluid
 coupling (the validation protocol, the plugin that injects Fossen-model hydrodynamics
 into the solver's own force buffer, the quantified bias floor) and establishes *why*
 gait modes are categorical. Study 2 cashes that structure at acquisition time: fifteen
 target skills spanning the dial/switch boundary, each acquired from scratch, from the
 nearest skill, and scaffolded from several retrieved skills through the structured
 memory. Study 3 cashes it at planning time: certified envelopes on every skill card and
-an envelope check that refuses uncovered missions. The studies are linked, not merely
-sequential: study 2's transfer-versus-similarity slope decides study 3's retrieval
-policy.
+an envelope check that refuses uncovered missions. Study 4 varies the body itself: a
+slenderness sweep across anguilliform bodies of differing added-mass anisotropy, same gait
+family, which makes the lateral-to-axial ratio a continuous independent variable rather
+than a fixed property of one robot. One carangiform body, where thrust is foil-dominated
+rather than whole-body reactive, is run last and deliberately out of family. The studies
+are linked, not merely sequential: study 2's transfer-versus-similarity slope decides
+study 3's retrieval policy, and study 4 asks what predicts that slope.
 
 ## Evaluation plan
 
@@ -200,6 +214,19 @@ skill is warm-started from both a near source and a far source, with the same me
 tuning, so the flat-versus-scaling comparison lives inside the baseline family.
 Envelope certification is ten seeds × one hundred evaluations, inside iff the IQM 95%
 confidence-interval lower bound is ≥ 0.8.
+
+Study 4 is evaluated on the same apparatus, with the body as the independent variable.
+Each body in the slenderness sweep has its lateral-to-axial added-mass ratio measured by
+the study 1 protocol before any learning, so the independent variable is measured rather
+than nominal, and Tuckerman's ellipsoid inertia factors give an analytic expectation at
+every aspect ratio to check that measurement against. H4.1 is tested by regressing the
+cross-regime transfer penalty, the additional samples-to-competence relative to
+within-regime transfer, on the difference in that ratio between source and target body,
+with the predicted direction stated in advance. H4.2 is a held-out prediction rather than
+a fit: the relationship is estimated across the anguilliform bodies only, then used to
+predict regime structure for the carangiform body, which is run last and never enters the
+estimate. A prediction interval that fails to cover the carangiform result bounds the
+relationship to reactive-thrust swimmers, and that bound is the reported outcome.
 
 Retention is a qualifying property here, not a contribution. A method that loses earlier
 skills as it acquires new ones is not a serious candidate, so the design removes that
@@ -296,8 +323,12 @@ set by when coursework ends rather than by when the research is ready.
 **Relative to approval.** Study 2's acquisition campaign completes by roughly T0 plus two to
 three months, and its analysis and manuscript by roughly T0 plus five. Study 3 begins from
 study 2's certified skill cards, since its retrieval policy is decided by the slope study 2
-measures, and reaches submission by roughly T0 plus eight to nine. The defense follows once
-all three manuscripts are submitted, which is the ODU gate rather than acceptance.
+measures, and reaches submission by roughly T0 plus eight to nine. Study 4 runs on the
+apparatus study 1 already validated and depends on no other study's output, so it is
+schedulable against compute rather than against a predecessor; it is placed last because it
+is the least constrained, not because it is least important, and reaches submission by
+roughly T0 plus eleven to twelve. The defense follows once all four manuscripts are
+submitted, which is the ODU gate rather than acceptance.
 
 **On the size of those intervals.** Study 1 went from the platform's first commit to a
 consistency-passed manuscript in about thirteen days. The intervals above are budgeted well

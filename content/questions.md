@@ -41,4 +41,17 @@ questions:
         statement: "The envelope check's false-confidence rate is below every point on the opaque similarity-threshold sweep."
         status: open
         evidence: []
+  - id: rq4
+    short: "What predicts where the boundary falls"
+    question: "Does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls?"
+    motivation: "RQ2 asks whether transfer benefit is flat in task similarity or scales. This asks what predicts the scaling, which turns a measured effect into a mechanism. A slenderness sweep makes the lateral-to-axial ratio a continuous independent variable rather than a fixed property of one robot."
+    hypotheses:
+      - id: H4.1
+        statement: "The cross-regime transfer penalty, measured as additional samples-to-competence relative to within-regime transfer, scales with the difference in lateral-to-axial added-mass ratio between source and target body. Predicted direction: greater anisotropy produces sharper regime separation and a larger penalty."
+        status: open
+        evidence: []
+      - id: H4.2
+        statement: "The relationship established across the anguilliform sweep predicts regime structure for a carangiform body whose thrust is foil-dominated. Falsifier: it does not, which bounds the result to reactive-thrust swimmers and is reported as that bound."
+        status: open
+        evidence: []
 ---

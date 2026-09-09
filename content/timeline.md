@@ -27,17 +27,22 @@ stages:
     what: "Candidacy / formal proposal"
     when: "—"
     state: open
-    note: "Gate: paper 1 submitted; papers 2–3 locked questions + methods. Candidacy exam sits in the last coursework semester by handbook rule"
+    note: "Gate: paper 1 submitted; papers 2, 3 and 4 locked questions + methods. Candidacy exam sits in the last coursework semester by handbook rule"
   - n: 6
     what: "Study 3: operating envelope (MAE 897: Envelope Certification)"
     when: "—"
     state: open
     note: "Follows study 2's trained skill cards; its retrieval policy is decided by study 2's slope"
   - n: 7
+    what: "Study 4: the slenderness sweep (embodiment as the variable)"
+    when: "—"
+    state: open
+    note: "Runs on the apparatus study 1 validated and depends on no other study's output, so it is schedulable against compute rather than a predecessor. Placed here because §1.11 puts its submission last, not because the order is settled"
+  - n: 8
     what: "Defense"
     when: "—"
     state: open
-    note: "Gate: all three papers submitted; acceptance is upside, not required"
+    note: "Gate: all four papers submitted; acceptance is upside, not required"
 ninety_days:
   - "Confirm paper 1 RA-L submission logged (gov pre-publication read, anonymized package)"
   - "File Form D1, the advisory committee (Dr. Kaipa + two MAE faculty)"

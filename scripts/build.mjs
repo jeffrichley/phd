@@ -288,7 +288,17 @@ function finish($, name) {
     }
     fillSlot($, key, mdInline(q));
   });
-  fm.contributions.forEach((c, i) => fillSlot($, `proposal.contribution.${i + 1}`, mdInline(c)));
+  // same cap as §1.5, and study 4's contribution is what made it bite: OD carries
+  // proposal.contribution.1 through .3 only. Clone the previous entry for anything beyond.
+  fm.contributions.forEach((c, i) => {
+    const key = `proposal.contribution.${i + 1}`;
+    if (!$(`[data-od-slot="${key}"]`).length) {
+      const prev = $(`[data-od-slot="proposal.contribution.${i}"]`);
+      if (!prev.length) { warn(`proposal: no clone base for ${key}`); return; }
+      prev.after(prev.clone().attr("data-od-slot", key).attr("class", "slot slot--inline").empty());
+    }
+    fillSlot($, key, mdInline(c));
+  });
   // risks table: replace resting rows entirely
   const tbody = $('table:has(caption:contains("Identified risks")) tbody');
   if (tbody.length) {
