@@ -12,7 +12,13 @@ import { marked } from "marked";
 
 const OD = "od", OUT = "_site", C = "content";
 const warn = (...a) => console.warn("WARN:", ...a);
-const read = (f) => fs.readFileSync(f, "utf8");
+// Normalise line endings at the only door into the file system. core.autocrlf hands a
+// Windows checkout CRLF while the section parser splits on a bare newline, so every
+// heading arrives with a trailing carriage return and matches no slot key: a fresh clone
+// renders S01 empty from a build that exits without error. Fixed here rather than at the
+// parser so it holds for every reader of every file, whatever git config a machine has.
+// See phd-lab#42.
+const read = (f) => fs.readFileSync(f, "utf8").replace(/\r\n/g, "\n");
 const page = (f) => cheerio.load(read(path.join(OD, f)));
 const mdFile = (f) => matter(read(f));
 const md = (s) => marked.parse(s.trim());

@@ -1,0 +1,10 @@
+# The build parses content/*.md by splitting on LF, and a CRLF checkout renders
+# S01 empty from a build that exits clean. scripts/build.mjs normalises on read,
+# which is the load-bearing fix; this file keeps the working tree honest so the
+# failure cannot reappear through some other reader. See phd-lab#42.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.mp4 binary
+*.woff2 binary
