@@ -1,5 +1,34 @@
 # Notes for the next OpenDesign session
 
+**COUNTERS ARE DERIVED NOW, 2026-09-09. Do not hand-maintain the numbers in
+`.stagemark` or `.pagehead__meta`.** Your topbar and pagehead counters shipped as static
+template text and froze at the mockup's values, while the §00 cards summarising the same
+collections derived correctly. The site therefore contradicted itself two clicks apart:
+§00 said 21 literature entries and §05's own header said 0.
+
+The build now writes them from the collections they name, driven by two tables
+(`STAGEMARKS`, `PAGEHEAD_COUNTS`) applied inside `finish()`, which every page passes
+through. **The placeholder values in your `od/` sources were left exactly as delivered**,
+because they are honest mockup text and correcting them would only re-arm the drift. If
+you add a page with a counter, add a row to the table rather than typing a number.
+
+Nine counters are now derived: literature threads and entries, experiments runs and
+records, results plates and filled, questions open and total hypotheses, notes entries and
+open actions, and §07's `N filled` tag. The results plate total is derived from the count
+of `.plate` elements in your own `results.html`, so the layout stays the source of truth
+for how many plates exist.
+
+Three counters were checked and deliberately left alone because they are true: results
+"Plates 6 reserved", approvals "Members 4 slots · Decisions 0", questions "Questions 3
+slots".
+
+Two were checked and left alone because they are **ambiguous rather than stale**, and
+guessing would have been worse than leaving them: `timeline.html`'s "Stage 01 of 07" and
+`index.html`'s "Stage 01 · Proposal in draft" both assert a current position, and §06 has
+stage 1 active while stage 2 is already complete, so there is no single current stage.
+`timeline.html`'s "Dated 0" depends on whether a term like "Fall 2026" counts as a date,
+which the contract does not define.
+
 **§05 RENAMED, 2026-09-09: "Related work" is now "Literature corpus."** 23 occurrences
 across 18 files, including all nine hand-built rails and **all four `tpl-*.html`
 templates**. The templates are the ones that would quietly reintroduce the old label on a

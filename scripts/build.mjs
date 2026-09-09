@@ -76,6 +76,30 @@ const litEntries = listDir(`${C}/literature`, (f) => /^lit-\d+\.md$/.test(f));
 // S01's section count is derived, never asserted: od/proposal.html is the structure that
 // produces the rail and the sNN anchors, so it is the only thing that can be right about it.
 const proposalSections = page("proposal.html")("section.sec.doc").length;
+let proposalFilled = 0; // set while §01 renders, read by §07's card tag
+const resultPlates = page("results.html")(".plate").length;
+const openActions = advisorNotes
+  .flatMap((n) => n.data.actions ?? [])
+  .filter((a) => !/^\[x\]/i.test(a)).length;
+
+// Topbar stagemarks and pagehead meta ship as static template text. They froze at the
+// mockup's values while the §00 cards summarising the same collections derived correctly,
+// so the site contradicted itself two clicks apart. One rule for the whole family: a
+// counter is written from the collection it names. Applied in finish(), so every page
+// passes through it and a new page cannot quietly skip it.
+const STAGEMARKS = {
+  "questions.html": `Open <b>${openHypotheses}</b> of ${allHypotheses.length} hypotheses`,
+  "experiments.html": `Runs <b>${experiments.length}</b> recorded`,
+  "results.html": `Plates <b>${resultPlates}</b> · ${results.figures.length} filled`,
+  "literature.html": `Threads <b>${threads.length}</b> · ${litEntries.length} entries`,
+  "notes.html": `Entries <b>${advisorNotes.length}</b>`,
+};
+const PAGEHEAD_COUNTS = {
+  "questions.html": { Hypotheses: `Hypotheses ${allHypotheses.length} recorded` },
+  "experiments.html": { Records: `Records ${experiments.length}` },
+  "literature.html": { Threads: `Threads ${threads.length}`, Entries: `Entries ${litEntries.length}` },
+  "notes.html": { Entries: `Entries ${advisorNotes.length}`, "Open actions": `Open actions ${openActions}` },
+};
 
 // ---------- output scaffold ----------
 fs.rmSync(OUT, { recursive: true, force: true });
@@ -129,6 +153,15 @@ function finish($, name) {
   if (!$("footer").length && name !== "landing.html") {
     $("body").append(`\n<footer class="sitefoot"><div class="sitefoot__inner"><span>Jeff Richley · ODU MAE PhD · advisor Dr. Krishnanand Kaipa</span><span class="mono">Updated ${BUILD_DATE}</span></div></footer>`);
   }
+  const mark = STAGEMARKS[name];
+  if (mark) {
+    const el = $(".stagemark");
+    if (el.length) el.html(mark); else warn(`${name}: stagemark not found`);
+  }
+  for (const [prefix, html] of Object.entries(PAGEHEAD_COUNTS[name] ?? {})) {
+    const span = $(".pagehead__meta span").filter((_, el) => $(el).text().trim().startsWith(prefix));
+    if (span.length) span.first().html(html); else warn(`${name}: pagehead counter "${prefix}" not found`);
+  }
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
@@ -180,7 +213,7 @@ function finish($, name) {
     "proposal.html": [`${proposalSections} sections`, "Draft"],
     "questions.html": [`${allHypotheses.length} hypotheses`, `${supportedHypotheses} supported`],
     "experiments.html": [`${experiments.length} runs`, "Ledger live"],
-    "results.html": [`${results.figures.length} of 6 plates filled`, "Study 1"],
+    "results.html": [`${results.figures.length} of ${resultPlates} plates filled`, "Study 1"],
     "literature.html": [`${threads.length} threads`, litEntries.length ? `${litEntries.length} entries` : "Entries pending verification"],
     "timeline.html": [`${timelineC.stages.length} stages`, "In motion"],
     "notes.html": [`${advisorNotes.length} entries`, "Advisor log"],
@@ -255,6 +288,9 @@ function finish($, name) {
       `<span class="mono">${fm.version}</span> · ${statusSpan("open", "Draft")} · prepared for ${fm.prepared_for} · <span class="mono">${fm.dated instanceof Date ? fm.dated.toISOString().slice(0, 10) : fm.dated}</span>`
     );
   }
+  // a section counts as filled when nothing inside it is still an unfilled slot. Measured
+  // here rather than asserted on §07, because this is the only place the rendered §01 exists.
+  proposalFilled = $("section.sec.doc").filter((_, el) => $(el).find(".slot").length === 0).length;
   finish($, "proposal.html");
 }
 
@@ -332,10 +368,6 @@ function finish($, name) {
   </td>
 </tr>`);
   }
-  // pagehead counter is static template text: set it from the real ledger
-  $(".pagehead__meta span").each((_, el) => {
-    if ($(el).text().trim().startsWith("Records")) $(el).text(`Records ${experiments.length}`);
-  });
   // align filter chips with the contract's status vocabulary (unfilled can never occur; queued/superseded can)
   const unfilledChip = $('[data-filter-value="unfilled"]');
   if (unfilledChip.length) {
@@ -482,6 +514,8 @@ function finish($, name) {
   // card foot, so the feet table on index.html does not reach it.
   $("span.tag.mono").filter((_, el) => /^\d+ sections$/.test($(el).text().trim()))
     .text(`${proposalSections} sections`);
+  $("span.tag.mono").filter((_, el) => /^\d+ filled$/.test($(el).text().trim()))
+    .text(`${proposalFilled} filled`);
   if (committee.chair_html) {
     fillSlot($, "committee.chair", committee.chair_html);
     $('[data-od-slot="committee.chair"]').closest(".card").find(".status")
