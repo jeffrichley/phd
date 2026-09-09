@@ -52,8 +52,9 @@ teacher at hand for each one. The standard shortcut — warm-start the new contr
 the most similar existing one — works only up to a floor set by the body: a slender
 swimmer carries about three times the added mass broadside as axially (Lamb effective
 mass 1.345 vs 1.115, measured on this platform), and that broadside term is the reactive
-thrust of undulatory swimming itself. Gait modes are therefore distinct dynamical
-regimes, not settings of one dial. This dissertation shows that an inspectable,
+thrust of undulatory swimming itself. Gait modes are therefore predicted to be distinct
+dynamical regimes, not settings of one dial — a prediction the second study tests
+directly. This dissertation shows that an inspectable,
 structured skill memory is what converts that categorical remainder into forward
 transfer, and that the same structure lets a planner certify each skill's operating
 envelope and refuse a mission outside it. Simulation is the apparatus; its hydrodynamic

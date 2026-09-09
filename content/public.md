@@ -1,6 +1,7 @@
 ---
-# → landing.html. Pitch adapted (condensed) from committee-narrative.md's locked
-# one-paragraph pitch — NOT verbatim; the full physics paragraph lives on index/proposal.
+# → landing.html. Pitch = committee-narrative.md's locked one-paragraph pitch, with one
+# deliberate deviation (Jeff, 2026-09-08): "are therefore" → "are therefore predicted to
+# be" distinct regimes, hedged until the per-gait bridge measurement runs.
 headline: "Lifelong Learning for Snake-Form Underwater Robots"
 cta_primary:
   label: "Read the proposal"
@@ -31,8 +32,16 @@ thrusts:
 
 A snake-form underwater robot must acquire new skills over its working life without a
 teacher at hand for each one. The obvious engineering shortcut — warm-start the new
-controller from the most similar existing one — works only up to a floor set by the
-body. That floor has a mechanism, this program measures it, and the dissertation shows
-what converts it into forward transfer: an inspectable, structured skill memory whose
-operating envelopes a planner can certify and refuse against. Simulation is the
-apparatus; its hydrodynamic fidelity is validated rather than assumed.
+controller from the most similar existing one — works only up to a floor set by the body.
+That floor has a mechanism. A slender body carries about three times the added mass
+broadside as axially (Lamb effective mass 1.345 vs 1.115, measured on the platform), and
+that broadside term is the reactive thrust of undulatory swimming itself. Gait modes are
+therefore predicted to be distinct dynamical regimes, not settings of one dial: lateral
+undulation, corkscrew roll, and station-keeping recruit different fluid couplings, and
+their controllers do not interpolate. Opaque parameter transfer carries the part every
+gait shares — the oscillator driving the travelling wave and the thrust it produces — and
+nothing else. This dissertation shows that an inspectable, structured skill memory is
+what converts the categorical remainder into forward transfer, and that the same
+structure lets a planner certify each skill's operating envelope and refuse a mission
+outside it. Simulation is the apparatus; its hydrodynamic fidelity is validated rather
+than assumed.
