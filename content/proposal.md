@@ -206,6 +206,23 @@ rather than whole-body reactive, is run last and deliberately out of family. The
 are linked, not merely sequential: study 2's transfer-versus-similarity slope decides
 study 3's retrieval policy, and study 4 asks what predicts that slope.
 
+The method's lineage is in the control literature. Sutton, Barto and Williams (1992),
+writing in *IEEE Control Systems Magazine*, argue that reinforcement learning is the direct
+method of adaptive optimal control; Lewis and Vrabie (2009) give that identification its
+controls vocabulary, noting that dynamic programming generally requires full knowledge of
+the system dynamics while the Bellman formulation admits schemes that learn a control
+online from measured data without solving the Hamilton-Jacobi-Bellman equation. The 1992
+paper's point is that the distinction between indirect and direct methods matters when
+deriving a controller from a model is costly, as it is in nonlinear optimal control. Under
+added-mass coupling that changes character across gait regimes, those dynamics are not
+available in closed form at all, so the direct method is the applicable one. That is a fact
+about the fluid, not a preference about algorithms.
+
+What those papers establish is standing. Their guarantees are for tabulated finite-state
+problems and for the linear-quadratic case, and the 1992 paper states that whether such
+guarantees extend to function approximation was unknown at the time. Neither licenses a
+claim about the controller proposed here. That is what studies 2 through 4 measure.
+
 ## Evaluation plan
 
 Preregistered before data: competence is task success ≥ 0.8 held over three consecutive
