@@ -198,7 +198,9 @@ gait modes are categorical. Study 2 cashes that structure at acquisition time: f
 target skills spanning the dial/switch boundary, each acquired from scratch, from the
 nearest skill, and scaffolded from several retrieved skills through the structured
 memory. Study 3 cashes it at planning time: certified envelopes on every skill card and
-an envelope check that refuses uncovered missions. Study 4 varies the body itself: a
+an envelope check that refuses uncovered missions. That architecture, a certifier outside an
+unverified controller admitting or refusing its output against a specified condition, is what
+the controls literature calls run-time assurance. Study 4 varies the body itself: a
 slenderness sweep across anguilliform bodies of differing added-mass anisotropy, same gait
 family, which makes the lateral-to-axial ratio a continuous independent variable rather
 than a fixed property of one robot. One carangiform body, where thrust is foil-dominated
