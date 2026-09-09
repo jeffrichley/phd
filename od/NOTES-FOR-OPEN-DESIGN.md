@@ -1,5 +1,19 @@
 # Notes for the next OpenDesign session
 
+**SECOND SECTION REORDER, 2026-09-09, also authorized.** ODU's catalog names two sections
+the proposal must contain, and the literature survey below was only the first. **§1.9
+Preliminary results** (`id="s19"`, slot `proposal.preliminary`) was inserted after
+Evaluation plan, shifting Risks to 1.10, Resources and schedule to 1.11, and Scope to 1.12.
+Four of the twenty `§1.x` references moved (one §1.9, three §1.11) plus anchors s19, s110,
+s111. All twenty re-verified semantically, all thirteen anchors confirmed to resolve.
+
+Also in that change, and worth knowing because it is the opposite of an insertion: the
+schedule went into **your existing §1.11 "Resources & schedule"** as a second slot,
+`proposal.schedule`, rather than becoming a new section. Your section title already promised
+a schedule and your margin note already said "answer it here, in months, not adjectives",
+so the design already had the right home for it and only the content was missing. That
+choice is what kept this renumber to four references instead of twenty.
+
 **SECTION REORDER IN proposal.html, done deliberately, 2026-09-09.** Your contract says do
 not reorder sections because the numbers are cross-linked. This was done anyway, **with
 Jeff's explicit authorization**, because ODU's Graduate Catalog requires the dissertation

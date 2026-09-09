@@ -26,7 +26,7 @@ research_questions:
   - "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale? That is the pre-named falsifier."
   - "Can certified operating envelopes let a planner refuse missions outside the skill library's coverage with the uncovered facet named, at a lower false-confidence rate than any opaque similarity threshold?"
 contributions:
-  - "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed (bias floor of force-only approximations quantified at 16–20%; plugin matches the bare engine to 0.02%)"
+  - "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed. The measurements themselves, and what they establish about feasibility, are in §1.9."
   - "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
   - "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named"
 slots:
@@ -39,7 +39,9 @@ slots:
   Approach: proposal.approach
   Evaluation plan: proposal.evaluation
   Baselines: proposal.evaluation.baselines
+  Preliminary results: proposal.preliminary
   Resources: proposal.resources
+  Schedule: proposal.schedule
   Scope boundaries: proposal.scope
 ---
 <!-- Sources: phd-lab docs/narrative/committee-narrative.md (locked #23); issue #4
@@ -238,12 +240,77 @@ substitution, which swaps the composed base for the single nearest source and se
 structured reuse from reuse in general, and blend-without-residual, which tests whether
 skill blends fail rather than landing between their parents.
 
+## Preliminary results
+
+Study 1 is complete and at the IEEE RA-L submission gate. Its role in this proposal is not
+to be counted as finished work but to establish that the apparatus can measure what the
+remaining two studies need measured.
+
+A free-body probe on the stock GPU pipeline recovers effective mass equal to dry mass,
+which is to say the added-mass reaction the simulator specifies is not realised at all.
+With the hydrodynamics plugin active, the same probe recovers 1.115 axial and 1.345
+lateral, matching the potential-flow coefficients for the body. A seven-rung analytic
+battery, built from fixed-state force comparisons, conservation checks and free decay
+rather than from integrated trajectories, passes on every rung, with the added-mass
+Coriolis term matching the Fossen reference to 2 × 10⁻⁸. A sealed timestep-refinement study
+puts the trajectory bias floor of force-only approximations at order 16 to 20 percent, a
+plateau that survives as the timestep is refined and is therefore a floor rather than an
+integration artifact. The injection path itself costs about 1 percent of throughput against
+the same build with the fork disabled, and matches the bare engine to 0.02 percent, which
+validates the plumbing rather than the physics.
+
+What this buys the proposed work is interpretability, not a result. Study 2 measures whether
+transfer benefit is flat or scaling in task similarity, and that measurement is only
+meaningful if the simulator reproduces the fluid coupling that makes some task variation
+categorical in the first place. On a platform that specifies added mass and does not realise
+it, a flat slope would be indistinguishable from an artifact of the apparatus. Study 1
+removes that alternative explanation before the acquisition experiments begin, which is the
+sense in which it demonstrates feasibility. Every number above traces to a sealed artifact
+package and is browsable with its run in [§03](experiments.html) and
+[§04](results.html).
+
 ## Resources
 
 All computation in simulation: development on a personal RTX 4060 Ti; training campaigns
 on DoD HPC allocations, tens of GPU-hours total as of September 2026. No ODU
 lab resources are required. Every paper and preprint receives a same-day or next-day government
 pre-publication read before it goes out.
+
+## Schedule
+
+Two clocks run on this degree and this section states both rather than averaging them.
+Coursework is calendar-locked and partly known. Research milestones are given relative to
+the approval of this proposal, written T0, because the approval date is not yet knowable and
+a calendar date for it would be invented rather than estimated.
+
+**On the calendar.** Study 1 ran from the platform's first commit to a consistency-passed
+manuscript between July and September 2026, and is complete and at the IEEE RA-L submission
+gate. Fall 2026 is MAE 897 Undulatory Propulsion and MAE 899, and it carries the
+skill-library platform build and the first ten-seed training campaign. Fifteen coursework
+credits remain beyond it. Which terms carry the rest depends on the Plan of Study. The
+department does not publish an 800-level offering rotation beyond the current term, so
+remaining courses are placed as offerings are announced, and the MAE 897 independent studies
+are scheduled with my advisor rather than against a departmental calendar. Handbook §5.8
+places the candidacy examination in the last coursework semester, so the proposal date is
+set by when coursework ends rather than by when the research is ready.
+
+**Relative to approval.** Study 2's acquisition campaign completes by roughly T0 plus two to
+three months, and its analysis and manuscript by roughly T0 plus five. Study 3 begins from
+study 2's certified skill cards, since its retrieval policy is decided by the slope study 2
+measures, and reaches submission by roughly T0 plus eight to nine. The defense follows once
+all three manuscripts are submitted, which is the ODU gate rather than acceptance.
+
+**On the size of those intervals.** Study 1 went from the platform's first commit to a
+consistency-passed manuscript in about thirteen days. The intervals above are budgeted well
+above that rate, deliberately, because studies 2 and 3 are experimental campaigns rather
+than single analyses: study 2 alone measures fifteen acquisition targets across seven
+methods, at ten seeds and no fewer than three stream orderings. The remaining research is on
+the order of six to nine months of working time. Calendar span is longer, because the degree
+is part-time and the coursework track runs alongside rather than pausing.
+
+Against the eight-year limit, which runs from a January 2025 start to January 2033, this
+uses a fraction of the time available. The binding constraint on the schedule is coursework
+scheduling rather than research throughput.
 
 ## Scope boundaries
 
