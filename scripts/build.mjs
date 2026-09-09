@@ -144,7 +144,11 @@ function finish($, name) {
   $(".stat").each((_, el) => {
     const k = $(el).find(".stat__k").text().trim();
     const v = $(el).find(".stat__v");
-    if (k === "Advisor decision") v.html(statusSpan("open", overview.status_strip.advisor_decision));
+    if (k === "Advisor decision") {
+      // the status pill doesn't wrap: short word in the pill, detail on a small line below
+      const [word, ...rest] = String(overview.status_strip.advisor_decision).split(" — ");
+      v.html(statusSpan("open", word) + (rest.length ? `<br><span class="small muted">${rest.join(" — ")}</span>` : ""));
+    }
     if (k === "Experiments logged") v.html(`<span class="mono">${experiments.length}</span>`);
     if (k === "Open hypotheses") v.html(`<span class="mono">${openHypotheses}</span>`);
   });
