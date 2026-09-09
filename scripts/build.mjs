@@ -564,10 +564,39 @@ function finish($, name) {
   $(".hero h1").first().text(fm.headline); // the correct program name, replacing OD's placeholder
   fillSlot($, "public.lede", mdInline(pitch)); // slot is itself a <p>; block markdown would nest <p><p>
   fillSlot($, "public.thesis", mdInline(overview.thesis));
-  (fm.thrusts ?? []).forEach((t, i) => {
-    fillSlot($, `public.thrust.${i + 1}.title`, t.title);
-    fillSlot($, `public.thrust.${i + 1}.body`, mdInline(t.body));
-  });
+  // Thrust cards are generated, not addressed. OD ships exactly three, each with its own
+  // numbered slot pair and a hand-written "Maps to RQ<n>" foot, so a fourth thrust would
+  // have had no slot to land in and would have vanished with a warning. Cards are now
+  // cloned per authored thrust and their feet derived from the matching research question,
+  // which is what lets study 4's RQ4 arrive without editing this file.
+  {
+    const thrusts = fm.thrusts ?? [];
+    const grid = $(".grid").filter((_, el) => $(el).find('[data-od-slot^="public.thrust."]').length).first();
+    if (!grid.length) warn("landing: thrust grid not found");
+    else {
+      grid.attr("class", `grid grid--${Math.min(thrusts.length, 4)}`);
+      grid.empty();
+      thrusts.forEach((t, i) => {
+        const q = questions[i];
+        const hyps = q?.hypotheses ?? [];
+        const supported = hyps.filter((h) => h.status === "supported").length;
+        // no question to map to is a real state worth showing, not a blank to hide
+        const maps = q ? `Maps to ${q.id.toUpperCase()}` : "Not yet mapped to a question";
+        // the site's own empty marker, so an unmapped thrust stays visible to the check
+        // that counts unfilled dashes rather than rendering one the sweep cannot see
+        const tally = q ? `${supported} of ${hyps.length} supported` : '<span class="dash">&mdash;</span>';
+        grid.append(`
+<div class="card">
+  <span class="card__num">${String(i + 1).padStart(2, "0")}</span>
+  <span class="card__title">${mdInline(t.title)}</span>
+  <p class="card__body">${mdInline(t.body)}</p>
+  <span class="card__foot"><span>${maps}</span><span>${tally}</span></span>
+</div>`);
+      });
+      if (questions.length > thrusts.length)
+        warn(`landing: ${questions.length} research questions but only ${thrusts.length} thrusts authored in content/public.md`);
+    }
+  }
   // CTAs from content (the template hardcodes its own pair)
   const ctas = $(".hero__cta a");
   if (ctas.length >= 2) {

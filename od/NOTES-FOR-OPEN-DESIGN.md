@@ -1,5 +1,34 @@
 # Notes for the next OpenDesign session
 
+**THRUST CARDS ON landing.html ARE GENERATED NOW, 2026-09-09.** Your three cards were
+hand-addressed, each with its own numbered slot pair (`public.thrust.1.title` through
+`.3.body`) and a hand-written "Maps to RQ<n>" foot. The right half of every foot was an
+unfilled dash on the public front door, and a fourth thrust would have had no slot to land
+in and would have vanished.
+
+The build now clones a card per authored thrust in `content/public.md` and derives each
+foot from the matching research question in `content/questions.md`, as "N of M supported".
+The grid class follows the count, so four thrusts render `grid--4` rather than wrapping
+under `grid--3`. **Do not re-add numbered thrust slots.** If you restyle the card, restyle
+one and let the build repeat it.
+
+The eyebrow above them read "Three thrusts" and is now "The thrusts". A section heading
+that counts the cards beneath it goes stale the moment a card is added, and study 4 will
+add one.
+
+`Last updated —` was deleted rather than wired. `Last build <date>` already renders further
+down the same page, derived and correct, and two date fields on one page invite a reader to
+notice they disagree.
+
+`Stage 01 of 07` on the same strip is deliberately untouched. §06 has stage 1 active while
+stage 2 is complete, so there is no single current stage to derive. It needs a rule before
+it needs a wiring.
+
+**Related, and it is your files rather than the build:** `questions.html` §02 has the same
+cap. It carries slots for exactly three research questions, so a fourth emits
+`WARN: slot not found: rq.4.question` and never renders. That page needs the same
+clone-one-and-repeat treatment before a fourth question is authored.
+
 **COUNTERS ARE DERIVED NOW, 2026-09-09. Do not hand-maintain the numbers in
 `.stagemark` or `.pagehead__meta`.** Your topbar and pagehead counters shipped as static
 template text and froze at the mockup's values, while the §00 cards summarising the same
