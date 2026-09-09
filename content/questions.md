@@ -9,7 +9,7 @@ questions:
       - id: H1.1
         statement: "Stock GPU pipelines specify an added-mass reaction but do not realise it: a free-body probe measures effective mass equal to dry mass."
         status: supported
-        evidence: [exp-001]
+        evidence: [exp-000, exp-001]
       - id: H1.2
         statement: "Force-only added-mass approximations carry an irreducible trajectory bias floor of 16–20% for an articulated undulating body."
         status: supported

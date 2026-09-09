@@ -1,5 +1,6 @@
 ---
-# → landing.html. Source: committee-narrative.md one-paragraph pitch (locked, verbatim).
+# → landing.html. Pitch adapted (condensed) from committee-narrative.md's locked
+# one-paragraph pitch — NOT verbatim; the full physics paragraph lives on index/proposal.
 headline: "Lifelong Learning for Snake-Form Underwater Robots"
 cta_primary:
   label: "Read the proposal"
@@ -14,7 +15,7 @@ thrusts:
   - title: "The fluid coupling, measured"
     body: "GPU simulators specify added-mass physics they do not realise. This work supplies the validation protocol and a hydrodynamics plugin that closes the gap — and quantifies what force-only approximations cost."
   - title: "Skill acquisition across regimes"
-    body: "Twelve target skills spanning parametric variation (current, payload, density) and categorical regime changes (backward swim, station-keep, corkscrew). The measurement: does structured skill memory beat warm-starting from the nearest skill?"
+    body: "Fifteen target skills spanning parametric variation (current, payload, a degraded joint) and categorical regime changes (backward swim, station-keep, corkscrew). The measurement: does structured skill memory beat warm-starting from the nearest skill?"
   - title: "The operating envelope"
     body: "Every skill card carries a certified envelope; a planner refuses missions outside the library's coverage and names the uncovered facet — refusal with a reason, not a similarity guess."
 ---

@@ -10,7 +10,7 @@ excerpt: The skill-acquisition study's suite, oscillator freeze, and analysis pl
 The second study's methodology was rebuilt around the locked thesis claim, and the July
 version was archived rather than patched. The recut:
 
-- **Suite rebalanced toward switches.** Twelve acquisition targets now deliberately span
+- **Suite rebalanced toward switches.** Fifteen acquisition targets now deliberately span
   the dial/switch boundary, including objective gait switches and gait-composition
   targets — because the claim is about where the boundary falls, the suite must contain
   it.

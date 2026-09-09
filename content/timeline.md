@@ -5,9 +5,9 @@
 stages:
   - n: 1
     what: "Coursework foundation"
-    when: "2025 – Fall 2026"
+    when: "2025 → end set by the Plan of Study"
     state: active
-    note: "48 credits beyond the master's (24 coursework + 24 dissertation); GPA 4.00; Fall 2026 = MAE 897 Undulatory Propulsion + MAE 899"
+    note: "48 credits beyond the master's (24 coursework + 24 dissertation); GPA 4.00; Fall 2026 = MAE 897 Undulatory Propulsion + MAE 899. Later terms are slotted when the Plan of Study and the offering rotation land — deliberately undated here."
   - n: 2
     what: "Study 1 — fluid coupling, measured"
     when: "2026-07 – 2026-09"

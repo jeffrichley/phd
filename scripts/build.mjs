@@ -158,7 +158,7 @@ function finish($, name) {
   const headMeta = $(".pagehead__meta");
   if (headMeta.length) {
     headMeta.first().html(
-      `<span class="mono">${fm.version}</span> · ${statusSpan("open", "Draft — under advisor review")} · prepared for ${fm.prepared_for} · <span class="mono">${fm.dated instanceof Date ? fm.dated.toISOString().slice(0, 10) : fm.dated}</span>`
+      `<span class="mono">${fm.version}</span> · ${statusSpan("open", "Draft")} · prepared for ${fm.prepared_for} · <span class="mono">${fm.dated instanceof Date ? fm.dated.toISOString().slice(0, 10) : fm.dated}</span>`
     );
   }
   finish($, "proposal.html");

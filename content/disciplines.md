@@ -57,10 +57,10 @@ it was shared.
 
 ## The record is append-only
 
-Decisions and meeting notes are dated files that are never edited after the fact — a
-superseding decision is a new entry against a named document version, and the repository
-history is the audit trail. What you read here is what was true when it was written, or
-a new dated entry saying otherwise.
+From the moment an entry is published to this site's readers, it is never edited after
+the fact — a correction or superseding decision is a new dated entry against a named
+version, and the repository history is the audit trail. What you read here is what was
+true when it was written, or a new dated entry saying otherwise.
 
 *In force at:* [§07 Committee &amp; approvals](approvals.html) · [§08 Advisor log](notes.html)
 
@@ -69,14 +69,14 @@ a new dated entry saying otherwise.
 Nothing on this site is padded to look finished. Unfilled sections render as labelled
 placeholders; a hypothesis stays **○ Open** until a preregistered run reports; a figure
 plate stays empty until there is a run behind it; statuses are exact words — *drafted,
-under advisor review, submitted* — never optimistic blurs. If a surface here looks
+delivered, under review, submitted* — never optimistic blurs. If a surface here looks
 sparse, that is the state of the work, and it will fill in public.
 
 ## Two claims, two bars
 
 The dissertation claims only what its evidence supports at the venue's bar; the
-simulation platform underneath is held to a stricter standard than any single claim
-needs, because every downstream result inherits its fidelity. That is why paper 1 exists
-at all: the apparatus is validated before anything is measured on it.
+simulation platform underneath is deliberately validated beyond what any single claim
+requires. That is why paper 1 exists at all: the apparatus is trusted first, and only
+then is anything measured on it.
 
 *In force at:* [§04 Results](results.html) · [Method &amp; platform, §01 Proposal](proposal.html)

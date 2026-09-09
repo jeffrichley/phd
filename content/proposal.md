@@ -8,7 +8,7 @@ risks:
   - risk: "Coursework pace, not research, gates the calendar (15 coursework credits remain)"
     likelihood: medium
     impact: high
-    mitigation: "Three MAE 897 independent studies mapped onto the three remaining research pieces; MAE 899 front-loadable; 800-level offering-rotation and Plan of Study requests already in flight"
+    mitigation: "MAE 897 independent studies ride the dissertation's own research pieces; MAE 899 is front-loadable; the Plan of Study (requests in flight) settles the remaining course slots and the 800-level arithmetic"
   - risk: "The thesis is falsified — transfer benefit scales with task similarity"
     likelihood: medium
     impact: medium
@@ -27,7 +27,7 @@ research_questions:
   - "Can certified operating envelopes let a planner refuse missions outside the skill library's coverage with the uncovered facet named, at a lower false-confidence rate than any opaque similarity threshold?"
 contributions:
   - "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed (bias floor of force-only approximations quantified at 16–20%; plugin matches the bare engine to 0.02%)"
-  - "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on twelve acquisition targets spanning parametric and categorical task variation"
+  - "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
   - "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named"
 slots:
   Abstract: proposal.abstract
@@ -97,7 +97,7 @@ the categorical remainder into forward transfer.
 Three studies, one spine: structure buys what opacity cannot. Study 1 measures the fluid
 coupling — the validation protocol, the plugin that injects Fossen-model hydrodynamics
 into the solver's own force buffer, the quantified bias floor — and establishes *why*
-gait modes are categorical. Study 2 cashes that structure at acquisition time: twelve
+gait modes are categorical. Study 2 cashes that structure at acquisition time: fifteen
 target skills spanning the dial/switch boundary, each acquired from scratch, from the
 nearest skill, and scaffolded from several retrieved skills through the structured
 memory. Study 3 cashes it at planning time: certified envelopes on every skill card and
@@ -125,8 +125,8 @@ fail rather than landing between their parents.
 ## Resources
 
 All computation in simulation: development on a personal RTX 4060 Ti; training campaigns
-on DoD HPCMP systems under written permission, tens of GPU-hours per campaign. No ODU
-lab resources are required. Every paper and preprint receives a same-day government
+on DoD HPC allocations, tens of GPU-hours total to date. No ODU
+lab resources are required. Every paper and preprint receives a same-day or next-day government
 pre-publication read before it goes out.
 
 ## Scope boundaries

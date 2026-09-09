@@ -1,28 +1,27 @@
 ---
-# → results.html (§04). Figures are paper 1's actual publication figures, copied from
-# papers/underwater-hydro-fidelity/paper/figures/ with their generator provenance intact.
+# → results.html (§04). Figures are paper 1's actual publication figures (PNGs byte-
+# identical to paper/figures/); provenance per each figure's .provenance.md sidecar.
 # Figure numbers match the page's fixed plates: 1 = headline, 2–3 = RQ1 panel.
 # The RQ2/RQ3/ablation plates stay honestly unfilled until those studies run.
-# Rule honored: no number on this page without a run behind it.
 figures:
   - n: 1
     file: figures/fig3_bias_floor_s1.png
-    caption: "The headline result: force-only added-mass approximations carry a 16–20% trajectory bias floor for an articulated undulating body (sealed study, n = 7)."
+    caption: "The headline result: force-only added-mass approximations carry a trajectory bias floor of order 16–20% for an articulated undulating body (sealed 7-point Δt-refinement study)."
     runs: [exp-002]
     group: headline
   - n: 2
     file: figures/fig2_gap_cost.png
-    caption: "The specification–realisation gap and what force-only approximation costs."
-    runs: [exp-001, exp-002]
+    caption: "The specification–realisation gap (free-body effective-mass probe: stock = dry mass; plugin = 1.115 axial / 1.345 lateral) and the cost of approximating it."
+    runs: [exp-000]
     group: rq1
   - n: 3
     file: figures/fig3_throughput.png
-    caption: "Environment throughput of the validated plugin path at scale: validated physics does not cost the GPU pipeline its parallelism."
+    caption: "Throughput scaling on one A100 (historical path-C benchmark, July 2026). The sealed fork-on measurement is separate: 644k steps/s at 16,384 envs, ~1% below fork-off on the same commit — a viability result, with no parity claimed across solver paths."
     runs: [exp-003]
     group: rq1
 headline_numbers:
-  primary_metric: "16–20% bias floor (force-only approximations)"
-  best_baseline: "plugin matches bare engine to 0.02% when disabled"
-  seeds_per_cell: "7 (bias-floor study)"
+  primary_metric: "bias floor of order 16–20% (force-only approximations)"
+  best_baseline: "force-buffer injection check: 0.02% match to the bare engine"
+  seeds_per_cell: "deterministic Δt-refinement (7 points); statistical seeds arrive with study 2"
   compute_hours: ""
 ---
