@@ -72,6 +72,7 @@ const openHypotheses = allHypotheses.filter((h) => h.status === "open").length;
 const supportedHypotheses = allHypotheses.filter((h) => h.status === "supported").length;
 const disciplinesC = mdFile(`${C}/disciplines.md`);
 const tenetCount = (disciplinesC.content.match(/^## /gm) ?? []).length;
+const litEntries = listDir(`${C}/literature`, (f) => /^lit-\d+\.md$/.test(f));
 
 // ---------- output scaffold ----------
 fs.rmSync(OUT, { recursive: true, force: true });
@@ -167,7 +168,7 @@ function finish($, name) {
     "questions.html": [`${allHypotheses.length} hypotheses`, `${supportedHypotheses} supported`],
     "experiments.html": [`${experiments.length} runs`, "Ledger live"],
     "results.html": [`${results.figures.length} of 6 plates filled`, "Study 1"],
-    "literature.html": [`${threads.length} threads`, "Entries pending verification"],
+    "literature.html": [`${threads.length} threads`, litEntries.length ? `${litEntries.length} entries` : "Entries pending verification"],
     "timeline.html": [`${timelineC.stages.length} stages`, "In motion"],
     "notes.html": [`${advisorNotes.length} entries`, "Advisor log"],
     "approvals.html": ["Form D1 in progress", "No decisions yet"],
@@ -371,18 +372,34 @@ function finish($, name) {
     const chipEl = $(`[data-filter-group="thread"][data-filter-value="${t.id}"]`);
     if (chipEl.length) chipEl.text(`${t.id.toUpperCase()} · ${t.chip ?? t.name}`);
   }
-  // no lit-###.md records exist yet: the four exemplar entry cards assert entries that
-  // aren't there (contract §8.1/§8.8) — delete them and show the honest empty note
-  const litEntries = listDir(`${C}/literature`);
+  // entry cards: exemplars never survive (§8.8); real entries render from content/literature/lit-*.md
+  const litList = $('[data-od-slot^="lit.0"]').first().closest("ul");
+  $('[data-od-slot^="lit.0"]').each((_, el) => {
+    const card = $(el).closest(".card");
+    (card.length ? card : $(el)).remove();
+  });
   if (litEntries.length === 0) {
-    $('[data-od-slot^="lit.0"]').each((_, el) => {
-      const card = $(el).closest(".card");
-      (card.length ? card : $(el)).remove();
-    });
     $(".empty").removeAttr("hidden").html(`<strong>No entries published yet.</strong>
           A source appears here only after its document has been retrieved, read, and
           verified — see <a href="disciplines.html">§10 Disciplines</a>. The threads above
           name where each entry will land.`);
+  } else {
+    for (const e of litEntries) {
+      const d = e.data;
+      const read = d.read ? (d.read instanceof Date ? d.read.toISOString().slice(0, 10) : String(d.read)) : "";
+      const bearing = (d.bearing_on ?? []).map((r) => r.toUpperCase()).join(", ");
+      litList.append(`\n<li class="card" data-item data-thread="${d.thread}">
+  <div class="row" style="justify-content:space-between">
+    <span class="card__num">${d.id}</span><span class="tag">Thread ${d.thread.toUpperCase()}</span>
+  </div>
+  <p style="margin:var(--s2) 0 0">${mdInline(d.cite)}</p>
+  <div class="grid grid--2" style="margin-top:var(--s3)">
+    <div class="prose"><p class="card__num">Does</p><p>${mdInline(d.does)}</p></div>
+    <div class="prose"><p class="card__num">Stops · the gap</p><p>${mdInline(d.stops)}</p></div>
+  </div>
+  <span class="card__foot"><span>Bearing on: ${bearing || '<span class="dash">—</span>'} · <a href="${d.id}.html">Full distillation →</a></span><span>Read: ${read || '<span class="dash">—</span>'}</span></span>
+</li>`);
+    }
   }
   finish($, "literature.html");
 }
@@ -646,6 +663,19 @@ logEntries.forEach((e, i) => {
     kicker: d.data.kicker, title: d.data.title, lead: d.data.lead,
     bodyHtml: md(d.content), currentHref: "disciplines.html",
     prev: { href: FEED_INDEX, title: "§09 Lab log" },
+  });
+}
+// §05 detail pages — the distillation an unhurried committee member reads
+for (const e of litEntries) {
+  const d = e.data;
+  const threadName = threads.find((t) => t.id === d.thread)?.name ?? "";
+  genContentPage(`${d.id}.html`, {
+    kicker: `§05 · Related work · Thread ${d.thread.toUpperCase()}`,
+    title: d.cite,
+    lead: `${threadName}. Bearing on ${(d.bearing_on ?? []).map((r) => r.toUpperCase()).join(", ") || "—"} — and where it stops: ${d.stops}`,
+    bodyHtml: md(e.content),
+    currentHref: "literature.html",
+    prev: { href: "literature.html", title: "§05 Related work" },
   });
 }
 // People profiles (linked from §07; not rail sections)
