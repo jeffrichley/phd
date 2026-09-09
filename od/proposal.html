@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>§01 Proposal — Lifelong Learning in Embodied Robotics</title>
+<meta name="description" content="Dissertation proposal: problem, gap, thesis, approach, contributions, evaluation, risks.">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="rail">≡ <span>Sections</span></button>
+  <a class="wordmark" href="index.html">
+    <span class="wordmark__name">Jeff Richley</span>
+    <span class="wordmark__sub">Doctoral research record</span>
+  </a>
+  <div class="topbar__end">
+    <span class="stagemark">Doc <b>v0.1</b> · Draft</span>
+  </div>
+</header>
+
+<div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+<div class="shell">
+  <nav id="rail" class="rail" aria-label="Sections">
+    <button class="btn btn--ghost btn--small rail__close" data-nav-close style="margin-bottom:var(--s5)">← Close</button>
+    <div class="rail__group">
+      <p class="rail__label">The record</p>
+      <a class="rail__link" href="index.html"><span class="rail__num">§00</span><span>Overview</span></a>
+      <a class="rail__link" href="proposal.html" aria-current="page"><span class="rail__num">§01</span><span>Proposal</span></a>
+      <a class="rail__link" href="questions.html"><span class="rail__num">§02</span><span>Questions &amp; hypotheses</span></a>
+      <a class="rail__link" href="experiments.html"><span class="rail__num">§03</span><span>Experiments</span></a>
+      <a class="rail__link" href="results.html"><span class="rail__num">§04</span><span>Results &amp; figures</span></a>
+      <a class="rail__link" href="literature.html"><span class="rail__num">§05</span><span>Related work</span></a>
+    </div>
+    <div class="rail__group">
+      <p class="rail__label">In this document</p>
+      <a class="rail__link" href="#s10"><span class="rail__num">1.0</span><span>Abstract</span></a>
+      <a class="rail__link" href="#s11"><span class="rail__num">1.1</span><span>Problem</span></a>
+      <a class="rail__link" href="#s12"><span class="rail__num">1.2</span><span>Gap</span></a>
+      <a class="rail__link" href="#s13"><span class="rail__num">1.3</span><span>Thesis</span></a>
+      <a class="rail__link" href="#s14"><span class="rail__num">1.4</span><span>Questions</span></a>
+      <a class="rail__link" href="#s15"><span class="rail__num">1.5</span><span>Approach</span></a>
+      <a class="rail__link" href="#s16"><span class="rail__num">1.6</span><span>Contributions</span></a>
+      <a class="rail__link" href="#s17"><span class="rail__num">1.7</span><span>Evaluation</span></a>
+      <a class="rail__link" href="#s18"><span class="rail__num">1.8</span><span>Risks</span></a>
+      <a class="rail__link" href="#s19"><span class="rail__num">1.9</span><span>Resources</span></a>
+      <a class="rail__link" href="#s110"><span class="rail__num">1.10</span><span>Scope</span></a>
+    </div>
+    <div class="rail__group">
+      <p class="rail__label">The process</p>
+      <a class="rail__link" href="timeline.html"><span class="rail__num">§06</span><span>Timeline</span></a>
+      <a class="rail__link" href="approvals.html"><span class="rail__num">§07</span><span>Committee &amp; approvals</span></a>
+      <a class="rail__link" href="notes.html"><span class="rail__num">§08</span><span>Advisor log</span></a>
+      <a class="rail__link" href="tpl-feed-index.html"><span class="rail__num">§09</span><span>Lab log</span></a>
+    </div>
+  </nav>
+
+  <main id="main" class="main">
+    <div class="wrap">
+
+      <header class="pagehead">
+        <p class="kicker">§01 · Dissertation proposal</p>
+        <h1>Lifelong Learning in Embodied Robotics</h1>
+        <p class="lede" data-od-slot="proposal.subtitle">
+          <span class="dash">—</span> Working subtitle. One clause that says what the dissertation
+          builds and what it demonstrates.
+        </p>
+        <div class="pagehead__meta">
+          <span>Version <b style="color:var(--accent)">v0.1</b></span>
+          <span>Status Draft</span>
+          <span>Prepared for <span class="dash">—</span></span>
+          <span>Dated <span class="dash">—</span></span>
+          <span>Words <span class="dash">—</span></span>
+        </div>
+        <div class="row no-print" style="margin-top:var(--s5)">
+          <a class="btn" href="approvals.html">Record a decision on this document</a>
+          <button class="btn btn--ghost" type="button" onclick="window.print()">Print / export as PDF</button>
+        </div>
+      </header>
+
+      <!-- ============================ 1.0 ============================ -->
+      <section class="sec doc" id="s10">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.0</span><h2 class="sec__title">Abstract</h2></div>
+          <div class="slot" data-od-slot="proposal.abstract">
+            <span class="slot__key">proposal.abstract <b>· required</b></span>
+            <p class="slot__hint">150–250 words. The whole argument compressed: the situation, the
+              specific failure, what you will build, how you will know it worked. An advisor who
+              reads only this paragraph should be able to say yes or no.</p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">On this section</span>
+              Write it last. An abstract drafted before §1.6 exists is a description of
+              an intention, not of a contribution.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.1 ============================ -->
+      <section class="sec doc" id="s11">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.1</span><h2 class="sec__title">Problem statement</h2></div>
+          <div class="slot" data-od-slot="proposal.problem">
+            <span class="slot__key">proposal.problem <b>· required</b></span>
+            <p class="slot__hint">The concrete situation a deployed embodied agent is in, stated
+              without reference to any method. What task distribution shifts, over what horizon,
+              and what breaks when it does. Name a real setting rather than "real-world tasks".</p>
+          </div>
+          <div class="slot" data-od-slot="proposal.problem.stakes">
+            <span class="slot__key">proposal.problem.stakes</span>
+            <p class="slot__hint">Optional. Why the failure matters — cost, safety, or scientific
+              consequence. One paragraph, no adjectives that a reviewer could ask you to defend.</p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Test</span>
+              If this section could open a paper by any of the four authors in
+              <a href="literature.html">§05</a>, it is not yet your problem statement.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.2 ============================ -->
+      <section class="sec doc" id="s12">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.2</span><h2 class="sec__title">The gap</h2></div>
+          <div class="slot" data-od-slot="proposal.gap">
+            <span class="slot__key">proposal.gap <b>· required</b></span>
+            <p class="slot__hint">Not "little work exists". Name the three or four closest lines of
+              work, grant each its actual achievement, then identify the precise assumption each
+              one makes that does not hold in §1.1. Every claim here should point at an entry in
+              <a href="literature.html">§05</a>.</p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note note--pending">
+              <span class="note__who">Dependency</span>
+              This section cannot be written before <a href="literature.html">§05</a>
+              has entries. The gap is a claim about the literature and needs the
+              literature underneath it.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.3 ============================ -->
+      <section class="sec doc" id="s13">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.3</span><h2 class="sec__title">Thesis statement</h2></div>
+          <div class="slot slot--tall" data-od-slot="proposal.thesis">
+            <span class="slot__key">proposal.thesis <b>· required · one sentence</b></span>
+            <p class="slot__hint">A single declarative sentence that could be wrong. Of the form:
+              <em>“&lt;mechanism&gt; enables &lt;capability&gt; under &lt;conditions&gt;, measured
+              by &lt;criterion&gt;.”</em> This sentence is the dissertation. Everything below is
+              apparatus for testing it, and it is the line the committee will quote back to you.</p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Falsifiability</span>
+              Ask what result would make this sentence false. If nothing would, it is
+              a research area, not a thesis.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.4 ============================ -->
+      <section class="sec doc" id="s14">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.4</span><h2 class="sec__title">Research questions</h2></div>
+          <p class="small muted">Stated here in summary. Each question, its hypotheses and their live
+            status are maintained in <a href="questions.html">§02</a><button class="anchor-mark"
+            data-target="n14" aria-label="See note on why questions are maintained separately">1</button>.</p>
+          <div class="slot slot--inline" data-od-slot="proposal.rq.1">
+            <span class="slot__key">proposal.rq.1 <b>· required</b></span>
+            <p class="slot__hint">RQ1 — <span class="dash">—</span></p>
+          </div>
+          <div class="slot slot--inline" data-od-slot="proposal.rq.2">
+            <span class="slot__key">proposal.rq.2 <b>· required</b></span>
+            <p class="slot__hint">RQ2 — <span class="dash">—</span></p>
+          </div>
+          <div class="slot slot--inline" data-od-slot="proposal.rq.3">
+            <span class="slot__key">proposal.rq.3</span>
+            <p class="slot__hint">RQ3 — <span class="dash">—</span> Optional. Three is a comfortable
+              dissertation; four is usually two dissertations.</p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note" id="n14">
+              <span class="note__who">Note 1 · Separation</span>
+              The proposal is a fixed, versioned document. Hypothesis status changes
+              weekly. Keeping them apart means §02 can move without reopening a
+              document the committee has already approved.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.5 ============================ -->
+      <section class="sec doc" id="s15">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.5</span><h2 class="sec__title">Approach</h2></div>
+          <div class="slot" data-od-slot="proposal.approach">
+            <span class="slot__key">proposal.approach <b>· required</b></span>
+            <p class="slot__hint">The method sketch. Enough formalism that a reader can tell what is
+              new, not so much that it becomes a paper. Say what is borrowed and from where; say
+              what you are inventing and why the borrowed thing was insufficient.</p>
+          </div>
+          <figure>
+            <div class="plate" style="aspect-ratio:21/9">
+              <p class="plate__key">
+                figure/approach-overview.svg<br>
+                system diagram · 1600 × 700 · drop file here
+              </p>
+            </div>
+            <figcaption><b>Figure 1</b> — System overview. Awaiting art. A proposal is much
+              easier to approve when one diagram carries the architecture.</figcaption>
+          </figure>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Scope guard</span>
+              Anything described here that is not tested in §1.7 belongs in
+              §1.10 as future work, not here.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.6 ============================ -->
+      <section class="sec doc" id="s16">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.6</span><h2 class="sec__title">Claimed contributions</h2></div>
+          <div class="slot slot--inline" data-od-slot="proposal.contribution.1">
+            <span class="slot__key">proposal.contribution.1 <b>· required</b></span>
+            <p class="slot__hint">C1 — <span class="dash">—</span> State it as a thing that will
+              exist afterwards: an algorithm, a benchmark, a proof, a dataset, a negative result.</p>
+          </div>
+          <div class="slot slot--inline" data-od-slot="proposal.contribution.2">
+            <span class="slot__key">proposal.contribution.2 <b>· required</b></span>
+            <p class="slot__hint">C2 — <span class="dash">—</span></p>
+          </div>
+          <div class="slot slot--inline" data-od-slot="proposal.contribution.3">
+            <span class="slot__key">proposal.contribution.3</span>
+            <p class="slot__hint">C3 — <span class="dash">—</span></p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Mapping</span>
+              Each contribution should trace to at least one research question in
+              §1.4 and at least one evaluation in §1.7. A contribution with no
+              evaluation is a plan; a question with no contribution is a detour.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.7 ============================ -->
+      <section class="sec doc" id="s17">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.7</span><h2 class="sec__title">Evaluation plan</h2></div>
+          <div class="slot" data-od-slot="proposal.evaluation">
+            <span class="slot__key">proposal.evaluation <b>· required</b></span>
+            <p class="slot__hint">Environments, baselines, metrics, seed counts, statistical
+              treatment. Commit in advance to what counts as success — pre-registering the bar is
+              the cheapest defence against a reviewer who later moves it.</p>
+          </div>
+          <div class="slot slot--inline" data-od-slot="proposal.evaluation.baselines">
+            <span class="slot__key">proposal.evaluation.baselines</span>
+            <p class="slot__hint">Named baselines and why each is the fair comparison, not the
+              convenient one. Runs appear in <a href="experiments.html">§03</a> as they complete.</p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Pre-registration</span>
+              Once approved, this section becomes the contract. Changing a metric
+              after seeing results is legitimate — but it goes in
+              <a href="notes.html">§08</a> with a reason.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.8 ============================ -->
+      <section class="sec doc" id="s18">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.8</span><h2 class="sec__title">Risks &amp; mitigations</h2></div>
+          <div class="table-wrap">
+            <table class="data">
+              <caption class="sr-only">Identified risks, their likelihood, impact and mitigation</caption>
+              <thead>
+                <tr><th scope="col">Risk</th><th scope="col">Likelihood</th><th scope="col">Impact</th><th scope="col">Mitigation</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="mono">risk.1</span> <span class="dash">—</span></td>
+                  <td><span class="dash">—</span></td><td><span class="dash">—</span></td>
+                  <td><span class="dash">—</span></td>
+                </tr>
+                <tr>
+                  <td><span class="mono">risk.2</span> <span class="dash">—</span></td>
+                  <td><span class="dash">—</span></td><td><span class="dash">—</span></td>
+                  <td><span class="dash">—</span></td>
+                </tr>
+                <tr>
+                  <td><span class="mono">risk.3</span> <span class="dash">—</span></td>
+                  <td><span class="dash">—</span></td><td><span class="dash">—</span></td>
+                  <td><span class="dash">—</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="small muted" style="margin-top:var(--s3)">
+            Rows are generated from <code class="mono">content/proposal.md</code> →
+            <code class="mono">risks:</code> list. Three rows shown as the table's resting shape.
+          </p>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Credibility</span>
+              A proposal with no stated risks reads as one that has not been thought
+              through. Include at least one risk you genuinely cannot fully mitigate.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.9 ============================ -->
+      <section class="sec doc" id="s19">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.9</span><h2 class="sec__title">Resources &amp; schedule</h2></div>
+          <div class="slot" data-od-slot="proposal.resources">
+            <span class="slot__key">proposal.resources</span>
+            <p class="slot__hint">Compute, hardware, robot access, data, collaborators, funding.
+              Be specific about what is already secured versus what is assumed.</p>
+          </div>
+          <p class="small muted">The dated schedule is maintained in
+            <a href="timeline.html">§06</a> and summarised into this document at version cut.</p>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Common objection</span>
+              “Is this feasible in the time available?” is the second question every
+              committee asks. Answer it here, in months, not adjectives.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ 1.10 ============================ -->
+      <section class="sec doc" id="s110">
+        <div class="doc__body">
+          <div class="sec__head"><span class="sec__num">1.10</span><h2 class="sec__title">Scope boundaries</h2></div>
+          <div class="slot" data-od-slot="proposal.scope">
+            <span class="slot__key">proposal.scope <b>· required</b></span>
+            <p class="slot__hint">What this dissertation is <em>not</em>. Explicitly excluded
+              settings, assumptions you are granting yourself, and adjacent problems you are
+              deliberately leaving alone. This section prevents scope creep during the defence.</p>
+          </div>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Why it earns its space</span>
+              A crisp exclusion list converts an open-ended objection into an
+              already-answered one.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================ decision ============================ -->
+      <section class="sec sec--rule no-print">
+        <div class="callout callout--accent">
+          <h3>Ready for a decision?</h3>
+          <p>When this document is complete, cut a version and send it to
+            <a href="approvals.html">§07 Committee &amp; approvals</a>. Decisions are recorded
+            against a named version, so “approved” always refers to something specific.</p>
+          <div class="row" style="margin-top:var(--s4)">
+            <a class="btn" href="approvals.html">Go to approvals</a>
+            <a class="btn btn--ghost" href="questions.html">Next: §02 Questions &amp; hypotheses →</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

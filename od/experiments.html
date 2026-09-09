@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>§03 Experiments — Lifelong Learning in Embodied Robotics</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="rail">≡ <span>Sections</span></button>
+  <a class="wordmark" href="index.html">
+    <span class="wordmark__name">Jeff Richley</span>
+    <span class="wordmark__sub">Doctoral research record</span>
+  </a>
+  <div class="topbar__end"><span class="stagemark">Runs <b>0</b> recorded</span></div>
+</header>
+
+<div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+<div class="shell">
+  <nav id="rail" class="rail" aria-label="Sections">
+    <button class="btn btn--ghost btn--small rail__close" data-nav-close style="margin-bottom:var(--s5)">← Close</button>
+    <div class="rail__group">
+      <p class="rail__label">The record</p>
+      <a class="rail__link" href="index.html"><span class="rail__num">§00</span><span>Overview</span></a>
+      <a class="rail__link" href="proposal.html"><span class="rail__num">§01</span><span>Proposal</span></a>
+      <a class="rail__link" href="questions.html"><span class="rail__num">§02</span><span>Questions &amp; hypotheses</span></a>
+      <a class="rail__link" href="experiments.html" aria-current="page"><span class="rail__num">§03</span><span>Experiments</span></a>
+      <a class="rail__link" href="results.html"><span class="rail__num">§04</span><span>Results &amp; figures</span></a>
+      <a class="rail__link" href="literature.html"><span class="rail__num">§05</span><span>Related work</span></a>
+    </div>
+    <div class="rail__group">
+      <p class="rail__label">The process</p>
+      <a class="rail__link" href="timeline.html"><span class="rail__num">§06</span><span>Timeline</span></a>
+      <a class="rail__link" href="approvals.html"><span class="rail__num">§07</span><span>Committee &amp; approvals</span></a>
+      <a class="rail__link" href="notes.html"><span class="rail__num">§08</span><span>Advisor log</span></a>
+      <a class="rail__link" href="tpl-feed-index.html"><span class="rail__num">§09</span><span>Lab log</span></a>
+    </div>
+    <div class="rail__group">
+      <p class="rail__label">Outward</p>
+      <a class="rail__link" href="landing.html"><span class="rail__num">↗</span><span>Public page</span></a>
+    </div>
+  </nav>
+
+  <main id="main" class="main">
+    <div class="wrap wrap--wide">
+
+      <header class="pagehead">
+        <p class="kicker">§03 · Experiments</p>
+        <h1>Run ledger</h1>
+        <p class="lede">One row per run, immutable once reported. Every claim made anywhere else on
+          this site should be traceable to a run ID here.</p>
+        <div class="pagehead__meta">
+          <span>Records 0</span>
+          <span>Source <code class="mono">content/experiments/*.md</code></span>
+          <span>Sortable · filterable · expandable</span>
+        </div>
+      </header>
+
+      <div data-filter-scope>
+        <div class="toolbar">
+          <div class="toolbar__group" role="group" aria-label="Filter by run status">
+            <button class="chip" data-filter-group="state" data-filter-value="*" aria-pressed="true">All</button>
+            <button class="chip" data-filter-group="state" data-filter-value="running" aria-pressed="false">◐ Running</button>
+            <button class="chip" data-filter-group="state" data-filter-value="done" aria-pressed="false">● Complete</button>
+            <button class="chip" data-filter-group="state" data-filter-value="failed" aria-pressed="false">✕ Failed</button>
+            <button class="chip" data-filter-group="state" data-filter-value="unfilled" aria-pressed="false">◌ Unfilled</button>
+          </div>
+          <div class="toolbar__group" role="group" aria-label="Filter by research question">
+            <button class="chip" data-filter-group="rq" data-filter-value="*" aria-pressed="true">All RQs</button>
+            <button class="chip" data-filter-group="rq" data-filter-value="rq1" aria-pressed="false">RQ1</button>
+            <button class="chip" data-filter-group="rq" data-filter-value="rq2" aria-pressed="false">RQ2</button>
+            <button class="chip" data-filter-group="rq" data-filter-value="rq3" aria-pressed="false">RQ3</button>
+          </div>
+          <div class="searchbox">
+            <label class="sr-only" for="rq-search">Filter runs</label>
+            <input type="search" id="rq-search" data-search autocomplete="off" placeholder="Filter run id, env, method…">
+          </div>
+          <span class="toolbar__count" data-count aria-live="polite"></span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data" data-sortable>
+            <caption class="sr-only">Experiment run ledger, sortable by column</caption>
+            <thead>
+              <tr>
+                <th scope="col" data-sort="text"><button type="button">Run</button></th>
+                <th scope="col" data-sort="text"><button type="button">Date</button></th>
+                <th scope="col" data-sort="text"><button type="button">RQ / H</button></th>
+                <th scope="col" data-sort="text"><button type="button">Environment</button></th>
+                <th scope="col" data-sort="text"><button type="button">Method</button></th>
+                <th scope="col" data-sort="num"><button type="button">Seeds</button></th>
+                <th scope="col" data-sort="text"><button type="button">Status</button></th>
+                <th scope="col"><span class="sr-only">Detail</span></th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr data-item data-state="unfilled" data-rq="rq1">
+                <td class="mono">exp-001</td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="tag tag--rq">RQ1</span> <span class="dash">—</span></td>
+                <td><span class="mono">exp.env</span></td>
+                <td><span class="mono">exp.method</span></td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">◌</span>Unfilled</span></td>
+                <td><button class="rowbtn" data-expand aria-expanded="false" aria-controls="d001" aria-label="Show detail for exp-001">+</button></td>
+              </tr>
+              <tr class="detail" id="d001" hidden>
+                <td colspan="8">
+                  <div class="grid grid--2">
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.config</span>
+                      <p class="slot__hint">Hyperparameters, commit hash, hardware. Paste the resolved config, not the CLI you typed.</p></div>
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.metrics</span>
+                      <p class="slot__hint">Reported numbers with dispersion across seeds. Mean alone is not a result.</p></div>
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.artifacts</span>
+                      <p class="slot__hint">Checkpoints, logs, plots. Link, don't embed.</p></div>
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.reading</span>
+                      <p class="slot__hint">What it means for the hypothesis — written before you look at the next run.</p></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr data-item data-state="unfilled" data-rq="rq1">
+                <td class="mono">exp-002</td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="tag tag--rq">RQ1</span> <span class="dash">—</span></td>
+                <td><span class="mono">exp.env</span></td>
+                <td><span class="mono">exp.method</span></td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">◌</span>Unfilled</span></td>
+                <td><button class="rowbtn" data-expand aria-expanded="false" aria-controls="d002" aria-label="Show detail for exp-002">+</button></td>
+              </tr>
+              <tr class="detail" id="d002" hidden>
+                <td colspan="8">
+                  <div class="grid grid--2">
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.config</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.metrics</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr data-item data-state="unfilled" data-rq="rq2">
+                <td class="mono">exp-003</td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="tag tag--rq">RQ2</span> <span class="dash">—</span></td>
+                <td><span class="mono">exp.env</span></td>
+                <td><span class="mono">exp.method</span></td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">◌</span>Unfilled</span></td>
+                <td><button class="rowbtn" data-expand aria-expanded="false" aria-controls="d003" aria-label="Show detail for exp-003">+</button></td>
+              </tr>
+              <tr class="detail" id="d003" hidden>
+                <td colspan="8">
+                  <div class="grid grid--2">
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.config</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.metrics</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr data-item data-state="unfilled" data-rq="rq2">
+                <td class="mono">exp-004</td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="tag tag--rq">RQ2</span> <span class="dash">—</span></td>
+                <td><span class="mono">exp.env</span></td>
+                <td><span class="mono">exp.method</span></td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">◌</span>Unfilled</span></td>
+                <td><button class="rowbtn" data-expand aria-expanded="false" aria-controls="d004" aria-label="Show detail for exp-004">+</button></td>
+              </tr>
+              <tr class="detail" id="d004" hidden>
+                <td colspan="8">
+                  <div class="grid grid--2">
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.config</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.metrics</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr data-item data-state="unfilled" data-rq="rq3">
+                <td class="mono">exp-005</td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="tag tag--rq">RQ3</span> <span class="dash">—</span></td>
+                <td><span class="mono">exp.env</span></td>
+                <td><span class="mono">exp.method</span></td>
+                <td class="num"><span class="dash">—</span></td>
+                <td><span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">◌</span>Unfilled</span></td>
+                <td><button class="rowbtn" data-expand aria-expanded="false" aria-controls="d005" aria-label="Show detail for exp-005">+</button></td>
+              </tr>
+              <tr class="detail" id="d005" hidden>
+                <td colspan="8">
+                  <div class="grid grid--2">
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.config</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                    <div class="slot slot--inline mb-0"><span class="slot__key">exp.metrics</span><p class="slot__hint"><span class="dash">—</span></p></div>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="empty" data-empty hidden style="margin-top:var(--s5)">
+          <strong>No runs match</strong>
+          Nothing in the ledger has that status yet. Clear the filters to see the empty records.
+        </div>
+      </div>
+
+      <p class="small muted" style="margin-top:var(--s4)">
+        Five empty records are shown as the ledger's resting shape. Each is replaced by a real run
+        when its Markdown file lands in <code class="mono">content/experiments/</code>.
+      </p>
+
+      <!-- ============================ record template ============================ -->
+      <section class="sec sec--rule">
+        <div class="doc">
+          <div class="doc__body">
+            <p class="eyebrow-rule">What the ledger records</p>
+            <p class="prose small muted">One Markdown file per run, committed to the repository and
+              published on the next build — there is no way to add a run from this page, by design.
+              The frontmatter below is the complete schema the ledger reads; the body becomes the
+              expanded detail.</p>
+            <pre id="runTemplate" class="mono" style="background:var(--plate);border:var(--hair);border-radius:var(--r-1);padding:var(--s5);overflow-x:auto;font-size:var(--t-caption);line-height:1.7">---
+id: exp-006
+date: 2026-09-08
+rq: rq1
+hypothesis: H1.1
+env: <environment name / version>
+method: <method or baseline name>
+seeds: 5
+status: running        # queued | running | done | failed | superseded
+commit: <git sha>
+metrics:
+  success_rate: [mean, std]
+  forgetting: [mean, std]
+artifacts:
+  - label: training curves
+    href: <url>
+---
+
+## Reading
+What this run says about the hypothesis, written before the next run starts.
+</pre>
+          </div>
+          <aside class="doc__margin">
+            <div class="margin-stack">
+              <div class="note">
+                <span class="note__who">Immutability</span>
+                Never edit a reported run. Supersede it with a new id and set the old
+                one's status to <span class="mono">superseded</span>. The trail is
+                what makes the ledger worth having.
+              </div>
+              <div class="note">
+                <span class="note__who">Seeds</span>
+                The <span class="mono">seeds</span> field is sortable so you can find
+                the under-powered runs before a committee member does.
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

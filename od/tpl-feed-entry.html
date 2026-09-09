@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ entry.title }} — Lab log</title>
+<meta name="description" content="{{ entry.excerpt }}">
+
+<!--
+  ===========================================================================
+  TEMPLATE 4 of 4 — FEED ENTRY
+
+  MECHANICS
+    data-od-slot="key"    fill in place; unfilled slots stay as placeholders
+    data-od-block="name"  a markup pattern: clone per occurrence in the body
+                          Markdown, then delete the exemplar
+
+  The block library below is byte-identical to tpl-content.html. One set of
+  block patterns serves both templates — write the converter against it once.
+
+  TAG — one of result · decision · milestone · finding, or none.
+  Class is tag--<value>. Delete the whole tag span when the entry is untagged.
+
+  PATHS
+    Relative hrefs so this previews from the project root. Feed entries in
+    Eleventy normally live at /lab/<slug>/, which is one level down — change
+    both <link> hrefs and every nav href to root-relative before building.
+  ===========================================================================
+-->
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="rail">≡ <span>Sections</span></button>
+  <a class="wordmark" href="tpl-landing.html">
+    <span class="wordmark__name" data-od-slot="site.title">Jeff Richley</span>
+    <span class="wordmark__sub" data-od-slot="site.subtitle">Doctoral research record</span>
+  </a>
+  <div class="topbar__end">
+    <span class="stagemark" data-od-slot="site.stage">Stage <b>01</b> · Proposal in draft</span>
+  </div>
+</header>
+
+<div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+<div class="shell">
+
+  <!-- ==== CHROME: section rail =============================================
+       One shell for the whole site — the same left rail the nine hand-built
+       pages use. Do not substitute a horizontal strip here; both families must match.
+
+       REPEAT site.nav — one rail__link anchor per section, inside the
+       group it belongs to. The three groups are fixed chrome; only the links
+       repeat. aria-current="page" goes on exactly one link, and nowhere else.
+
+       The mobile drawer is js/site.js §1. It needs three things present and
+       unrenamed: the #navToggle button in .topbar, the #backdrop div above,
+       and id="rail" on this nav element. Drop any one and the drawer stops
+       below 1024px, where the rail is off-canvas.
+       ==================================================================== -->
+  <nav id="rail" class="rail" aria-label="Sections" data-od-repeat="site.nav">
+    <button class="btn btn--ghost btn--small rail__close" data-nav-close style="margin-bottom:var(--s5)">← Close</button>
+
+    <div class="rail__group">
+      <p class="rail__label">The record</p>
+      <a class="rail__link" href="index.html" data-od-item><span class="rail__num">§00</span><span>Overview</span></a>
+      <a class="rail__link" href="proposal.html" data-od-item><span class="rail__num">§01</span><span>Proposal</span></a>
+      <a class="rail__link" href="questions.html" data-od-item><span class="rail__num">§02</span><span>Questions &amp; hypotheses</span></a>
+      <a class="rail__link" href="experiments.html" data-od-item><span class="rail__num">§03</span><span>Experiments</span></a>
+      <a class="rail__link" href="results.html" data-od-item><span class="rail__num">§04</span><span>Results &amp; figures</span></a>
+      <a class="rail__link" href="literature.html" data-od-item><span class="rail__num">§05</span><span>Related work</span></a>
+    </div>
+
+    <div class="rail__group">
+      <p class="rail__label">The process</p>
+      <a class="rail__link" href="timeline.html" data-od-item><span class="rail__num">§06</span><span>Timeline</span></a>
+      <a class="rail__link" href="approvals.html" data-od-item><span class="rail__num">§07</span><span>Committee &amp; approvals</span></a>
+      <a class="rail__link" href="notes.html" data-od-item><span class="rail__num">§08</span><span>Advisor log</span></a>
+      <a class="rail__link" href="tpl-feed-index.html" data-od-item aria-current="page"><span class="rail__num">§09</span><span>Lab log</span></a>
+    </div>
+
+    <div class="rail__group">
+      <p class="rail__label">Outward</p>
+      <a class="rail__link" href="landing.html" data-od-item><span class="rail__num">↗</span><span>Public page</span></a>
+    </div>
+  </nav>
+
+
+  <main id="main" class="main">
+  <div class="wrap">
+
+    <!-- ==== ENTRY HEAD =================================================== -->
+    <header class="pagehead">
+      <p class="kicker"><a href="tpl-feed-index.html">← Lab log</a></p>
+
+      <div class="row" style="gap:var(--s4); margin-bottom:var(--s3)">
+        <!-- SLOT entry.date | required | ISO in datetime, human text inside -->
+        <time class="feed__date" datetime="" data-od-slot="entry.date">—</time>
+        <!-- SLOT entry.tag | optional | delete this span when untagged -->
+        <span class="tag tag--result" data-od-slot="entry.tag">Result</span>
+      </div>
+
+      <!-- SLOT entry.title | required | h1, one per page -->
+      <h1 data-od-slot="entry.title">Entry title goes here</h1>
+
+      <!-- SLOT entry.excerpt | 1–2 lines | also used by the feed index and
+           the landing strip. Write it once, in frontmatter. -->
+      <p class="lede" data-od-slot="entry.excerpt">
+        <span class="dash">—</span> One or two lines. The same text the index card shows.
+      </p>
+    </header>
+
+    <!-- ==== BODY =========================================================
+         SLOT entry.body | markdown | required
+         Everything between these tags is replaced on fill. The blocks are
+         reference markup, not content.
+         ================================================================= -->
+    <article class="prose" data-od-slot="entry.body">
+
+      <p>
+        Opening paragraph. What happened, and why it is worth a log entry.
+      </p>
+
+      <h2>A second-level heading</h2>
+      <p>Body paragraph.</p>
+
+      <h3>A third-level heading</h3>
+      <ul>
+        <li>Unordered list item.</li>
+        <li>Another item.</li>
+      </ul>
+
+      <blockquote>
+        A pulled quotation, in the display face against a hairline ink rule.
+        <cite data-od-slot="block.quote.source">Attribution — optional</cite>
+      </blockquote>
+
+      <!-- BLOCK callout | flags an open decision -->
+      <div class="callout" data-od-block="callout">
+        <h3 data-od-slot="block.callout.title">Open decision</h3>
+        <p data-od-slot="block.callout.body">
+          What has to be decided, who decides it, and what is blocked until they do.
+        </p>
+      </div>
+
+      <!-- BLOCK figure | image + numbered caption
+           Replace .media__empty with <img src alt>. alt is not the caption. -->
+      <figure data-od-block="figure">
+        <div class="media media--16x10">
+          <div class="media__empty"><p class="plate__key">Figure slot<br>drop an &lt;img&gt; here</p></div>
+        </div>
+        <figcaption>
+          <b>Figure 1</b> <span data-od-slot="block.figure.caption">Caption. What the figure shows,
+          and the runs behind it.</span>
+        </figcaption>
+      </figure>
+
+      <!-- BLOCK video | embed
+           Replace .media__empty with an <iframe> carrying a real title. -->
+      <div class="media media--16x9" data-od-block="video">
+        <div class="media__empty"><p class="plate__key">Video slot<br>drop an &lt;iframe&gt; here</p></div>
+      </div>
+      <p class="small muted" data-od-slot="block.video.caption">Video caption — optional.</p>
+
+      <!-- BLOCK table | status / timeline rows -->
+      <div class="table-wrap" data-od-block="table">
+        <table class="simple">
+          <caption data-od-slot="block.table.caption">Table caption</caption>
+          <thead>
+            <tr><th scope="col">Item</th><th scope="col">Owner</th><th scope="col">Due</th><th scope="col">Status</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Row label</td>
+              <td><span class="dash">—</span></td>
+              <td class="mono"><span class="dash">—</span></td>
+              <td><span class="status" data-state="open"><span class="status__glyph" aria-hidden="true">○</span>Open</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </article>
+
+    <!-- ==== PREV / NEXT ENTRY ============================================
+         Ordered by date. "Previous" is older, "Next" is newer. When there is
+         no neighbour, swap the <a> for
+         <span class="pagenav__link pagenav__link--none"> so the grid keeps
+         both columns.
+         ================================================================= -->
+    <nav class="pagenav" aria-label="Lab log">
+      <a class="pagenav__link" href="#" data-od-slot="entry.prev">
+        <span class="pagenav__dir">← Older</span>
+        <span class="pagenav__title">Previous entry title</span>
+      </a>
+      <a class="pagenav__link pagenav__link--next" href="#" data-od-slot="entry.next">
+        <span class="pagenav__dir">Newer →</span>
+        <span class="pagenav__title">Next entry title</span>
+      </a>
+    </nav>
+
+  </div>
+
+<footer class="sitefoot">
+  <div class="sitefoot__inner">
+    <span data-od-slot="site.footer.line">Doctoral research record</span>
+    <span data-od-slot="site.footer.updated">Updated <span class="dash">—</span></span>
+    <a href="tpl-feed-index.html">All entries</a>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

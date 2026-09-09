@@ -3,10 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "eleventy",
-    "serve": "eleventy --serve"
+    "build": "node scripts/build.mjs",
+    "serve": "npx http-server _site -p 8080"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0"
+    "cheerio": "^1.2.0",
+    "gray-matter": "^4.0.3",
+    "marked": "^18.0.12"
   }
 }

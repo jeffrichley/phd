@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Lifelong Learning in Embodied Robotics — Jeff Richley</title>
+<meta name="description" content="Doctoral research on lifelong learning in embodied robotics: the proposal, the run ledger, and the results, kept in the open.">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+<style>
+/* ==========================================================================
+   Page-scoped styles — public landing surface only.
+   Everything else on this page comes from tokens.css + site.css.
+   ========================================================================== */
+
+/* -- public nav (this page does not use the section rail) ----------------- */
+.landnav {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; gap: var(--s5);
+  padding: 0 var(--pad-x); min-height: 66px;
+  background: color-mix(in oklch, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(1.6) blur(12px);
+  border-bottom: var(--hair);
+}
+.landnav__links { display: flex; gap: var(--s5); margin-left: auto; align-items: center; }
+.landnav__links a {
+  color: var(--fg); font-size: var(--t-small);
+}
+.landnav__links a:last-child { color: var(--accent); }
+
+/* -- hero ------------------------------------------------------------------ */
+.hero { padding: clamp(48px, 9vw, 132px) var(--pad-x) clamp(40px, 6vw, 88px); }
+.hero__inner { max-width: var(--w-wide); margin: 0 auto; }
+.hero h1 {
+  font-size: var(--t-display); letter-spacing: var(--ls-tight);
+  max-width: 15ch; margin: var(--s5) 0 0; text-wrap: balance;
+}
+.hero__lede {
+  font-size: var(--t-lead); color: var(--muted); max-width: 52ch;
+  margin-top: var(--s5); line-height: 1.5;
+}
+.hero__cta { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s7); }
+.hero__meta {
+  display: flex; flex-wrap: wrap; gap: var(--s2) var(--s6);
+  margin-top: var(--s7); padding-top: var(--s5); border-top: var(--hair);
+  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--muted);
+  text-transform: uppercase; letter-spacing: var(--ls-wide);
+}
+
+/* -- band ------------------------------------------------------------------ */
+.band { padding: clamp(48px, 7vw, 104px) var(--pad-x); border-top: var(--hair); }
+.band--ink { background: var(--surface); }
+.band__inner { max-width: var(--w-wide); margin: 0 auto; }
+.band h2 {
+  font-size: var(--t-h2); letter-spacing: var(--ls-tight); max-width: 20ch; margin-bottom: var(--s5);
+}
+
+/* -- pull quote (the thesis, when it exists) -------------------------------- */
+.pull {
+  border-top: 2px solid var(--accent); border-bottom: 1px solid var(--rule);
+  padding: var(--s6) 0; max-width: 26ch;
+}
+.pull p {
+  font-family: var(--font-display); font-size: var(--t-h2);
+  letter-spacing: var(--ls-tight); line-height: 1.22; margin: 0;
+}
+.pull .dash { font-size: 0.7em; }
+
+/* -- device mockups ---------------------------------------------------------
+   The browser frame is fluid; the phone frame is a fixed 390 × 844 device, so it
+   gets its own track and scales down rather than clipping on small screens.     */
+.mocks { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: var(--s6); align-items: start; }
+.mock iframe { width: 100%; border: 0; display: block; background: transparent; }
+.mock--phone { display: flex; flex-direction: column; align-items: center; }
+.mock--phone iframe { width: 390px; flex: none; }
+.mock__cap {
+  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--muted);
+  text-transform: uppercase; letter-spacing: var(--ls-wide);
+  margin-top: var(--s3); padding-top: var(--s3); border-top: var(--hair);
+  width: 100%;
+}
+@media (max-width: 1100px) { .mocks { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 460px) {
+  .mock--phone { overflow: hidden; }
+  .mock--phone iframe { transform: scale(0.8); transform-origin: top center; margin-bottom: -178px; }
+}
+
+/* -- horizontal stage strip -------------------------------------------------- */
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; }
+.stages > div { border-top: 2px solid var(--rule); padding: var(--s4) var(--s4) 0 0; }
+.stages > div[data-state="active"] { border-top-color: var(--accent); }
+.stages__n {
+  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--muted);
+  text-transform: uppercase; letter-spacing: var(--ls-wide);
+}
+.stages__t { font-family: var(--font-display); font-size: var(--t-h4); letter-spacing: var(--ls-tight); margin: 6px 0 4px; }
+.stages > div[data-state="active"] .stages__t { color: var(--accent); }
+.stages__d { font-size: var(--t-caption); color: var(--muted); margin: 0; }
+
+/* -- footer ------------------------------------------------------------------ */
+.foot {
+  padding: var(--s7) var(--pad-x) var(--s8); border-top: var(--hair-ink);
+  font-size: var(--t-small); color: var(--muted);
+}
+.foot__inner { max-width: var(--w-wide); margin: 0 auto; display: flex; flex-wrap: wrap; gap: var(--s5); justify-content: space-between; }
+
+/* -- narrow viewports -------------------------------------------------------- */
+@media (max-width: 767px) {
+  .landnav { gap: var(--s3); }
+  .landnav__links { gap: var(--s4); }
+  .landnav__links a[href="#work"], .landnav__links a[href="#record"] { display: none; }
+}
+@media (max-width: 479px) {
+  .landnav__links a[href="#colophon"] { display: none; }
+  .landnav__links a { font-size: var(--t-caption); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+
+<nav class="landnav" aria-label="Primary">
+  <a class="wordmark" href="landing.html">
+    <span class="wordmark__name">Jeff Richley</span>
+    <span class="wordmark__sub">Doctoral research</span>
+  </a>
+  <div class="landnav__links">
+    <a href="#work">Research</a>
+    <a href="#record">The record</a>
+    <a href="#colophon">Colophon</a>
+    <a href="index.html">Enter the record →</a>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- ============================ hero ============================ -->
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="kicker kicker--accent">Doctoral research · in progress</p>
+      <h1>Lifelong Learning in Embodied Robotics</h1>
+      <p class="hero__lede" data-od-slot="public.lede">
+        <span class="dash">—</span> Two sentences for a reader outside the field: what an embodied
+        agent fails at when the world keeps changing, and what this work is building about it.
+      </p>
+      <div class="hero__cta">
+        <a class="btn" href="proposal.html">Read the proposal</a>
+        <a class="btn btn--ghost" href="experiments.html">See the experiment ledger</a>
+      </div>
+      <div class="hero__meta">
+        <span>Program <span class="dash">—</span></span>
+        <span>Advisor <span class="dash">—</span></span>
+        <span>Stage 01 of 07</span>
+        <span>Proposal v0.1 · draft</span>
+        <span>Last updated <span class="dash">—</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ thesis ============================ -->
+  <section class="band band--ink" aria-labelledby="h-thesis">
+    <div class="band__inner">
+      <div class="doc">
+        <div class="doc__body">
+          <p class="eyebrow-rule" id="h-thesis">The claim</p>
+          <div class="pull">
+            <p data-od-slot="public.thesis"><span class="dash">—</span> The thesis sentence goes
+              here, verbatim from §1.3.</p>
+          </div>
+          <p class="prose muted small" style="margin-top:var(--s5)">
+            One sentence that could be wrong. The rest of this site exists to test it, in public,
+            with the runs attached.
+          </p>
+        </div>
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Why publish a proposal</span>
+              A dissertation argued in the open is harder to quietly redefine
+              afterwards. The version history is the point.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ thrusts ============================ -->
+  <section class="band" id="work" aria-labelledby="h-work">
+    <div class="band__inner">
+      <p class="eyebrow-rule">Three thrusts</p>
+      <h2 id="h-work">What the work is actually made of</h2>
+      <div class="grid grid--3">
+        <div class="card">
+          <span class="card__num">01</span>
+          <span class="card__title" data-od-slot="public.thrust.1.title">Thrust one</span>
+          <div class="slot slot--inline mb-0" data-od-slot="public.thrust.1.body">
+            <span class="slot__key">public.thrust.1.body</span>
+            <p class="slot__hint">Two or three sentences, aimed at a colleague in an adjacent field.
+              No acronyms that are not expanded.</p>
+          </div>
+          <span class="card__foot"><span>Maps to RQ1</span><span><span class="dash">—</span></span></span>
+        </div>
+        <div class="card">
+          <span class="card__num">02</span>
+          <span class="card__title" data-od-slot="public.thrust.2.title">Thrust two</span>
+          <div class="slot slot--inline mb-0" data-od-slot="public.thrust.2.body">
+            <span class="slot__key">public.thrust.2.body</span>
+            <p class="slot__hint"><span class="dash">—</span></p>
+          </div>
+          <span class="card__foot"><span>Maps to RQ2</span><span><span class="dash">—</span></span></span>
+        </div>
+        <div class="card">
+          <span class="card__num">03</span>
+          <span class="card__title" data-od-slot="public.thrust.3.title">Thrust three</span>
+          <div class="slot slot--inline mb-0" data-od-slot="public.thrust.3.body">
+            <span class="slot__key">public.thrust.3.body</span>
+            <p class="slot__hint"><span class="dash">—</span></p>
+          </div>
+          <span class="card__foot"><span>Maps to RQ3</span><span><span class="dash">—</span></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ the record ============================ -->
+  <section class="band band--ink" id="record" aria-labelledby="h-record">
+    <div class="band__inner">
+      <p class="eyebrow-rule">Open by default</p>
+      <h2 id="h-record">Everything behind the claim is browsable</h2>
+      <p class="prose muted" style="margin-bottom:var(--s7)">
+        The proposal, the hypothesis ledger, every run and its configuration, the figures with their
+        provenance, and the committee's recorded decisions. No separate “internal” version.
+      </p>
+      <div class="mocks">
+        <figure class="mock">
+          <iframe src="/frames/browser-chrome.html?screen=/proposal.html&url=/proposal.html"
+                  title="The proposal document, shown in a desktop browser"
+                  height="620" loading="lazy"></iframe>
+          <figcaption class="mock__cap">§01 Proposal — eleven numbered sections with a margin apparatus for committee comments</figcaption>
+        </figure>
+        <figure class="mock mock--phone">
+          <iframe src="/frames/iphone-15-pro.html?screen=/experiments.html"
+                  title="The experiment ledger on a phone"
+                  height="880" loading="lazy"></iframe>
+          <figcaption class="mock__cap">§03 Experiments — the run ledger, readable from a phone in a corridor</figcaption>
+        </figure>
+      </div>
+      <div class="row" style="margin-top:var(--s6)">
+        <a class="btn btn--ghost btn--small" href="index.html">Overview</a>
+        <a class="btn btn--ghost btn--small" href="questions.html">Questions &amp; hypotheses</a>
+        <a class="btn btn--ghost btn--small" href="experiments.html">Run ledger</a>
+        <a class="btn btn--ghost btn--small" href="results.html">Figures</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ stages ============================ -->
+  <section class="band" aria-labelledby="h-stage">
+    <div class="band__inner">
+      <p class="eyebrow-rule" id="h-stage">Where it stands</p>
+      <div class="stages">
+        <div data-state="active">
+          <p class="stages__n">Stage 01</p>
+          <p class="stages__t">Proposal</p>
+          <p class="stages__d">In draft. Structure fixed, content landing.</p>
+        </div>
+        <div>
+          <p class="stages__n">Stage 02</p>
+          <p class="stages__t">Advisor approval</p>
+          <p class="stages__d">Not yet submitted.</p>
+        </div>
+        <div>
+          <p class="stages__n">Stages 03–05</p>
+          <p class="stages__t">Committee &amp; experiments</p>
+          <p class="stages__d">Not started.</p>
+        </div>
+        <div>
+          <p class="stages__n">Stages 06–07</p>
+          <p class="stages__t">Writing &amp; defence</p>
+          <p class="stages__d">Not started.</p>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:var(--s5)">
+        Full detail in <a href="timeline.html">§06 Timeline</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================ publications ============================ -->
+  <section class="band band--ink" aria-labelledby="h-pubs">
+    <div class="band__inner">
+      <p class="eyebrow-rule">Output</p>
+      <h2 id="h-pubs">Papers, preprints, and code</h2>
+      <ul class="stack" style="list-style:none;padding:0;margin:0;max-width:var(--w-page)">
+        <li class="card">
+          <div class="row" style="justify-content:space-between">
+            <span class="card__num">pub-001</span><span class="tag">Status <span class="dash">—</span></span>
+          </div>
+          <div class="slot slot--inline mb-0" data-od-slot="pub.001">
+            <span class="slot__key">pub.001</span>
+            <p class="slot__hint">Title, venue, year, authors, link. Include preprints and rejected
+              submissions with honest status — the record is more useful than the highlight reel.</p>
+          </div>
+        </li>
+        <li class="card">
+          <div class="row" style="justify-content:space-between">
+            <span class="card__num">pub-002</span><span class="tag">Status <span class="dash">—</span></span>
+          </div>
+          <div class="slot slot--inline mb-0" data-od-slot="pub.002">
+            <span class="slot__key">pub.002</span><p class="slot__hint"><span class="dash">—</span></p>
+          </div>
+        </li>
+        <li class="card">
+          <div class="row" style="justify-content:space-between">
+            <span class="card__num">code-001</span><span class="tag">Repository</span>
+          </div>
+          <div class="slot slot--inline mb-0" data-od-slot="code.001">
+            <span class="slot__key">code.001</span>
+            <p class="slot__hint">Repository link, licence, and what state it is in. A README that
+              admits “research code” beats one that pretends otherwise.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ colophon ============================
+       Static site on GitHub Pages. There is no server, no account, and nothing
+       to submit — this band replaces what used to be an access-request form.
+       ================================================================== -->
+  <section class="band" id="colophon" aria-labelledby="h-colophon">
+    <div class="band__inner">
+      <div class="doc">
+        <div class="doc__body">
+          <p class="eyebrow-rule">Colophon</p>
+          <h2 id="h-colophon">How this record is kept</h2>
+          <p class="prose muted">Everything is published and everyone sees the same thing. There is
+            no logged-in view, no gated section, and nothing held back for the committee — they read
+            the same pages as anyone who follows the link.</p>
+
+          <div class="grid grid--2" style="margin-top:var(--s6)">
+            <div class="card">
+              <span class="card__num">Written</span>
+              <span class="card__title">Markdown, under version control</span>
+              <p class="card__body mb-0">Every run, note, decision, and section is one file in the
+                repository. Nothing is entered through a browser, so nothing can be quietly amended
+                after the fact — the commit history is the audit trail.</p>
+            </div>
+            <div class="card">
+              <span class="card__num">Published</span>
+              <span class="card__title">Rebuilt on every commit</span>
+              <p class="card__body">A commit builds the pages and deploys them as static files.
+                Nothing on the site runs on a server.</p>
+              <p class="card__body mb-0">Last build <span class="dash">—</span></p>
+            </div>
+          </div>
+
+          <div class="slot slot--inline" data-od-slot="public.contact" style="margin-top:var(--s5)">
+            <span class="slot__key">public.contact</span>
+            <p class="slot__hint">How to reach you, as plain text a reader can copy — institutional
+              address is the right one. Not a form: this site has no way to send mail.</p>
+          </div>
+        </div>
+
+        <aside class="doc__margin">
+          <div class="margin-stack">
+            <div class="note">
+              <span class="note__who">Not indexed</span>
+              Every page carries <span class="mono">noindex</span>. Public in the
+              sense that the link works — not in the sense that a search engine
+              will hand it to a stranger.
+            </div>
+            <div class="note">
+              <span class="note__who">No accounts</span>
+              Nothing to sign in to and nothing to request. If someone has the
+              link, they already have all of it.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <div>
+      <p class="mb-0"><strong style="font-family:var(--font-display);color:var(--fg)">Jeff Richley</strong><br>
+      Lifelong Learning in Embodied Robotics · doctoral research record</p>
+    </div>
+    <div class="row" style="gap:var(--s5);align-items:flex-start">
+      <a href="index.html">Overview</a>
+      <a href="proposal.html">Proposal</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="approvals.html">Approvals</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

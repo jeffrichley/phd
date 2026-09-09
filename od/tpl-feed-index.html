@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Lab log — Lifelong Learning in Embodied Robotics</title>
+<meta name="description" content="Dated entries: results, decisions, milestones, and findings.">
+
+<!--
+  ===========================================================================
+  TEMPLATE 3 of 4 — FEED INDEX
+
+  MECHANICS
+    data-od-slot="key"    fill in place
+    data-od-repeat="key"  clone [data-od-item], one per entry, newest first;
+                          delete the exemplars that are left over
+
+  FILTERING — no new JavaScript
+    js/site.js already ships a generic filter. The contract is four parts:
+      [data-filter-scope]                       wraps chips AND items
+      [data-filter-group="tag"][data-filter-value="result"][aria-pressed]
+      [data-item][data-tag="result"]            group name → data-<group>
+      [data-search] [data-count] [data-empty]   optional, all three supported
+    An entry with no tag gets data-tag="" — it survives "All" and is filtered
+    out by any specific tag. That is correct, not a bug.
+
+    The chip handler toggles attributes only; it never re-renders its own
+    container, so the clicked chip keeps focus and keyboard nav keeps an
+    anchor. Do not "improve" this by rebuilding the list on click.
+
+  TAG VOCABULARY — four values, closed set
+    result · decision · milestone · finding
+    Class is tag--<value>. The word is always rendered, so colour is a second
+    cue and never the only one.
+
+  PATHS
+    Relative hrefs so this previews from the project root. For Eleventy with
+    nested URLs, change both <link> hrefs to /css/… .
+  ===========================================================================
+-->
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="rail">≡ <span>Sections</span></button>
+  <a class="wordmark" href="tpl-landing.html">
+    <span class="wordmark__name" data-od-slot="site.title">Jeff Richley</span>
+    <span class="wordmark__sub" data-od-slot="site.subtitle">Doctoral research record</span>
+  </a>
+  <div class="topbar__end">
+    <span class="stagemark" data-od-slot="site.stage">Stage <b>01</b> · Proposal in draft</span>
+  </div>
+</header>
+
+<div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+<div class="shell">
+
+  <!-- ==== CHROME: section rail =============================================
+       One shell for the whole site — the same left rail the nine hand-built
+       pages use. Do not substitute a horizontal strip here; both families must match.
+
+       REPEAT site.nav — one rail__link anchor per section, inside the
+       group it belongs to. The three groups are fixed chrome; only the links
+       repeat. aria-current="page" goes on exactly one link, and nowhere else.
+
+       The mobile drawer is js/site.js §1. It needs three things present and
+       unrenamed: the #navToggle button in .topbar, the #backdrop div above,
+       and id="rail" on this nav element. Drop any one and the drawer stops
+       below 1024px, where the rail is off-canvas.
+       ==================================================================== -->
+  <nav id="rail" class="rail" aria-label="Sections" data-od-repeat="site.nav">
+    <button class="btn btn--ghost btn--small rail__close" data-nav-close style="margin-bottom:var(--s5)">← Close</button>
+
+    <div class="rail__group">
+      <p class="rail__label">The record</p>
+      <a class="rail__link" href="index.html" data-od-item><span class="rail__num">§00</span><span>Overview</span></a>
+      <a class="rail__link" href="proposal.html" data-od-item><span class="rail__num">§01</span><span>Proposal</span></a>
+      <a class="rail__link" href="questions.html" data-od-item><span class="rail__num">§02</span><span>Questions &amp; hypotheses</span></a>
+      <a class="rail__link" href="experiments.html" data-od-item><span class="rail__num">§03</span><span>Experiments</span></a>
+      <a class="rail__link" href="results.html" data-od-item><span class="rail__num">§04</span><span>Results &amp; figures</span></a>
+      <a class="rail__link" href="literature.html" data-od-item><span class="rail__num">§05</span><span>Related work</span></a>
+    </div>
+
+    <div class="rail__group">
+      <p class="rail__label">The process</p>
+      <a class="rail__link" href="timeline.html" data-od-item><span class="rail__num">§06</span><span>Timeline</span></a>
+      <a class="rail__link" href="approvals.html" data-od-item><span class="rail__num">§07</span><span>Committee &amp; approvals</span></a>
+      <a class="rail__link" href="notes.html" data-od-item><span class="rail__num">§08</span><span>Advisor log</span></a>
+      <a class="rail__link" href="tpl-feed-index.html" data-od-item aria-current="page"><span class="rail__num">§09</span><span>Lab log</span></a>
+    </div>
+
+    <div class="rail__group">
+      <p class="rail__label">Outward</p>
+      <a class="rail__link" href="landing.html" data-od-item><span class="rail__num">↗</span><span>Public page</span></a>
+    </div>
+  </nav>
+
+
+  <main id="main" class="main">
+  <div class="wrap">
+
+    <header class="pagehead">
+      <p class="kicker" data-od-slot="feed.kicker">§06 · Lab log</p>
+      <h1 data-od-slot="feed.title">Lab log</h1>
+      <p class="lede" data-od-slot="feed.lead">
+        <span class="dash">—</span> What this log is for, and how often it is written to.
+        One or two sentences.
+      </p>
+    </header>
+
+    <!-- ==== FEED (filter scope wraps chips + list) ======================== -->
+    <section data-filter-scope aria-labelledby="h-entries">
+      <h2 id="h-entries" class="sr-only">Entries</h2>
+
+      <div class="toolbar">
+        <div class="toolbar__group" role="group" aria-label="Filter by tag">
+          <button class="chip" type="button" data-filter-group="tag" data-filter-value="*" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-filter-group="tag" data-filter-value="result" aria-pressed="false">Result</button>
+          <button class="chip" type="button" data-filter-group="tag" data-filter-value="decision" aria-pressed="false">Decision</button>
+          <button class="chip" type="button" data-filter-group="tag" data-filter-value="milestone" aria-pressed="false">Milestone</button>
+          <button class="chip" type="button" data-filter-group="tag" data-filter-value="finding" aria-pressed="false">Finding</button>
+        </div>
+        <div class="searchbox">
+          <label class="sr-only" for="feedSearch">Filter entries</label>
+          <input id="feedSearch" type="search" data-search autocomplete="off" placeholder="Filter titles and excerpts">
+        </div>
+        <span class="toolbar__count" data-count aria-live="polite"></span>
+      </div>
+
+      <!-- REPEAT feed.entries — newest first. Clone one <li data-od-item>
+           per entry; delete the exemplars left over. Set data-tag to one of
+           the four values, or "" when the entry has no tag. -->
+      <ol class="feed" data-od-repeat="feed.entries">
+
+        <li class="feed__item" data-item data-tag="result" data-od-item>
+          <a class="feed__link" href="tpl-feed-entry.html">
+            <!-- SLOT entry.date | ISO date in datetime, human text inside -->
+            <time class="feed__date" datetime="" data-od-slot="entry.date">—</time>
+            <div>
+              <span class="feed__title" data-od-slot="entry.title">Entry title</span>
+              <!-- SLOT entry.excerpt | 1–2 lines, plain text, no markup -->
+              <p class="feed__excerpt" data-od-slot="entry.excerpt">
+                <span class="dash">—</span> One or two lines. Enough to decide whether to open it.
+              </p>
+            </div>
+            <!-- SLOT entry.tag | optional; delete the span when untagged and
+                 set data-tag="" on the <li> -->
+            <span class="tag tag--result" data-od-slot="entry.tag">Result</span>
+          </a>
+        </li>
+
+        <li class="feed__item" data-item data-tag="decision" data-od-item>
+          <a class="feed__link" href="tpl-feed-entry.html">
+            <time class="feed__date" datetime="" data-od-slot="entry.date">—</time>
+            <div>
+              <span class="feed__title" data-od-slot="entry.title">Entry title</span>
+              <p class="feed__excerpt" data-od-slot="entry.excerpt"><span class="dash">—</span> One or two lines.</p>
+            </div>
+            <span class="tag tag--decision" data-od-slot="entry.tag">Decision</span>
+          </a>
+        </li>
+
+        <li class="feed__item" data-item data-tag="milestone" data-od-item>
+          <a class="feed__link" href="tpl-feed-entry.html">
+            <time class="feed__date" datetime="" data-od-slot="entry.date">—</time>
+            <div>
+              <span class="feed__title" data-od-slot="entry.title">Entry title</span>
+              <p class="feed__excerpt" data-od-slot="entry.excerpt"><span class="dash">—</span> One or two lines.</p>
+            </div>
+            <span class="tag tag--milestone" data-od-slot="entry.tag">Milestone</span>
+          </a>
+        </li>
+
+        <li class="feed__item" data-item data-tag="finding" data-od-item>
+          <a class="feed__link" href="tpl-feed-entry.html">
+            <time class="feed__date" datetime="" data-od-slot="entry.date">—</time>
+            <div>
+              <span class="feed__title" data-od-slot="entry.title">Entry title</span>
+              <p class="feed__excerpt" data-od-slot="entry.excerpt"><span class="dash">—</span> One or two lines.</p>
+            </div>
+            <span class="tag tag--finding" data-od-slot="entry.tag">Finding</span>
+          </a>
+        </li>
+
+        <li class="feed__item" data-item data-tag="" data-od-item>
+          <a class="feed__link" href="tpl-feed-entry.html">
+            <time class="feed__date" datetime="" data-od-slot="entry.date">—</time>
+            <div>
+              <span class="feed__title" data-od-slot="entry.title">Untagged entry</span>
+              <p class="feed__excerpt" data-od-slot="entry.excerpt"><span class="dash">—</span> A tag is optional.</p>
+            </div>
+          </a>
+        </li>
+
+      </ol>
+
+      <!-- Shown by the filter code when nothing matches. Also the resting
+           state when the feed is genuinely empty — delete every <li> above
+           rather than inventing entries. -->
+      <div class="empty" data-empty hidden>
+        <strong>Nothing matches</strong>
+        Clear the filters, or widen the search.
+      </div>
+
+    </section>
+
+  </div>
+
+<footer class="sitefoot">
+  <div class="sitefoot__inner">
+    <span data-od-slot="site.footer.line">Doctoral research record</span>
+    <span data-od-slot="site.footer.updated">Updated <span class="dash">—</span></span>
+    <a href="tpl-landing.html">Home</a>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

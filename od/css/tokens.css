@@ -1,0 +1,92 @@
+/* ============================================================================
+   tokens.css — design token sheet
+   Direction: "journal-plate" (deep-violet ink on paper white)
+
+   This file is the ONLY place colour, type, spacing and rhythm are defined.
+   Point your Markdown → HTML converter at this file and site.css; the
+   converter should never need to emit inline styles.
+   ========================================================================= */
+
+:root {
+  /* --- Core palette (bound verbatim from the chosen direction) ----------- */
+  --bg:      oklch(98.5% 0.003 285);
+  --surface: oklch(100% 0 0);
+  --border:  oklch(90% 0.008 285);
+  --muted:   oklch(50% 0.015 285);
+  --fg:      oklch(21% 0.03 285);
+  --accent:  oklch(48% 0.19 292);
+
+  /* --- Derived surfaces -------------------------------------------------- */
+  --accent-soft: color-mix(in oklch, var(--accent) 8%,  var(--surface));
+  --accent-line: color-mix(in oklch, var(--accent) 34%, var(--border));
+  --rule:        color-mix(in oklch, var(--fg) 14%, transparent);
+  --rule-faint:  color-mix(in oklch, var(--fg) 7%,  transparent);
+  --rule-strong: color-mix(in oklch, var(--fg) 38%, transparent);
+  --plate:       color-mix(in oklch, var(--fg) 3.5%, var(--surface));
+  --wash:        color-mix(in oklch, var(--accent) 3.5%, var(--bg));
+
+  /* --- Status ink -------------------------------------------------------- */
+  /* Meaning is carried by glyph + word. Colour is a secondary cue only
+     (WCAG 1.4.1) — never the sole signal. */
+  --st-open:     oklch(50% 0.015 285);   /* ○  open / pending / planned      */
+  --st-active:   oklch(48% 0.19 292);    /* ◐  running / in progress         */
+  --st-done:     oklch(44% 0.10 168);    /* ●  complete / supported / signed */
+  --st-warn:     oklch(50% 0.11 76);     /* ◑  inconclusive / at risk        */
+  --st-stop:     oklch(48% 0.17 25);     /* ✕  refuted / failed / blocked    */
+
+  /* --- Type ------------------------------------------------------------- */
+  --font-display: 'Iowan Old Style', 'Charter', 'Source Serif 4', Georgia, serif;
+  --font-body:    -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'JetBrains Mono', 'IBM Plex Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --t-micro:   0.6875rem;  /* 11px — mono metadata, run ids, eq numbers */
+  --t-caption: 0.8125rem;  /* 13px — figure captions, margin notes      */
+  --t-small:   0.875rem;   /* 14px — table cells, UI labels             */
+  --t-body:    1.0625rem;  /* 17px — long-form reading                  */
+  --t-lead:    1.1875rem;  /* 19px — abstract / standfirst              */
+  --t-h4:      1.125rem;
+  --t-h3:      clamp(1.3rem,  1.12rem + 0.7vw,  1.6rem);
+  --t-h2:      clamp(1.6rem,  1.28rem + 1.3vw,  2.3rem);
+  --t-h1:      clamp(2.1rem,  1.5rem  + 2.6vw,  3.4rem);
+  --t-display: clamp(2.6rem,  1.5rem  + 4.6vw,  5rem);
+
+  --lh-tight: 1.14;
+  --lh-head:  1.2;
+  --lh-body:  1.62;
+  --ls-tight: -0.021em;
+  --ls-wide:  0.09em;
+
+  /* --- Space (4px base) --------------------------------------------------*/
+  --s1: 4px;   --s2: 8px;   --s3: 12px;  --s4: 16px;  --s5: 24px;
+  --s6: 32px;  --s7: 48px;  --s8: 64px;  --s9: 96px;  --s10: 128px;
+
+  /* Fluid section rhythm */
+  --sec-gap: clamp(40px, 4.4vw, 80px);
+  --pad-x:   clamp(16px, 3.4vw, 44px);
+
+  /* --- Structure --------------------------------------------------------- */
+  --w-text:   68ch;    /* measure for running prose        */
+  --w-page:   1120px;  /* standard content column          */
+  --w-wide:   1460px;  /* dashboards, tables, figure walls */
+  --w-nav:    248px;   /* section rail                     */
+  --w-margin: 224px;   /* marginalia column                */
+
+  --r-0: 0;
+  --r-1: 2px;   /* default — journal plate keeps corners nearly square */
+  --r-2: 4px;
+  --r-pill: 999px;
+
+  --hair: 1px solid var(--border);
+  --hair-ink: 1px solid var(--rule-strong);
+
+  /* Two elevation levels only. Used for drawers + lightbox, nothing else. */
+  --lift: 0 2px 8px color-mix(in oklch, var(--fg) 8%, transparent);
+  --lift-2: 0 12px 48px color-mix(in oklch, var(--fg) 18%, transparent);
+
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur: 1ms; }
+}

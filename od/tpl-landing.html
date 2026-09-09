@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ site.title }} — {{ site.subtitle }}</title>
+<meta name="description" content="{{ landing.pitch }}">
+
+<!--
+  ===========================================================================
+  TEMPLATE 1 of 4 — LANDING
+
+  MECHANICS (identical across all four templates)
+    data-od-slot="key"    fill in place; unfilled slots stay as placeholders
+    data-od-block="name"  a markup pattern: clone per occurrence, delete the exemplar
+    data-od-repeat="key"  a list: clone the [data-od-item] child, delete the rest
+
+  HERO MEDIA — the graceful-degradation contract
+    .media has three states and picks between them itself:
+      · <img> or <video> as first child   → shows the media, hides .media__empty
+      · <iframe> as first child           → shows the embed, hides .media__empty
+      · nothing                           → shows the labelled grid placeholder
+    Delete the whole <figure class="hero__media"> and the hero collapses to a
+    single column rather than leaving a dead half — see .hero:not(:has(…)).
+    In all three cases the page is complete. No empty box, no broken grid.
+
+  PATHS
+    Relative hrefs so this previews from the project root. For Eleventy with
+    nested URLs, change both <link> hrefs to /css/… — that is the only edit.
+  ===========================================================================
+-->
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+
+<!-- ==== CHROME: topbar ==================================================== -->
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="rail">≡ <span>Sections</span></button>
+  <a class="wordmark" href="tpl-landing.html">
+    <!-- SLOT site.title | text | required -->
+    <span class="wordmark__name" data-od-slot="site.title">Jeff Richley</span>
+    <!-- SLOT site.subtitle | text | one line -->
+    <span class="wordmark__sub" data-od-slot="site.subtitle">Doctoral research record</span>
+  </a>
+  <div class="topbar__end">
+    <span class="stagemark" data-od-slot="site.stage">Stage <b>01</b> · Proposal in draft</span>
+  </div>
+</header>
+
+<div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+<div class="shell">
+
+  <!-- ==== CHROME: section rail =============================================
+       One shell for the whole site — the same left rail the nine hand-built
+       pages use. Do not substitute a horizontal strip here; both families must match.
+
+       REPEAT site.nav — one rail__link anchor per section, inside the
+       group it belongs to. The three groups are fixed chrome; only the links
+       repeat. aria-current="page" goes on exactly one link, and nowhere else.
+
+       The mobile drawer is js/site.js §1. It needs three things present and
+       unrenamed: the #navToggle button in .topbar, the #backdrop div above,
+       and id="rail" on this nav element. Drop any one and the drawer stops
+       below 1024px, where the rail is off-canvas.
+       ==================================================================== -->
+  <nav id="rail" class="rail" aria-label="Sections" data-od-repeat="site.nav">
+    <button class="btn btn--ghost btn--small rail__close" data-nav-close style="margin-bottom:var(--s5)">← Close</button>
+
+    <div class="rail__group">
+      <p class="rail__label">The record</p>
+      <a class="rail__link" href="index.html" data-od-item aria-current="page"><span class="rail__num">§00</span><span>Overview</span></a>
+      <a class="rail__link" href="proposal.html" data-od-item><span class="rail__num">§01</span><span>Proposal</span></a>
+      <a class="rail__link" href="questions.html" data-od-item><span class="rail__num">§02</span><span>Questions &amp; hypotheses</span></a>
+      <a class="rail__link" href="experiments.html" data-od-item><span class="rail__num">§03</span><span>Experiments</span></a>
+      <a class="rail__link" href="results.html" data-od-item><span class="rail__num">§04</span><span>Results &amp; figures</span></a>
+      <a class="rail__link" href="literature.html" data-od-item><span class="rail__num">§05</span><span>Related work</span></a>
+    </div>
+
+    <div class="rail__group">
+      <p class="rail__label">The process</p>
+      <a class="rail__link" href="timeline.html" data-od-item><span class="rail__num">§06</span><span>Timeline</span></a>
+      <a class="rail__link" href="approvals.html" data-od-item><span class="rail__num">§07</span><span>Committee &amp; approvals</span></a>
+      <a class="rail__link" href="notes.html" data-od-item><span class="rail__num">§08</span><span>Advisor log</span></a>
+      <a class="rail__link" href="tpl-feed-index.html" data-od-item><span class="rail__num">§09</span><span>Lab log</span></a>
+    </div>
+
+    <div class="rail__group">
+      <p class="rail__label">Outward</p>
+      <a class="rail__link" href="landing.html" data-od-item><span class="rail__num">↗</span><span>Public page</span></a>
+    </div>
+  </nav>
+
+
+  <main id="main" class="main">
+  <div class="wrap wrap--wide">
+
+    <!-- ==== HERO ========================================================= -->
+    <section class="hero">
+      <div>
+        <!-- SLOT site.subtitle | text | reused here as the eyebrow -->
+        <p class="hero__sub" data-od-slot="site.subtitle">Doctoral research record</p>
+
+        <!-- SLOT site.title | text | required | h1, the only one on the page -->
+        <h1 class="hero__title" data-od-slot="landing.headline">Lifelong Learning in Embodied Robotics</h1>
+
+        <!-- SLOT landing.pitch | markdown | ONE paragraph. If the Markdown
+             supplies more, keep the first and leave the rest for the body of
+             the proposal — do not concatenate. -->
+        <p class="hero__pitch" data-od-slot="landing.pitch">
+          <span class="dash">—</span> One paragraph. What the research asks, why it is not
+          already answered, and what a reader will find on this site.
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn" href="proposal.html" data-od-slot="landing.cta.primary">Read the proposal</a>
+          <a class="btn btn--ghost" href="tpl-feed-index.html" data-od-slot="landing.cta.secondary">Latest from the lab</a>
+        </div>
+      </div>
+
+      <!-- SLOT landing.hero_media | image OR video OR nothing
+           Fill by replacing the contents of .media with ONE of:
+             <img src="…" alt="…">
+             <video src="…" poster="…" controls muted playsinline></video>
+             <iframe src="…" title="…" allowfullscreen loading="lazy"></iframe>
+           Leave as-is for the placeholder. Delete the whole <figure> to run
+           the hero as a single column. All three are valid finished states. -->
+      <figure class="hero__media" data-od-slot="landing.hero_media">
+        <div class="media media--16x10">
+          <div class="media__empty">
+            <p class="plate__key">Hero media<br>image, video, or nothing at all</p>
+          </div>
+        </div>
+        <figcaption data-od-slot="landing.hero_media.caption">
+          <span class="dash">—</span> Caption. Delete this figcaption if the media needs none.
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- ==== SECTION CARDS ================================================
+         REPEAT landing.cards — exactly five. Each card is title + one-line
+         teaser + href. card__foot is optional; delete it rather than
+         inventing a count.
+         ================================================================= -->
+    <section class="sec" aria-labelledby="h-sections">
+      <p class="eyebrow-rule" id="h-sections">The record</p>
+      <div class="grid grid--3" data-od-repeat="landing.cards">
+
+        <a class="card" href="proposal.html" data-od-item>
+          <span class="card__num">§01</span>
+          <span class="card__title" data-od-slot="card.title">Proposal</span>
+          <p class="card__body" data-od-slot="card.teaser">
+            <span class="dash">—</span> One line. What this section is for.
+          </p>
+          <span class="card__foot"><span data-od-slot="card.meta">—</span><span data-od-slot="card.state">Draft</span></span>
+        </a>
+
+        <a class="card" href="questions.html" data-od-item>
+          <span class="card__num">§02</span>
+          <span class="card__title" data-od-slot="card.title">Questions &amp; hypotheses</span>
+          <p class="card__body" data-od-slot="card.teaser"><span class="dash">—</span> One line.</p>
+          <span class="card__foot"><span data-od-slot="card.meta">—</span><span data-od-slot="card.state">Empty</span></span>
+        </a>
+
+        <a class="card" href="experiments.html" data-od-item>
+          <span class="card__num">§03</span>
+          <span class="card__title" data-od-slot="card.title">Experiments</span>
+          <p class="card__body" data-od-slot="card.teaser"><span class="dash">—</span> One line.</p>
+          <span class="card__foot"><span data-od-slot="card.meta">—</span><span data-od-slot="card.state">Empty</span></span>
+        </a>
+
+        <a class="card" href="results.html" data-od-item>
+          <span class="card__num">§04</span>
+          <span class="card__title" data-od-slot="card.title">Results &amp; figures</span>
+          <p class="card__body" data-od-slot="card.teaser"><span class="dash">—</span> One line.</p>
+          <span class="card__foot"><span data-od-slot="card.meta">—</span><span data-od-slot="card.state">Awaiting art</span></span>
+        </a>
+
+        <a class="card" href="literature.html" data-od-item>
+          <span class="card__num">§05</span>
+          <span class="card__title" data-od-slot="card.title">Related work</span>
+          <p class="card__body" data-od-slot="card.teaser"><span class="dash">—</span> One line.</p>
+          <span class="card__foot"><span data-od-slot="card.meta">—</span><span data-od-slot="card.state">Empty</span></span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ==== LATEST FROM THE LAB ==========================================
+         REPEAT landing.latest — the three most recent feed entries, newest
+         first. Same fields as a feed index row. If the feed is empty, delete
+         all three cards and leave the .empty note; do not fabricate entries.
+         ================================================================= -->
+    <section class="sec sec--rule" aria-labelledby="h-latest">
+      <div class="row" style="justify-content:space-between; margin-bottom:var(--s5)">
+        <p class="eyebrow-rule mb-0" id="h-latest" style="flex:1">Latest from the lab</p>
+        <a class="btn btn--ghost btn--small" href="tpl-feed-index.html">All entries →</a>
+      </div>
+
+      <div class="grid grid--3" data-od-repeat="landing.latest">
+        <a class="card" href="tpl-feed-entry.html" data-od-item>
+          <span class="card__num" data-od-slot="entry.date">—</span>
+          <span class="card__title" data-od-slot="entry.title">Entry title</span>
+          <p class="card__body" data-od-slot="entry.excerpt">
+            <span class="dash">—</span> One or two lines lifted from the entry.
+          </p>
+          <span class="card__foot">
+            <span class="tag tag--result" data-od-slot="entry.tag">Result</span>
+            <span>Read →</span>
+          </span>
+        </a>
+
+        <a class="card" href="tpl-feed-entry.html" data-od-item>
+          <span class="card__num" data-od-slot="entry.date">—</span>
+          <span class="card__title" data-od-slot="entry.title">Entry title</span>
+          <p class="card__body" data-od-slot="entry.excerpt"><span class="dash">—</span> One or two lines.</p>
+          <span class="card__foot"><span class="tag tag--decision" data-od-slot="entry.tag">Decision</span><span>Read →</span></span>
+        </a>
+
+        <a class="card" href="tpl-feed-entry.html" data-od-item>
+          <span class="card__num" data-od-slot="entry.date">—</span>
+          <span class="card__title" data-od-slot="entry.title">Entry title</span>
+          <p class="card__body" data-od-slot="entry.excerpt"><span class="dash">—</span> One or two lines.</p>
+          <span class="card__foot"><span class="tag tag--milestone" data-od-slot="entry.tag">Milestone</span><span>Read →</span></span>
+        </a>
+      </div>
+
+      <!-- Shown instead of the cards when the feed has no entries. -->
+      <div class="empty" data-od-slot="landing.latest.empty" hidden>
+        <strong>No entries yet</strong>
+        The lab log fills as work lands. Nothing is posted here until it exists.
+      </div>
+    </section>
+
+  </div>
+
+<footer class="sitefoot">
+  <div class="sitefoot__inner">
+    <span data-od-slot="site.footer.line">Doctoral research record</span>
+    <span data-od-slot="site.footer.updated">Updated <span class="dash">—</span></span>
+    <a href="tpl-feed-index.html">Lab log</a>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>
