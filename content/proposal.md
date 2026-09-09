@@ -125,7 +125,7 @@ fail rather than landing between their parents.
 ## Resources
 
 All computation in simulation: development on a personal RTX 4060 Ti; training campaigns
-on DoD HPC allocations, tens of GPU-hours total to date. No ODU
+on DoD HPC allocations, tens of GPU-hours total as of September 2026. No ODU
 lab resources are required. Every paper and preprint receives a same-day or next-day government
 pre-publication read before it goes out.
 
