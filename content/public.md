@@ -1,7 +1,13 @@
 ---
-# → landing.html. Pitch = committee-narrative.md's locked one-paragraph pitch, with one
+# → landing.html. Pitch = committee-narrative.md's locked one-paragraph pitch, with these
 # deviations recorded: hedge (Jeff 2026-09-08, "predicted to be" distinct regimes until
-# the bridge measurement runs) and dash-free restructuring (Jeff 2026-09-09).
+# the bridge measurement runs); dash-free restructuring (Jeff 2026-09-09); and the opening
+# order, which deliberately differs from §1.0 (Jeff 2026-09-09).
+#
+# The opening order is a decision, not drift. §1.0 was inverted to lead with the added-mass
+# measurement (phd-lab#32) because its reader is a fluid dynamicist who already owns added
+# mass. This page's reader is unknown, so it keeps the learning problem first and earns the
+# physics with "That floor has a mechanism". Do not harmonise them. See phd-lab#44.
 headline: "Lifelong Learning for Snake-Form Underwater Robots"
 cta_primary:
   label: "Read the proposal"
