@@ -23,10 +23,13 @@ code_html: 'This site and its content pipeline are public at <a href="https://gi
 contact_html: 'Jeff Richley · <span class="mono">jrich107@odu.edu</span>'
 thrusts:
   - title: "The fluid coupling, measured"
+    covers: [rq1]
     body: "GPU simulators specify added-mass physics they do not realise. This work supplies the validation protocol and a hydrodynamics plugin that closes the gap and quantifies what force-only approximations cost."
-  - title: "Skill acquisition across regimes"
-    body: "Fifteen target skills spanning parametric variation (current, payload, a degraded joint) and categorical regime changes (backward swim, station-keep, corkscrew). The measurement: does structured skill memory beat warm-starting from the nearest skill?"
+  - title: "Skill acquisition across regimes and across bodies"
+    covers: [rq2, rq4]
+    body: "Fifteen target skills spanning parametric variation (current, payload, a degraded joint) and categorical regime changes (backward swim, station-keep, corkscrew). The measurement: does structured skill memory beat warm-starting from the nearest skill? The same question is then asked across bodies of differing shape, so the answer is a property of the architecture rather than of one robot."
   - title: "The operating envelope"
+    covers: [rq3]
     body: "Every skill card carries a certified envelope; a planner refuses missions outside the library's coverage and names the uncovered facet: refusal with a reason, not a similarity guess."
 ---
 

@@ -620,11 +620,12 @@ function finish($, name) {
   $(".hero h1").first().text(fm.headline); // the correct program name, replacing OD's placeholder
   fillSlot($, "public.lede", mdInline(pitch)); // slot is itself a <p>; block markdown would nest <p><p>
   fillSlot($, "public.thesis", mdInline(overview.thesis));
-  // Thrust cards are generated, not addressed. OD ships exactly three, each with its own
-  // numbered slot pair and a hand-written "Maps to RQ<n>" foot, so a fourth thrust would
-  // have had no slot to land in and would have vanished with a warning. Cards are now
-  // cloned per authored thrust and their feet derived from the matching research question,
-  // which is what lets study 4's RQ4 arrive without editing this file.
+  // Thrust cards are generated, not addressed, and each thrust declares which research
+  // questions it covers. Coverage is explicit rather than positional because the two are
+  // deliberately not one-to-one: study 4 folds into thrust 2 rather than adding a fourth
+  // card, so a check that compares counts would fire forever on a correct arrangement.
+  // The detector survives the fold by reading the mapping: it warns when a question is
+  // claimed by no thrust, which is the state that actually loses a question from the page.
   {
     const thrusts = fm.thrusts ?? [];
     const grid = $(".grid").filter((_, el) => $(el).find('[data-od-slot^="public.thrust."]').length).first();
@@ -632,15 +633,26 @@ function finish($, name) {
     else {
       grid.attr("class", `grid grid--${Math.min(thrusts.length, 4)}`);
       grid.empty();
+      const byId = new Map(questions.map((q) => [q.id, q]));
+      const claimed = new Set();
       thrusts.forEach((t, i) => {
-        const q = questions[i];
-        const hyps = q?.hypotheses ?? [];
+        const ids = t.covers ?? [];
+        if (!ids.length) warn(`landing: thrust ${i + 1} ("${t.title}") declares no covers; add covers: [rqN] in content/public.md`);
+        const covered = ids.map((id) => {
+          if (!byId.has(id)) warn(`landing: thrust ${i + 1} covers "${id}", which is not a research question in content/questions.md`);
+          else claimed.add(id);
+          return byId.get(id);
+        }).filter(Boolean);
+        const hyps = covered.flatMap((q) => q.hypotheses ?? []);
         const supported = hyps.filter((h) => h.status === "supported").length;
-        // no question to map to is a real state worth showing, not a blank to hide
-        const maps = q ? `Maps to ${q.id.toUpperCase()}` : "Not yet mapped to a question";
-        // the site's own empty marker, so an unmapped thrust stays visible to the check
+        const names = covered.map((q) => q.id.toUpperCase());
+        // a thrust mapped to nothing is a real state worth showing, not a blank to hide
+        const maps = names.length
+          ? `Maps to ${names.length > 1 ? names.slice(0, -1).join(", ") + " and " + names[names.length - 1] : names[0]}`
+          : "Not yet mapped to a question";
+        // the site's own empty marker, so an unmapped thrust stays visible to the sweep
         // that counts unfilled dashes rather than rendering one the sweep cannot see
-        const tally = q ? `${supported} of ${hyps.length} supported` : '<span class="dash">&mdash;</span>';
+        const tally = covered.length ? `${supported} of ${hyps.length} supported` : '<span class="dash">&mdash;</span>';
         grid.append(`
 <div class="card">
   <span class="card__num">${String(i + 1).padStart(2, "0")}</span>
@@ -649,8 +661,9 @@ function finish($, name) {
   <span class="card__foot"><span>${maps}</span><span>${tally}</span></span>
 </div>`);
       });
-      if (questions.length > thrusts.length)
-        warn(`landing: ${questions.length} research questions but only ${thrusts.length} thrusts authored in content/public.md`);
+      const orphans = questions.filter((q) => !claimed.has(q.id)).map((q) => q.id.toUpperCase());
+      if (orphans.length)
+        warn(`landing: ${orphans.join(", ")} claimed by no thrust in content/public.md, so ${orphans.length > 1 ? "they are" : "it is"} absent from the public page`);
     }
   }
   // CTAs from content (the template hardcodes its own pair)
