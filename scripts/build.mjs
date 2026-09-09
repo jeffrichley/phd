@@ -91,7 +91,7 @@ function finish($, name) {
   $("title").text($("title").text().replace(/Lifelong Learning in Embodied Robotics/g, SITE_NAME).replace(/\{\{[^}]*\}\}.*$/, SITE_NAME).replace(/ — /g, " · "));
   // strip OD authoring scaffolding that renders as visible content
   $(".note").each((_, el) => {
-    if (/^(On this section|Awaiting you|Blocking on you|Dependency|Test)\b|Rows are generated|content\//.test($(el).text().trim()))
+    if (/^(On this section|Awaiting you|Blocking on you|Dependency|Test)\b|Rows are generated|content\/|data-done|the build /.test($(el).text().trim()))
       $(el).remove();
   });
   const runTpl = $("#runTemplate");
@@ -131,7 +131,12 @@ function finish($, name) {
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
   const html = $.html()
     .split("Lifelong Learning in Embodied Robotics").join(SITE_NAME)
-    .replace(/\bdefence\b/g, "defense").replace(/\bDefence\b/g, "Defense");
+    .replace(/\bdefence\b/g, "defense").replace(/\bDefence\b/g, "Defense")
+    // Jeff's style rule applied to kept OD editorial copy
+    .replace("precisely where it stops — that boundary is the gap", "precisely where it stops; that boundary is the gap")
+    .replace("Not a decision — a note for the record", "Not a decision, a note for the record")
+    .replace("you disagreed with too — six months on", "you disagreed with too; six months on")
+    .replace("after the fact — the commit history is the", "after the fact; the commit history is the");
   fs.writeFileSync(path.join(OUT, name), html);
 }
 
