@@ -137,9 +137,7 @@ function finish($, name) {
     .replace("Not a decision — a note for the record", "Not a decision, a note for the record")
     .replace("you disagreed with too — six months on", "you disagreed with too; six months on")
     .replace("after the fact — the commit history is the", "after the fact; the commit history is the")
-    .replace("something
-                else — each page owns its own evidence", "something
-                else; each page owns its own evidence");
+    .replace(/something\s+else — each page owns its own evidence/, "something else; each page owns its own evidence");
   fs.writeFileSync(path.join(OUT, name), html);
 }
 
