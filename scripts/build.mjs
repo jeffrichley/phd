@@ -74,6 +74,8 @@ function finish($, name) {
   // global path rewrites + invariants
   $('a[href="tpl-feed-index.html"]').attr("href", FEED_INDEX);
   $('a[href="tpl-landing.html"]').attr("href", "index.html"); // tpl wordmark → internal front door
+  const SITE_NAME = "Lifelong Learning for Snake-Form Underwater Robots";
+  $("title").text($("title").text().replace(/Lifelong Learning in Embodied Robotics/g, SITE_NAME).replace(/\{\{[^}]*\}\}.*$/, SITE_NAME));
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
@@ -369,6 +371,7 @@ logEntries.forEach((e, i) => {
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
   $('[data-od-slot="site.subtitle"]').text("Dissertation progress — Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
+  $("title").text(`${e.data.title} — Lab log`);
   const dateEl = $('[data-od-slot="entry.date"]');
   dateEl.attr("datetime", e.date).text(e.date);
   fillSlot($, "entry.title", e.data.title);
@@ -398,6 +401,7 @@ logEntries.forEach((e, i) => {
   fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
   $('[data-od-slot="site.subtitle"]').text("Dissertation progress — Jeff Richley, ODU MAE");
   $('[data-od-slot="site.stage"]').remove();
+  $("title").text("§09 Lab log — Lifelong Learning for Snake-Form Underwater Robots");
   fillSlot($, "feed.kicker", "§09 · Lab log");
   fillSlot($, "feed.title", "Lab log");
   fillSlot($, "feed.lead", "Dated record of results, findings, and decisions — newest first.");
