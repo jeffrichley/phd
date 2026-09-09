@@ -113,15 +113,46 @@ Preregistered before data: competence is task success ≥ 0.8 held over three co
 skill is warm-started from both a near source and a far source, with the same method and
 tuning, so the flat-versus-scaling comparison lives inside the baseline family.
 Envelope certification is ten seeds × one hundred evaluations, inside iff the IQM 95%
-confidence-interval lower bound is ≥ 0.8. Structural retention is reported as a floor,
-never claimed as a result.
+confidence-interval lower bound is ≥ 0.8.
+
+Retention is a qualifying property here, not a contribution. A method that loses earlier
+skills as it acquires new ones is not a serious candidate, so the design removes that
+failure mode by construction: stored cards are frozen and each new skill is a bounded
+residual on top of them, so nothing that already works is overwritten. That is verified
+rather than asserted. Backward transfer, the change in performance on earlier skills
+after later ones are acquired, is measured per run and tested against every
+continual-learning baseline. The preregistered bound is ≈ 0, defined as a backward-transfer
+magnitude no larger than one confidence-interval half-width of the skill's own retained
+success, and the measured value is reported with it. The falsifier is written down: the
+result fails if the structured memory's backward-transfer interval reaches the level of
+sequential fine-tuning or replay. The headline remains forward transfer, because retention
+obtained by construction is not evidence for the thesis. What is genuinely uncertain, and
+what the study is built to decide, is whether structure buys cheaper acquisition.
 
 ## Baselines
 
-Learning from scratch; warm-start from the single nearest skill; and the continual-
-learning family (sequential fine-tuning, CLEAR, and PackNet) alongside the structured
-memory. Blend-without-residual is measured to test the mechanism claim that skill blends
-fail rather than landing between their parents.
+The direct precedents are the current generation of skill-library agents. LOTUS retrieves
+from an opaque embedding store; GOLLUM grows a library of separately trained columns and
+reuses them by transferring weights. Both define a skill as this work does, a separately
+learned and separately stored module, and both are measured on forward transfer rather
+than on forgetting. Neither can state why a given prior skill was selected, and that
+inspectability is the property under test.
+
+Both mechanisms are measured, not merely cited. GOLLUM-style opaque reuse is instantiated
+as the warm-start baseline: the same oracle selection and the same tuning as the
+structured memory, but the whole policy is initialised from the nearest source's weights.
+It is the baseline to beat. LOTUS-style opaque selection is held as a control here, where
+retrieval is an oracle, so the acquisition result is not confounded by retrieval quality;
+whether selection is load-bearing at all is measured by a random-selection ablation, and
+solving retrieval is study 3. Learning from scratch is the denominator, and the
+continual-learning family, sequential fine-tuning, CLEAR, and PackNet, runs alongside as
+the monolithic-gradient comparison and supplies the forgetting floor the retention check
+reads against.
+
+Two further measurements test the mechanism rather than the outcome: a warm-start
+substitution, which swaps the composed base for the single nearest source and separates
+structured reuse from reuse in general, and blend-without-residual, which tests whether
+skill blends fail rather than landing between their parents.
 
 ## Resources
 
