@@ -551,6 +551,21 @@ function finish($, name) {
     slotEl.closest(".card").find(".tag").first().text(p.status);
     fillSlot($, key, p.html);
   });
+  // outward page shows no raw slot machinery: drop pub rows beyond the real ones,
+  // fill the repository and build-date lines, and reduce contact to an honest dash
+  // until Jeff supplies the address
+  $('[data-od-slot^="pub.0"]').each((_, el) => {
+    if ($(el).hasClass("slot")) $(el).closest("li.card").remove();
+  });
+  if (fm.code_html) fillSlot($, "code.001", fm.code_html);
+  $("p.card__body").each((_, el) => {
+    if ($(el).text().trim().startsWith("Last build")) $(el).html(`Last build <span class="mono">${BUILD_DATE}</span>`);
+  });
+  const contact = $('[data-od-slot="public.contact"]');
+  if (contact.length && !fm.contact_html) {
+    contact.removeClass("slot slot--inline").addClass("prose")
+      .html('<p class="small muted">Contact <span class="dash">—</span></p>');
+  } else if (fm.contact_html) fillSlot($, "public.contact", fm.contact_html);
   finish($, "landing.html");
 }
 
