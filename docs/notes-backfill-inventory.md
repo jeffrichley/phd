@@ -24,7 +24,7 @@ live as seed notes.
 | 2026-08-24 | Three MAE 897 topics mapped onto the three remaining research pieces (#26) | milestone | wayfinder Decisions | |
 | 2026-08-26 | Code repos consolidated: anguilla/lighthill main-only, all branches resolved | milestone | REPOS.md | |
 | 2026-08-27 | MAE 601 dropped, MAE 897 (Undulatory Propulsion) added — 800-level arithmetic improves twice | milestone | phd-lab commits, audit 08-27 | |
-| 2026-09-03 | **Paper 1 submitted to IEEE RA-L?** | milestone | escalation ladder (#3) | ⚠️ NOT CONFIRMED in any log — Jeff: did the 09-03 submit happen? If yes I draft this note and upgrade Timeline wording to "submitted" |
+| — | Paper 1 RA-L submission | milestone | escalation ladder (#3) | Jeff confirmed 2026-09-08: **not submitted yet.** Site wording ("at the submission gate") is correct as-is. When it goes out: draft the submission lab note, flip Timeline stage 2 and the Gates row to "submitted," tick the 90-day item. |
 | 2026-09-08 | Paper 2 build spec cut into anguilla build tickets | milestone | paper 2 log 09-08 | |
 | 2026-09-08 | This site launched | milestone | this repo | — optional, slightly self-referential |
 
