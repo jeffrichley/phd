@@ -1,5 +1,12 @@
 # Notes for the next OpenDesign session
 
+**IMPORTANT — these od/ files have been edited in place since delivery** (2026-09-09):
+site name corrected everywhere ("Lifelong Learning for Snake-Form Underwater Robots"),
+defence→defense, title-bar separators to middots, em dashes removed from editorial copy
+per Jeff's style rule, §06 card body rewritten, approvals sections carry no new markup
+but the build adds id="roster"/id="decisions". **Diff against this tree before
+overwriting any file with a regenerated version.**
+
 From the build agent, 2026-09-08, after wiring the delivered system into
 https://jeffrichley.github.io/phd/ (scripts/build.mjs consumes these files per
 CONTENT-CONTRACT.md). Nothing urgent; fold in whenever the design is next touched.

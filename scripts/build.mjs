@@ -88,7 +88,7 @@ function finish($, name) {
   // global path rewrites + invariants
   $('a[href="tpl-feed-index.html"]').attr("href", FEED_INDEX);
   $('a[href="tpl-landing.html"]').attr("href", "index.html"); // tpl wordmark → internal front door
-  $("title").text($("title").text().replace(/Lifelong Learning in Embodied Robotics/g, SITE_NAME).replace(/\{\{[^}]*\}\}.*$/, SITE_NAME).replace(/ — /g, " · "));
+  $("title").text($("title").text().replace(/\{\{[^}]*\}\}.*$/, SITE_NAME));
   // strip OD authoring scaffolding that renders as visible content
   $(".note").each((_, el) => {
     if (/^(On this section|Awaiting you|Blocking on you|Dependency|Test)\b|Rows are generated|content\/|data-done|the build /.test($(el).text().trim()))
@@ -129,16 +129,10 @@ function finish($, name) {
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
-  const html = $.html()
-    .split("Lifelong Learning in Embodied Robotics").join(SITE_NAME)
-    .replace(/\bdefence\b/g, "defense").replace(/\bDefence\b/g, "Defense")
-    // Jeff's style rule applied to kept OD editorial copy
-    .replace("precisely where it stops — that boundary is the gap", "precisely where it stops; that boundary is the gap")
-    .replace("Not a decision — a note for the record", "Not a decision, a note for the record")
-    .replace("you disagreed with too — six months on", "you disagreed with too; six months on")
-    .replace("after the fact — the commit history is the", "after the fact; the commit history is the")
-    .replace(/something\s+else — each page owns its own evidence/, "something else; each page owns its own evidence");
-  fs.writeFileSync(path.join(OUT, name), html);
+  // copy-level fixes (site name, defence/defense, dash style) live in the od/ sources
+  // themselves, edited in place and logged in od/NOTES-FOR-OPEN-DESIGN.md — never as
+  // build-time string replaces.
+  fs.writeFileSync(path.join(OUT, name), $.html());
 }
 
 // ---------- index.html (§00) ----------
@@ -151,9 +145,11 @@ function finish($, name) {
     const k = $(el).find(".stat__k").text().trim();
     const v = $(el).find(".stat__v");
     if (k === "Advisor decision") {
-      // the status pill doesn't wrap: short word in the pill, detail on a small line below
+      // the status pill doesn't wrap: short word in the pill, detail on a small line below,
+      // and the whole stat links to the decision record so it's reachable without scrolling
       const [word, ...rest] = String(overview.status_strip.advisor_decision).split(" — ");
-      v.html(statusSpan("open", word) + (rest.length ? `<br><span class="small muted">${rest.join(" — ")}</span>` : ""));
+      v.html(`<a href="approvals.html#decisions" style="text-decoration:none">${statusSpan("open", word)}</a>` +
+        (rest.length ? `<br><span class="small muted">${rest.join(" — ")} · <a href="approvals.html#decisions">decision record</a></span>` : ""));
     }
     if (k === "Experiments logged") v.html(`<span class="mono">${experiments.length}</span>`);
     if (k === "Open hypotheses") v.html(`<span class="mono">${openHypotheses}</span>`);
@@ -185,16 +181,13 @@ function finish($, name) {
     "literature.html": [`${threads.length} threads`, litEntries.length ? `${litEntries.length} entries` : "Entries pending verification"],
     "timeline.html": [`${timelineC.stages.length} stages`, "In motion"],
     "notes.html": [`${advisorNotes.length} entries`, "Advisor log"],
-    "approvals.html": ["Form D1 in progress", "No decisions yet"],
+    "approvals.html": ["Form D1 in progress", decisions.length ? `${decisions.length} decisions` : "Ledger open, none yet"],
     "landing.html": ["Public front door", "Link-only"],
   };
   for (const [href, [l, r]] of Object.entries(feet)) {
     const foot = $(`a.card[href="${href}"] .card__foot`);
     if (foot.length) foot.html(`<span>${l}</span><span>${r}</span>`);
   }
-  $('a.card[href="timeline.html"] .card__body').text(
-    "The program spine (coursework, the three studies, candidacy, defense), with the deliverable attached to each stage and honest status on every one."
-  );
   // OD's card grid stops at §08: append §09 (feed) and §10 (disciplines) after the §08 card
   const notesCard = $('a.card[href="notes.html"]').first();
   if (notesCard.length) notesCard.after(`\n<a class="card" href="lab-log.html">
@@ -472,7 +465,6 @@ function finish($, name) {
 </li>`);
     });
   }
-  $(".card__title").each((_, el) => $(el).text($(el).text().replace(" — ", ": ")));
   // anchor ids so cross-page links can land on the right section without scrolling
   $(".eyebrow-rule").each((_, el) => {
     const t = $(el).text().trim();
@@ -551,12 +543,6 @@ function finish($, name) {
     else if ($(".hero__cta").length) $(".hero__cta").after(`\n<figure class="media media--16x9">${vid}</figure>${fm.hero_media.caption ? `<p class="small muted">${fm.hero_media.caption}</p>` : ""}`);
     else warn("landing: hero_media declared but no insertion point found");
   }
-  // OD copy: dash-free per Jeff's style rule
-  $(".mock__cap").each((_, el) => $(el).text($(el).text().replace(" — ", ": ")));
-  $("p, .note").each((_, el) => {
-    const h = $(el).html();
-    if (h && h.includes("sense that the link works — not")) $(el).html(h.replace("works — not", "works, not"));
-  });
   // publications band
   (fm.pubs ?? []).forEach((p, i) => {
     const key = `pub.00${i + 1}`;
