@@ -1,5 +1,28 @@
 # Notes for the next OpenDesign session
 
+**SECTION COUNT IS NOW DERIVED, 2026-09-09.** Three of your files asserted that §01 has
+eleven sections, and the build re-asserted it on every run from a string literal in
+`scripts/build.mjs`. §01 has thirteen. The count is now computed from
+`od/proposal.html`'s own `section.sec.doc` elements, so it tracks the structure that
+produces the rail and the anchors and cannot drift from it again.
+
+Two of your literals are now placeholders the build overwrites, both marked with an HTML
+comment saying so: `index.html`'s proposal card foot, and `approvals.html`'s `13 sections`
+tag. Their values are aligned to today's truth so a regeneration without the build step
+would not ship the old number, but the build is what makes them right.
+
+Two other spots were made **count-free** rather than corrected, deliberately, because §01
+took two insertions in a single day and a corrected number is a number that goes stale
+again: `landing.html`'s proposal figcaption now reads "a numbered section rail", and
+`approvals.html`'s proposal card body opens "The full proposal document, currently in
+draft." Please keep counts out of prose. If a number is worth showing, it belongs in a
+slot or a tag the build can fill.
+
+Still asserted and still wrong, reported rather than changed because it is a claim about
+readiness rather than structure: the `0 filled` tag beside the section tag on
+`approvals.html`. Every slot in the built §01 is filled; there are zero `class="slot"`
+elements left in the output.
+
 **SECOND SECTION REORDER, 2026-09-09, also authorized.** ODU's catalog names two sections
 the proposal must contain, and the literature survey below was only the first. **§1.9
 Preliminary results** (`id="s19"`, slot `proposal.preliminary`) was inserted after

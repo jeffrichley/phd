@@ -93,9 +93,15 @@ Each one has a distinct job:
 - **`index.html` §00** — status strip (advisor decision, next milestone, run
   count, open hypotheses), the nine-surface record as cards, the journey spine.
   This is the page the committee lands on.
-- **`proposal.html` §01** — eleven numbered sections, 1.0 through 1.10, with the
-  margin apparatus running alongside. Built to read straight through or print
-  (there is a print stylesheet at `site.css` §13). `proposal.thesis` **must be a
+- **`proposal.html` §01** — thirteen numbered sections with the margin apparatus
+  running alongside: 1.0 Abstract, 1.1 Problem, 1.2 Literature survey, 1.3 Gap,
+  1.4 Thesis, 1.5 Questions, 1.6 Approach, 1.7 Contributions, 1.8 Evaluation,
+  1.9 Preliminary results, 1.10 Risks, 1.11 Resources and schedule, 1.12 Scope.
+  Built to read straight through or print (there is a print stylesheet at
+  `site.css` §13). Two of those sections, Literature survey and Preliminary
+  results, were inserted after this document was first written, because ODU's
+  Graduate Catalog names them; a regeneration from the older structure would
+  drop both and silently break every cross-reference into §01. `proposal.thesis` **must be a
   single sentence**; if the Markdown gives more, take the first and leave the
   rest for the advisor log rather than concatenating.
 - **`questions.html` §02** — research questions, each with falsifiable

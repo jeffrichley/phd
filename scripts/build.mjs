@@ -73,6 +73,9 @@ const supportedHypotheses = allHypotheses.filter((h) => h.status === "supported"
 const disciplinesC = mdFile(`${C}/disciplines.md`);
 const tenetCount = (disciplinesC.content.match(/^## /gm) ?? []).length;
 const litEntries = listDir(`${C}/literature`, (f) => /^lit-\d+\.md$/.test(f));
+// S01's section count is derived, never asserted: od/proposal.html is the structure that
+// produces the rail and the sNN anchors, so it is the only thing that can be right about it.
+const proposalSections = page("proposal.html")("section.sec.doc").length;
 
 // ---------- output scaffold ----------
 fs.rmSync(OUT, { recursive: true, force: true });
@@ -174,7 +177,7 @@ function finish($, name) {
   } else warn("index: spine not rendered");
   // section-card feet: derive from the same counts the status strip uses
   const feet = {
-    "proposal.html": ["11 sections", "Draft"],
+    "proposal.html": [`${proposalSections} sections`, "Draft"],
     "questions.html": [`${allHypotheses.length} hypotheses`, `${supportedHypotheses} supported`],
     "experiments.html": [`${experiments.length} runs`, "Ledger live"],
     "results.html": [`${results.figures.length} of 6 plates filled`, "Study 1"],
@@ -475,6 +478,10 @@ function finish($, name) {
     if (t === "Committee roster") $(el).closest("section").attr("id", "roster");
     if (t === "Decision ledger") $(el).closest("section").attr("id", "decisions");
   });
+  // the proposal card's section tag: same derived count, different element. It is not a
+  // card foot, so the feet table on index.html does not reach it.
+  $("span.tag.mono").filter((_, el) => /^\d+ sections$/.test($(el).text().trim()))
+    .text(`${proposalSections} sections`);
   if (committee.chair_html) {
     fillSlot($, "committee.chair", committee.chair_html);
     $('[data-od-slot="committee.chair"]').closest(".card").find(".status")
