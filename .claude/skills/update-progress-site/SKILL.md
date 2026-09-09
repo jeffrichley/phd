@@ -19,10 +19,13 @@ disciplines win.
 ## How it builds
 
 `content/*.md` → `scripts/build.mjs` (fills labeled slots in the `od/` HTML, generates
-the §09 feed) → `_site/` → push to `main` → GitHub Action deploys to Pages. You only
-ever edit `content/` and, for rendering logic, `scripts/build.mjs`. Never edit `od/`
-(design system as delivered — source defects go in `od/NOTES-FOR-OPEN-DESIGN.md`) and
-never edit `_site/` (regenerated every build).
+the §09 feed) → `_site/` → push to `main` → GitHub Action deploys to Pages. Edit
+`content/` for anything that is content; edit `od/*.html` directly for design-copy fixes
+(wrong wording, style rules) and log each in-place edit in `od/NOTES-FOR-OPEN-DESIGN.md`;
+edit `scripts/build.mjs` only for rendering logic. Never patch page copy with build-time
+string replaces (brittle, Jeff-rejected 2026-09-09) and never edit `_site/` (regenerated
+every build). Style rule: no em dashes in prose (commas, colons, periods, parentheses);
+exceptions are verbatim quotes, "—" empty-value markers, and "Figure N —" prefixes.
 
 ## The review gate
 
