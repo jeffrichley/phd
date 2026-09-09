@@ -271,7 +271,17 @@ function finish($, name) {
     if (fc.length) fc.html(`<b>Figure 1</b> — System overview: the validated hydrodynamics plugin inside the GPU learning stack (paper 1's architecture figure).`);
   }
   fillSlot($, "proposal.subtitle", mdInline(fm.subtitle));
-  fm.research_questions.forEach((q, i) => fillSlot($, `proposal.rq.${i + 1}`, mdInline(q)));
+  // same cap as §02: OD carries proposal.rq.1 through .3 only. Clone the previous entry
+  // for anything beyond, so §1.5 and §02 cannot disagree about how many questions exist.
+  fm.research_questions.forEach((q, i) => {
+    const key = `proposal.rq.${i + 1}`;
+    if (!$(`[data-od-slot="${key}"]`).length) {
+      const prev = $(`[data-od-slot="proposal.rq.${i}"]`);
+      if (!prev.length) { warn(`proposal: no clone base for ${key}`); return; }
+      prev.after(prev.clone().attr("data-od-slot", key).attr("class", "slot slot--inline").empty());
+    }
+    fillSlot($, key, mdInline(q));
+  });
   fm.contributions.forEach((c, i) => fillSlot($, `proposal.contribution.${i + 1}`, mdInline(c)));
   // risks table: replace resting rows entirely
   const tbody = $('table:has(caption:contains("Identified risks")) tbody');
@@ -297,8 +307,29 @@ function finish($, name) {
 // ---------- questions.html (§02) ----------
 {
   const $ = page("questions.html");
+  // OD ships exactly three RQ sections, hand-addressed rq.1 through rq.3, so a fourth
+  // question warned and rendered nothing. Clone the previous section for anything the
+  // template does not carry: the page follows the data rather than capping it.
+  const slotClassFor = (key) =>
+    key.endsWith(".question") ? "slot" : key.includes(".h.") ? "slot slot--inline mb-0" : "slot slot--inline";
   questions.forEach((q, qi) => {
     const n = qi + 1;
+    if (!$(`[data-od-slot="rq.${n}.question"]`).length) {
+      const prev = $(`[data-od-slot="rq.${n - 1}.question"]`).closest("section.sec");
+      if (!prev.length) warn(`questions: no clone base for RQ${n} (${q.id})`);
+      else {
+        const clone = prev.clone();
+        clone.find("[data-od-slot]").each((_, el) => {
+          const key = $(el).attr("data-od-slot").replace(`rq.${n - 1}.`, `rq.${n}.`);
+          $(el).attr("data-od-slot", key).attr("class", slotClassFor(key)).empty();
+        });
+        clone.find("li[data-item]").slice(1).remove(); // one card; the hypothesis cloner grows it back
+        clone.attr("id", `rq${n}`).addClass("sec--rule");
+        clone.find(".sec__num").first().text(`RQ${n}`);
+        clone.find(".sec__sub").first().text(q.short ?? `Research question ${n}`);
+        prev.after(clone);
+      }
+    }
     // real short titles replace "Research question one" placeholders (and RQ3's stray "optional" tag)
     if (q.short) {
       const head = $(".sec__num").filter((_, el) => $(el).text().trim() === `RQ${n}`).first().siblings(".sec__sub");
