@@ -311,6 +311,21 @@ on DoD HPC allocations, tens of GPU-hours total as of September 2026. No ODU
 lab resources are required. Every paper and preprint receives a same-day or next-day government
 pre-publication read before it goes out.
 
+The record behind those numbers is public, and its parts have ordinary names. Every run
+reported anywhere in this document is logged with its seeds, configuration and outcome, so
+the artifacts behind a claim are available rather than described. Every hypothesis carries
+its falsifier and is registered before the runs that test it, which is a preregistration
+rather than a summary written afterwards. Committee decisions are recorded against a named
+document version alongside both.
+
+Keeping that record current is a resource commitment and is stated as one. The site is
+rebuilt from version-controlled sources on every commit, so staying current is a matter of
+writing rather than of publishing. The commitment is to update it when a run completes,
+when a hypothesis moves, or when a decision is recorded, rather than on a calendar, because
+an event-driven cadence is one that can actually be met. A ledger that went stale between
+this proposal and the defense would be worse than no ledger, since every date on it would
+then work against the claims it exists to support.
+
 ## Schedule
 
 Two clocks run on this degree and this section states both rather than averaging them.
