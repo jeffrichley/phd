@@ -37,7 +37,7 @@ stages:
     what: "Study 4: the slenderness sweep (embodiment as the variable)"
     when: "—"
     state: open
-    note: "Runs on the apparatus study 1 validated and depends on no other study's output, so it is schedulable against compute rather than a predecessor. Placed here because §1.11 puts its submission last, not because the order is settled"
+    note: "Runs on the apparatus study 1 validated and measures the transfer penalty study 2 defines, so it needs both. It is independent of study 3, since nothing in RQ4 touches certification, so it is schedulable against compute rather than against study 3. Placed here because §1.11 puts its submission last, not because the order is settled"
   - n: 8
     what: "Defense"
     when: "—"
