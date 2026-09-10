@@ -532,9 +532,19 @@ function finish($, name) {
     if (h) { current = h[1].trim(); sections[current] = []; }
     else if (current) sections[current].push(line);
   }
+  // §05's header says the boundary accumulated across a thread is the gap claimed in §1.3, and
+  // its closing note says that gap is assembled mechanically from those sentences. §1.3 contained
+  // no link to §05 at all: the corpus pointed forward at the argument and the argument pointed
+  // back at nothing. Written as thread:X in the markdown and resolved here, keyed on the thread's
+  // id rather than its name, so renaming a thread cannot strand the reference and deleting one
+  // warns instead of leaving a dead link. See phd-lab#88.
+  const threadHref = (html) => html.replace(/href="thread:([a-z0-9]+)"/g, (_, id) => {
+    if (!threads.some((t) => t.id === id)) warn(`proposal: §1.3 references thread ${id}, which is not in content/literature/_threads.md`);
+    return `href="literature.html#thread-${id}"`;
+  });
   for (const [heading, slot] of Object.entries(fm.slots)) {
     if (!sections[heading]) { warn(`proposal.md missing section: ${heading}`); continue; }
-    fillSlot($, slot, md(sections[heading].join("\n")));
+    fillSlot($, slot, threadHref(md(sections[heading].join("\n"))));
   }
   for (const heading of Object.keys(sections))
     if (!fm.slots[heading]) warn(`proposal.md section has no slot mapping (content dropped): ${heading}`);
@@ -966,6 +976,10 @@ function citeHtml(d) {
       if (prevChip.length && !$(`[data-filter-group="thread"][data-filter-value="${t.id}"]`).length)
         prevChip.after(prevChip.clone().attr("data-filter-value", t.id).attr("aria-pressed", "false"));
     }
+    // the anchor §1.3 points at, keyed on the thread's id so a rename cannot strand it
+    const card = $(`[data-od-slot="lit.thread.${t.id}.name"]`).closest(".card");
+    if (card.length) card.attr("id", `thread-${t.id}`);
+    else warn(`literature: no card to anchor for thread ${t.id}`);
     fillSlot($, `lit.thread.${t.id}.name`, t.name);
     fillSlot($, `lit.thread.${t.id}.claim`, mdInline(t.claim));
     // filter chips shipped with labels naming threads that don't exist — relabel from content

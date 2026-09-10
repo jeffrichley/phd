@@ -199,11 +199,11 @@ contribution and the specific limit it reaches, is browsable in
 ## The gap
 
 Three pieces are missing in current practice. GPU simulators used for underwater robot
-learning specify an added-mass reaction from potential-flow theory and do not realise
-it (a free-body probe measures effective mass equal to dry mass), so fidelity is
-assumed where it should be measured. Transfer methods for locomotion treat task
-variation as one continuous axis, which the added-mass anisotropy says it is not. And
-skill libraries in robotics are overwhelmingly opaque parameter stores: nothing in them
+learning [specify an added-mass reaction from potential-flow theory and do not realise
+it](thread:a) (a free-body probe measures effective mass equal to dry mass), so fidelity is
+assumed where it should be measured. Transfer methods for locomotion [treat task
+variation as one continuous axis](thread:c), which the added-mass anisotropy says it is not. And
+skill libraries in robotics are [overwhelmingly opaque parameter stores](thread:d): nothing in them
 can be certified, so nothing can be refused with a reason.
 
 ## Thesis statement

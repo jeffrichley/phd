@@ -10,9 +10,9 @@ conditions:
   - condition: "Thesis sentence (§1.4) is one sentence and could be false"
     met: true
     evidence: "§1.4 is a single sentence, and the falsifier beneath it names the result that would refute it."
-  - condition: "Every claim in §1.3 points at an entry in §05"
-    met: false
-    evidence: "§1.3 contains no links to the corpus. Counted on the rendered section between the §1.3 and §1.4 headings. Owned by phd-lab#88."
+  - condition: "Every claim in §1.3 points at the thread in §05 that establishes it"
+    met: true
+    evidence: "All three claims link to their thread, and the links are keyed on the thread's id so renaming one cannot strand them. Counted on the rendered section between the §1.3 and §1.4 headings, which is where the zero was measured."
   - condition: "Each contribution in §1.7 maps to an evaluation in §1.8"
     met: true
     evidence: "Every contribution carries its question and where it is tested, and a contribution that traces to neither warns at build time."
