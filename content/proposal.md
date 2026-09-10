@@ -368,7 +368,8 @@ it, a flat slope would be indistinguishable from an artifact of the apparatus. S
 removes that alternative explanation before the acquisition experiments begin, which is the
 sense in which it demonstrates feasibility. Every number above traces to a sealed artifact
 package and is browsable with its run in [§03](experiments.html) and
-[§04](results.html).
+[§04](results.html). What the study argues, and where that argument stops, is set out in
+[the study 1 write-up](study-1-hydrodynamic-fidelity.html).
 
 ## Resources
 
