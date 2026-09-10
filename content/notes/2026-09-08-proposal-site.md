@@ -1,11 +1,10 @@
 ---
 date: 2026-09-08
 who: "Jeff + Dr. Kaipa"
-topic: "Proposal delivery format agreed: this site"
+topic: "Write-up agreed; format is mine"
 actions:
-  - "Deliver the proposal in a readable/watchable form by 2026-09-15"
+  - "Jeff · Deliver the proposal in a readable form by 2026-09-15"
 ---
 
-Agreed to deliver the dissertation proposal in a format Krishna can read and watch; he
-liked the idea of a website he can return to as the work progresses. This site is that
-deliverable: the proposal as an argument, plus the live lab feed.
+Dr. Kaipa agreed the proposal could be written up. The site is my own choice of how to
+deliver it, not something he asked for.

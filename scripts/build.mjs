@@ -1233,7 +1233,7 @@ function citeHtml(d) {
   <div class="prose">${md(n.content)}</div>
   <p class="card__num" style="margin:var(--s4) 0 var(--s2)">Action items</p>
   <ul class="checklist">${actions}</ul>
-  <div class="card__foot"><span class="mono">content/notes/${n.file}</span><span>${openCount} open</span></div>
+  <div class="card__foot"><span></span><span>${openCount} open</span></div>
 </li>`);
   }
   rep.find("[data-od-item]").remove();
