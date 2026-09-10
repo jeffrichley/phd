@@ -25,7 +25,12 @@ const md = (s) => marked.parse(s.trim());
 const mdInline = (s) => marked.parseInline(s.trim());
 const escAttr = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 const SITE_NAME = "Lifelong Learning for Snake-Form Underwater Robots";
-const BUILD_DATE = new Date().toLocaleDateString("sv-SE"); // local date, no UTC evening skew
+// Stamped in the reader's timezone, not the build machine's. The Actions runner is on UTC,
+// so a deploy after UTC midnight stamped tomorrow's date onto a page whose content had not
+// changed: a committee member in Norfolk opening it tonight saw "Updated 2026-09-10". The
+// label carries no timezone, so the only date that is not a future date to this audience is
+// the Eastern one. See phd-lab#64.
+const BUILD_DATE = new Date().toLocaleDateString("sv-SE", { timeZone: "America/New_York" });
 // checklist item honoring the data-done mechanic: "[x] " prefix marks done, and the
 // attribute, glyph, and sr-only prefix always change together (contract §7)
 const checkItem = (raw) => {
@@ -76,6 +81,24 @@ const logEntries = listDir(`${C}/log`)
 const allHypotheses = questions.flatMap((q) => q.hypotheses);
 const openHypotheses = allHypotheses.filter((h) => h.status === "open").length;
 const supportedHypotheses = allHypotheses.filter((h) => h.status === "supported").length;
+
+// §00's card grid reads "what it holds · its state", and nine of its eleven second halves are
+// state phrases: Draft, In motion, In force, Link-only, Ledger live. "2 supported" was the
+// only card on the front page keeping score, which is why a reader stops on it. Naming which
+// questions are answered is what resolves the ambiguity a count cannot: a reader who sees
+// "RQ1 supported" knows the rest belong to studies that have not run.
+//
+// RQ rather than Study because each card's state phrase speaks in its own section's unit, and
+// this card points at §02, whose content is research questions. See phd-lab#65.
+function supportedQuestions(qs) {
+  const done = qs.filter((q) => (q.hypotheses ?? []).length && q.hypotheses.every((h) => h.status === "supported"));
+  if (!done.length) return "none supported yet";
+  if (done.length === qs.length && qs.length > 1) return "all supported";
+  const names = done.map((q) => q.id.toUpperCase());
+  const list = names.length === 1 ? names[0]
+    : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  return `${list} supported`;
+}
 
 // A thrust foot used to read "0 of 6 supported". Jeff read it and asked what it was saying,
 // which is the finding: a status line nobody decodes is worse than one that reads badly, and
@@ -284,7 +307,7 @@ function finish($, name) {
   // section-card feet: derive from the same counts the status strip uses
   const feet = {
     "proposal.html": [`${proposalSections} sections`, "Draft"],
-    "questions.html": [`${allHypotheses.length} hypotheses`, `${supportedHypotheses} supported`],
+    "questions.html": [`${allHypotheses.length} hypotheses`, supportedQuestions(questions)],
     "experiments.html": [`${experiments.length} runs`, "Ledger live"],
     "results.html": [`${results.figures.length} of ${resultPlates} plates filled`, "Study 1"],
     "literature.html": [`${threads.length} threads`, litEntries.length ? `${litEntries.length} entries` : "Entries pending verification"],
