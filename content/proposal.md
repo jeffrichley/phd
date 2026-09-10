@@ -29,11 +29,19 @@ risks:
     likelihood: medium
     impact: medium
     mitigation: "Unconfirmed and stated as such rather than assumed away. The sweep's analytic ground truth (Tuckerman ellipsoid inertia factors, already cited by study 1's validation protocol) holds whatever the generation cost, so the design does not depend on the answer; the number of bodies does, and is left open until it is known"
+# The `id` is the join key to content/questions.md, which authors each question's short title
+# and is the register §1.5 summarises. It is an id and not a list position on purpose: the same
+# four questions live in both files and three of the four already differ in wording, so pairing
+# them by order would eventually put one question's title over another's text.
 research_questions:
-  - "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on, and what does the approximation cost?"
-  - "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale? That is the pre-named falsifier."
-  - "Can certified operating envelopes let a planner refuse missions outside the skill library's coverage with the uncovered facet named, at a lower false-confidence rate than any opaque similarity threshold?"
-  - "Does the structured-memory advantage hold across bodies of differing shape, and does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls? The first half asks whether the result is a property of the architecture or of one robot; the second asks what predicts the scaling RQ2 measures."
+  - id: rq1
+    text: "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on, and what does the approximation cost?"
+  - id: rq2
+    text: "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale? That is the pre-named falsifier."
+  - id: rq3
+    text: "Can certified operating envelopes let a planner refuse missions outside the skill library's coverage with the uncovered facet named, at a lower false-confidence rate than any opaque similarity threshold?"
+  - id: rq4
+    text: "Does the structured-memory advantage hold across bodies of differing shape, and does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls? The first half asks whether the result is a property of the architecture or of one robot; the second asks what predicts the scaling RQ2 measures."
 # Each contribution states where it is answered and where it is tested. Contribution 1 is
 # the one asymmetry and it is deliberate: study 1 is complete, so its evidence is the
 # measurements in §1.9 rather than a plan in §1.8.

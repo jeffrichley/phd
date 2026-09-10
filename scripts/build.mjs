@@ -444,15 +444,37 @@ function finish($, name) {
   fillSlot($, "proposal.subtitle", mdInline(fm.subtitle));
   // same cap as §02: OD carries proposal.rq.1 through .3 only. Clone the previous entry
   // for anything beyond, so §1.5 and §02 cannot disagree about how many questions exist.
-  fm.research_questions.forEach((q, i) => {
+  // §1.5 rendered four unlabelled paragraphs of prose, stacked. OD does carry "RQ1 —", but it
+  // carries it in the slot hint, and a hint is replaced when the slot fills: the labelling
+  // existed only while the page was empty and vanished at the moment there was something to
+  // label. A placeholder correct in the mockup and self-erasing in production.
+  //
+  // The titles are not new text. content/questions.md authors a `short` for every question and
+  // §02 already renders it; §1.5 was the only page ignoring it. Joined by id rather than by
+  // list position, because these two files hold the same four questions and three of the four
+  // have already drifted apart in wording: an ordinal join would one day pair one question's
+  // title with another's text and say nothing. See phd-lab#72.
+  const shortById = new Map(questions.map((q) => [q.id, q.short]));
+  fm.research_questions.forEach((rq, i) => {
+    const item = typeof rq === "string" ? { text: rq } : rq;
     const key = `proposal.rq.${i + 1}`;
     if (!$(`[data-od-slot="${key}"]`).length) {
       const prev = $(`[data-od-slot="proposal.rq.${i}"]`);
       if (!prev.length) { warn(`proposal: no clone base for ${key}`); return; }
       prev.after(prev.clone().attr("data-od-slot", key).attr("class", "slot slot--inline").empty());
     }
-    fillSlot($, key, mdInline(q));
+    if (!item.id) warn(`proposal: research question ${i + 1} has no id, so its title cannot be looked up`);
+    const short = item.id ? shortById.get(item.id) : undefined;
+    if (item.id && short === undefined) warn(`proposal: ${item.id} has no matching question in content/questions.md`);
+    fillSlot($, key,
+      `<h3><span class="tag tag--rq">${item.id ? item.id.toUpperCase() : `RQ${i + 1}`}</span> ` +
+      `${short ? mdInline(short) : '<span class="dash">&mdash;</span>'}</h3><p>${mdInline(item.text)}</p>`);
   });
+  // §02 is the register of research questions and §1.5 summarises it. A question in one and
+  // not the other is a disagreement rather than a difference of scope, so it is said out loud.
+  for (const q of questions)
+    if (!fm.research_questions.some((rq) => typeof rq === "object" && rq.id === q.id))
+      warn(`proposal: ${q.id} is in content/questions.md and absent from §1.5`);
   // same cap as §1.5, and study 4's contribution is what made it bite: OD carries
   // proposal.contribution.1 through .3 only. Clone the previous entry for anything beyond.
   //
