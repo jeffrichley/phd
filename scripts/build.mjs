@@ -306,7 +306,15 @@ const results_ = experiments
 const feed = [
   ...logEntries.map((e) => ({ date: e.date, tag: e.data.tag ?? "", title: e.data.title, body: e.data.excerpt, href: entryHref(e.slug) })),
   ...results_,
-  ...decisions_.map((d) => ({ date: d.date, tag: "decision", title: mdInline(d.title.replace(/^\d+\s*[—-]\s*/, "")), body: d.summary, href: null, note: `${d.paper} · decision ${d.n}, recorded in the lab` })),
+  ...decisions_.map((d) => {
+    // The number comes out of the id, which is the only place the data carries it. An earlier
+    // version read d.n, a field the generator builds internally and never writes to the YAML,
+    // so every one of these rendered "decision undefined" on a committee-facing page while the
+    // build exited 0. Nothing checked the note text, because the checks counted entries.
+    const n = String(d.id).split("/").pop().replace(/^0+/, "");
+    if (!n) throw new Error(`decision ${d.id} has no number in its id; the feed note cannot be built`);
+    return { date: d.date, tag: "decision", title: mdInline(d.title.replace(/^\d+\s*[—-]\s*/, "")), body: d.summary, href: null, note: `${d.paper} · decision ${n}, recorded in the lab` };
+  }),
 ].sort((a, b) => b.date.localeCompare(a.date) || (a.title < b.title ? 1 : -1));
 
 function finish($, name) {
