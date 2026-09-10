@@ -433,7 +433,15 @@ scheduling rather than research throughput.
 ## Scope boundaries
 
 No hardware and no sim-to-real claim: simulation is the apparatus, with its fidelity
-validated to a stated error in study 1. A second morphology (re-parameterized undulator,
-serial arm, continuum arm) is mapped as future work and not promised. Self-generated
+validated to a stated error in study 1. Morphology is a variable rather than an exclusion:
+study 4 promises a slenderness sweep across anguilliform bodies of differing added-mass
+anisotropy and one carangiform body run out of family, and promises nothing beyond swimming
+morphologies. A serial arm and a continuum arm stay future work, and not because the work is
+large: H4.2 regresses the cross-regime transfer penalty on the difference in lateral-to-axial
+added-mass ratio between source and target body, so a body that is not fluid-coupled has no
+independent variable and the hypothesis cannot be run at all. The carangiform body is in
+scope for the same reason read forward: still a swimmer, so the variable exists, and
+foil-dominated rather than whole-body reactive, so it is where the theory can be shown to
+break. Self-generated
 curricula are out of scope: a self-chosen task sequence would make acquisition cost
 incomparable across methods and destroy the headline measurement.
