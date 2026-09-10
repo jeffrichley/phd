@@ -786,7 +786,19 @@ const stamp = (d, state) => {
     const runsHtml = f.runs?.length
       ? `Runs: ${f.runs.map((r) => `<span class="mono">${r}</span>`).join(", ")}`
       : 'Runs: <span class="dash">—</span>';
-    figcap.html(`<b>Figure ${f.n}</b> — ${mdInline(f.caption)}<br><span class="mono" style="font-size:var(--t-micro)">${runsHtml}</span>`);
+    figcap.html(`<b>Figure ${f.n}</b>${f.plots ? ` · ${mdInline(f.plots)}` : ""} — ${mdInline(f.caption)}<br><span class="mono" style="font-size:var(--t-micro)">${runsHtml}</span>`);
+  });
+  // Every plate the loop above did not fill is still template scaffolding: it prints its own
+  // source filename as body text and its caption renders "Figure N — — Caption pending", a
+  // doubled dash from the fixed prefix meeting the empty caption slot. One tab away, RQ4's
+  // generated panel says something a reader can use. Two empty-state treatments on one page,
+  // so the unfilled plates take the good one. The plate's second line is a human description
+  // of what is reserved and it survives; only the filename goes. See phd-lab#80.
+  $("figure").filter((_, el) => $(el).find(".plate").length).each((_, el) => {
+    const key = $(el).find(".plate__key");
+    const what = (key.html() ?? "").split(/<br\s*\/?>/i)[1]?.replace(/<[^>]*>/g, "").trim();
+    if (!what) warn("results: a reserved plate has no description to carry into its empty state");
+    $(el).replaceWith(`<div class="empty"><strong>Reserved${what ? `: ${what}` : ""}</strong>This plate arrives when the run behind it reports. Nothing stands in for it until then.</div>`);
   });
   // reserved plates (RQ2/RQ3/ablations) keep their honest empty state, but the
   // authoring-guidance callouts inside them are written to the author, not the reader

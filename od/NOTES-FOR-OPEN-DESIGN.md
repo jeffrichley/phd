@@ -199,3 +199,9 @@ CONTENT-CONTRACT.md). Nothing urgent; fold in whenever the design is next touche
   the argument a section's runs support rather than sections of their own, so they carry no
   section number and would otherwise sit flush with §03. Added `.rail__link--sub`, an indent
   and a narrower glyph column, generated from `content/studies/`.
+- `results.html` shipped five authoring notes as permanent prose, none of them a `slot__hint`,
+  so none self-erased when a plate filled. One told the author to draft the headline figure
+  "even from imagined data", on the page whose job is showing real measurements. Cut in the
+  source; the two reader-facing notes stay. Unfilled `.plate` divs also printed their own
+  source filename as body text and captioned themselves "Figure N — — Caption pending"; the
+  build now gives every unfilled plate the same `.empty` treatment the generated RQ4 panel uses.
