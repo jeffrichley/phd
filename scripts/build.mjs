@@ -385,6 +385,15 @@ function finish($, name) {
     const id = ($(el).attr("href") ?? "").slice(1);
     if (id && !$(`[id="${id}"]`).length) warn(`${name}: in-page link #${id} resolves to no element`);
   });
+  // Content outside <main> is outside the primary landmark, so a screen-reader user navigating
+  // by landmark skips it entirely. od/approvals.html carried two unmatched </div> before its
+  // last </section>, which closed <main> early and put the decision ledger, the four outcomes
+  // and the append-only note outside it: 26% of that page, including its whole subject. The
+  // template looked correct read as text and was wrong read as a tree, which is why this is
+  // asserted on every page rather than fixed once. See phd-lab#91.
+  const orphaned = $("section").filter((_, el) => $(el).closest("main").length === 0);
+  if (orphaned.length && name !== "landing.html")
+    warn(`${name}: ${orphaned.length} section(s) render outside <main>, so landmark navigation skips them`);
   // copy-level fixes (site name, defence/defense, dash style) live in the od/ sources
   // themselves, edited in place and logged in od/NOTES-FOR-OPEN-DESIGN.md — never as
   // build-time string replaces.
