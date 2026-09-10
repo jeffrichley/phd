@@ -99,7 +99,7 @@ true when it was written, or a new dated entry saying otherwise.
 The proposal document is not an entry and is not held by this rule. It is governed by
 versioning instead: if the direction of the work changes, that is a new version, and
 `v0.1` together with every decision recorded against it stays on the record exactly as it
-was. The two rules answer different questions — one keeps the record of what happened, the
+was. The two rules answer different questions: one keeps the record of what happened, the
 other lets the plan change without erasing what it used to say.
 
 *In force at:* [§07 Committee &amp; approvals](approvals.html#decisions) · [§07's versioning note](approvals.html#versioning) · [§08 Advisor log](notes.html)

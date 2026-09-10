@@ -1513,9 +1513,9 @@ logEntries.forEach((e, i) => {
   $("title").text(`§09 Lab log · ${SITE_NAME}`);
   fillSlot($, "feed.kicker", "§09 · Lab log");
   fillSlot($, "feed.title", "Lab log");
-  fillSlot($, "feed.lead", "Dated record of results, findings, and decisions — newest first.");
+  fillSlot($, "feed.lead", "Dated record of results, findings, decisions, and milestones. Newest first.");
   const rep = $('[data-od-repeat="feed.entries"]');
-  $('meta[name="description"]').attr("content", "Dated record of results, findings, and decisions from the dissertation lab.");
+  $('meta[name="description"]').attr("content", "Dated record of results, findings, decisions, and milestones from the dissertation lab.");
   const items = logEntries.map((e) => {
     const tag = e.data.tag ?? "";
     return `
