@@ -53,7 +53,13 @@ Hypotheses, competence thresholds, seed counts, and the exact transfer compariso
 study 2 were written down on 2026-08-24, while no confirmatory data existed. When the
 numbers arrive they are judged against a plan that could not have bent to meet them.
 
-*In force at:* [Paper 2's methodology recut and preregistered](log-2026-08-24-methodology-recut.html)
+The practice is not new to that recut. One experiment inside study 1, a controlled
+comparison of added-mass approximation schemes, was preregistered on 2026-07-17 before any
+of its data existed, with its hypotheses, its metrics, its seed count and its reporting rule
+fixed in writing beforehand, and that reporting rule commits to publishing the outcome
+whichever way it falls.
+
+*In force at:* [Paper 2's methodology recut and preregistered](log-2026-08-24-methodology-recut.html) · [§1.8 Evaluation plan](proposal.html#s18)
 
 ## Claims cite sealed artifacts only
 
@@ -73,24 +79,30 @@ entry on [§05 Literature corpus](literature.html) passed that gate before it ap
 several central-looking sources waited outside it until their documents were actually
 read. An empty slot is honest; a plausible-looking citation that no one has read is not.
 
+*In force at:* [§05 Literature corpus](literature.html), where the code that manages `refs.bib` is what enforces it · [lit-003](lit-003.html), Lamb (1932), which ships with no resolvable identifier because the registry holds a 1933 review of the book rather than the book: the gate refused rather than guessed
+
 ## Adversarial review comes before friendly review
 
 Before the first paper went to the advisor, it went through a deliberate "Reviewer 2"
 pass: an adversarial review hunting for overclaims, missing baselines, and
 reproducibility gaps. The packet the advisor received included that review and the
-disposition of every weakness it found. This site itself was audited the same way before
-it was shared.
+disposition of every weakness it found. 
 
 *In force at:* [Paper 1 advisor packet delivered](log-2026-08-13-advisor-packet.html)
 
 ## The record is append-only
 
-From the moment an entry is published to this site's readers, it is never edited after
-the fact; a correction or superseding decision is a new dated entry against a named
-version, and the repository history is the audit trail. What you read here is what was
+This governs entries: the lab log, the advisor log, and the decision ledger. From the
+moment an entry is published to this site's readers, it is never edited after the fact; a correction or superseding decision is a new dated entry against a named version, and the repository history is the audit trail. What you read here is what was
 true when it was written, or a new dated entry saying otherwise.
 
-*In force at:* [§07 Committee &amp; approvals](approvals.html#decisions) · [§08 Advisor log](notes.html)
+The proposal document is not an entry and is not held by this rule. It is governed by
+versioning instead: if the direction of the work changes, that is a new version, and
+`v0.1` together with every decision recorded against it stays on the record exactly as it
+was. The two rules answer different questions — one keeps the record of what happened, the
+other lets the plan change without erasing what it used to say.
+
+*In force at:* [§07 Committee &amp; approvals](approvals.html#decisions) · [§07's versioning note](approvals.html#versioning) · [§08 Advisor log](notes.html)
 
 ## Empty means not done
 
@@ -98,8 +110,9 @@ Nothing on this site is padded to look finished. Unfilled sections render as lab
 placeholders; a hypothesis stays **○ Open** until a preregistered run reports; a stage that
 is sequenced but not started is **◇ Planned**, which is a different thing from open; a figure
 plate stays empty until there is a run behind it; statuses are exact words (*drafted,
-delivered, under review, submitted*), never optimistic blurs. If a surface here looks
-sparse, that is the state of the work, and it will fill in public.
+delivered, under review, submitted*), never optimistic blurs. If a surface here looks sparse, that is the state of the work, and it will fill in public.
+
+*In force at:* [§04 Results](results.html), where plates with no run behind them render as labelled reserved slots · [§07's decision ledger](approvals.html#decisions), which reads *No decisions recorded yet*
 
 ## Two claims, two bars
 

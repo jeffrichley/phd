@@ -1201,6 +1201,12 @@ ${rows}
     if (t === "Committee roster") $(el).closest("section").attr("id", "roster");
     if (t === "Decision ledger") $(el).closest("section").attr("id", "decisions");
   });
+  // §10's append-only tenet points here to say the proposal is governed by versioning rather
+  // than by that tenet, so the note needs an anchor. Matched on its own label rather than on a
+  // position, so it survives the note moving.
+  $(".note__who").filter((_, el) => $(el).text().trim() === "Versioning").each((_, el) => {
+    $(el).closest(".note").attr("id", "versioning");
+  });
   // the proposal card's section tag: same derived count, different element. It is not a
   // card foot, so the feet table on index.html does not reach it.
   $("span.tag.mono").filter((_, el) => /^\d+ sections$/.test($(el).text().trim()))
@@ -1594,5 +1600,24 @@ for (const p of listDir(`${C}/people`)) {
     bodyHtml: md(p.content) + (links ? `<p class="small">${links}</p>` : ""),
     currentHref: "approvals.html",
   });
+}
+// finish() checks in-page anchors, but it runs while pages are still being written, so it
+// cannot see a link into a page that does not exist yet. Cross-page anchors are therefore
+// checked here, once, over the finished output. §10 promises every tenet points somewhere you
+// can check; four of those pointers are cross-page, and nothing was verifying them.
+{
+  const pages = fs.readdirSync(OUT).filter((f) => f.endsWith(".html"));
+  const ids = new Map(pages.map((f) => [f, new Set(
+    [...fs.readFileSync(path.join(OUT, f), "utf8").matchAll(/id="([^"]+)"/g)].map((m) => m[1]),
+  )]));
+  let broken = 0;
+  for (const f of pages) {
+    const html = fs.readFileSync(path.join(OUT, f), "utf8");
+    for (const [, target, frag] of html.matchAll(/href="([^"#]+\.html)#([^"]+)"/g)) {
+      if (!ids.has(target)) { warn(`${f}: link to ${target}#${frag}, but ${target} is not built`); broken++; }
+      else if (!ids.get(target).has(frag)) { warn(`${f}: link to ${target}#${frag} resolves to no element on ${target}`); broken++; }
+    }
+  }
+  if (broken) throw new Error(`${broken} cross-page anchor link(s) resolve to nothing.`);
 }
 console.log(`Built ${fs.readdirSync(OUT).filter((f) => f.endsWith(".html")).length} pages into ${OUT}/`);
