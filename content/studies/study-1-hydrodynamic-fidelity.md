@@ -18,7 +18,7 @@ runs: [exp-000, exp-001, exp-002, exp-003]
 
 GPU simulators used for underwater robot learning specify an added-mass reaction from
 potential-flow theory. [RQ1](questions.html#rq1) asks two things about that specification:
-whether it is realised, and what the approximation costs when it is not.
+whether it is realized, and what the approximation costs when it is not.
 
 The question is not incidental to the dissertation. The broadside added-mass term is
 Lighthill's reactive thrust, which is to say it is undulatory propulsion rather than a
@@ -39,7 +39,7 @@ contradict it:
 
 1. The *no reaction* arm departs furthest from *exact*.
 2. The *filtered reaction* arm lands strictly between *no reaction* and *exact*.
-3. The *filtered reaction* arm's error grows with how aggressively the body manoeuvres, and
+3. The *filtered reaction* arm's error grows with how aggressively the body maneuvers, and
    is near zero on steady cruise.
 4. That error is monotone in the filter constant, so heavier smoothing costs more.
 
@@ -144,7 +144,7 @@ explanation before the experiments that do.
 [Study 2](questions.html#rq2) measures whether transfer benefit is flat or scaling in task
 similarity. That measurement is only interpretable if the simulator reproduces the fluid
 coupling that makes some task variation categorical in the first place. On a platform that
-specifies added mass and does not realise it, a flat slope would be indistinguishable from an
+specifies added mass and does not realize it, a flat slope would be indistinguishable from an
 artifact of the apparatus, and the result would mean nothing either way. What study 1 buys
 the proposed work is interpretability, not a result, and that is the whole of its role in
 [§1.9](proposal.html#s19).
@@ -154,7 +154,7 @@ Where it stops is worth stating as plainly as the findings.
 It is a simulation result and makes no sim-to-real claim. The bias floor is measured for an
 articulated undulating body, which is the regime this dissertation works in and not the
 regime every force-only implementation targets; a rigid vehicle that neither undulates nor
-manoeuvres violently is a different case and this study does not measure it. The seven-rung
+maneuvers violently is a different case and this study does not measure it. The seven-rung
 battery establishes that the plugin agrees with closed-form references at fixed states, which
 is a narrower claim than agreeing with water. And the throughput figure is a viability
 result on one solver path, with no parity claimed against any other.

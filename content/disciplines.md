@@ -106,13 +106,13 @@ other lets the plan change without erasing what it used to say.
 
 ## Empty means not done
 
-Nothing on this site is padded to look finished. Unfilled sections render as labelled
+Nothing on this site is padded to look finished. Unfilled sections render as labeled
 placeholders; a hypothesis stays **○ Open** until a preregistered run reports; a stage that
 is sequenced but not started is **◇ Planned**, which is a different thing from open; a figure
 plate stays empty until there is a run behind it; statuses are exact words (*drafted,
 delivered, under review, submitted*), never optimistic blurs. If a surface here looks sparse, that is the state of the work, and it will fill in public.
 
-*In force at:* [§04 Results](results.html), where plates with no run behind them render as labelled reserved slots · [§07's decision ledger](approvals.html#decisions), which reads *No decisions recorded yet*
+*In force at:* [§04 Results](results.html), where plates with no run behind them render as labeled reserved slots · [§07's decision ledger](approvals.html#decisions), which reads *No decisions recorded yet*
 
 ## Two claims, two bars
 

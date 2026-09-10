@@ -7,7 +7,7 @@
 #
 # The added sentence is the one before "Simulation is the apparatus". The paragraph named
 # studies 1 through 3 and left the generality question unanswered exactly where a reader
-# forms it: everything after "realised on the platform" concerns that platform, so whether
+# forms it: everything after "realized on the platform" concerns that platform, so whether
 # any of it holds for a different body had no answer here. Thrust card 02 was already titled
 # "across bodies" with nothing behind it. Jeff's wording, phd-lab#56.
 #
@@ -37,7 +37,7 @@ contact_html: 'Jeff Richley · <span class="mono">jrich107@odu.edu</span>'
 thrusts:
   - title: "The fluid coupling, measured"
     covers: [rq1]
-    body: "GPU simulators specify added-mass physics they do not realise. This work supplies the validation protocol and a hydrodynamics plugin that closes the gap and quantifies what force-only approximations cost."
+    body: "GPU simulators specify added-mass physics they do not realize. This work supplies the validation protocol and a hydrodynamics plugin that closes the gap and quantifies what force-only approximations cost."
   - title: "Skill acquisition across regimes and across bodies"
     covers: [rq2, rq4]
     body: "Fifteen target skills spanning parametric variation (current, payload, a degraded joint) and categorical regime changes (backward swim, station-keep, corkscrew). The measurement: does structured skill memory beat warm-starting from the nearest skill? The same question is then asked across bodies of differing shape, so the answer is a property of the architecture rather than of one robot."
@@ -52,12 +52,12 @@ A snake-form underwater robot must acquire new skills over its working life with
 teacher at hand for each one. The obvious engineering shortcut, warm-starting the new
 controller from the most similar existing one, works only up to a floor set by the body.
 That floor has a mechanism. A slender body carries about three times the added mass
-broadside as axially (Lamb effective mass 1.345 vs 1.115, realised on the platform), and
+broadside as axially (Lamb effective mass 1.345 vs 1.115, realized on the platform), and
 that broadside term is the reactive thrust of undulatory swimming itself. Gait modes are
 therefore predicted to be distinct dynamical regimes, not settings of one dial: lateral
 undulation, corkscrew roll, and station-keeping recruit different fluid couplings, and
 their controllers do not interpolate. Opaque parameter transfer carries the part every
-gait shares (the oscillator driving the travelling wave and the thrust it produces) and
+gait shares (the oscillator driving the traveling wave and the thrust it produces) and
 nothing else. This dissertation shows that an inspectable, structured skill memory is
 what converts the categorical remainder into forward transfer, and that the same
 structure lets a planner certify each skill's operating envelope and refuse a mission

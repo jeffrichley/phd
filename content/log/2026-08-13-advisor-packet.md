@@ -6,7 +6,7 @@ excerpt: "The hydro-fidelity paper went to Dr. Kaipa for advisor review: a six-p
 ---
 <!-- Source: papers/underwater-hydro-fidelity/paper/advisor-review/krishna-send-2026-08-13/ -->
 
-The first paper, measuring whether GPU simulators actually realise the added-mass
+The first paper, measuring whether GPU simulators actually realize the added-mass
 physics they specify and supplying the validated plugin that closes the gap, went to
 Dr. Kaipa for review as a complete six-page IEEE RA-L letter.
 

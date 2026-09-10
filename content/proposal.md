@@ -35,7 +35,7 @@ risks:
 # them by order would eventually put one question's title over another's text.
 research_questions:
   - id: rq1
-    text: "Do the GPU simulators used for underwater robot learning realise the added-mass physics that undulatory propulsion depends on, and what does the approximation cost?"
+    text: "Do the GPU simulators used for underwater robot learning realize the added-mass physics that undulatory propulsion depends on, and what does the approximation cost?"
   - id: rq2
     text: "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale? That is the pre-named falsifier."
   - id: rq3
@@ -85,7 +85,7 @@ slots:
 ## Abstract
 
 A slender swimmer carries about three times the added mass broadside as axially, Lamb
-effective mass 1.345 against 1.115, realised on this platform. That broadside term is not a
+effective mass 1.345 against 1.115, realized on this platform. That broadside term is not a
 drag correction; it is the reactive thrust of undulatory swimming itself. Gait modes are therefore predicted to be
 distinct dynamical regimes, not settings of one dial, a prediction the second study tests
 directly. A snake-form underwater robot that must acquire new skills over its working life,
@@ -119,7 +119,7 @@ guess from similarity, and similarity is exactly what the coupling breaks.
 every underwater simulator works from: a six-degree-of-freedom vectorial model whose terms
 are added mass, the added-mass Coriolis effect known as the Munk moment, damping, and the
 restoring wrench. Lamb (1932) supplies the analytic ground truth for the added-mass
-coefficients themselves, derived from potential flow for an idealised body. Recent GPU
+coefficients themselves, derived from potential flow for an idealized body. Recent GPU
 learning platforms adopt that specification directly. MarineGym (Chu et al., 2025) is the
 closest existing system to this work's platform, a per-link Fossen plugin reaching roughly
 250,000 frames per second on a single GPU, and MuJoCo's fluid model (Google DeepMind,
@@ -127,7 +127,7 @@ closest existing system to this work's platform, a per-link Fossen plugin reachi
 same theory. What none of them does is check the specification against the ground truth.
 MarineGym never validates its force model analytically and never exercises an articulated
 swimmer, and MuJoCo's documentation nowhere states whether the specified reaction is
-actually realised as effective mass, so a reader of the documentation has no way to tell.
+actually realized as effective mass, so a reader of the documentation has no way to tell.
 Across this thread fidelity is asserted rather than measured.
 
 **Anguilliform propulsion and pattern generation.** Two classical theories divide the
@@ -145,14 +145,14 @@ mathematical basis, and Ijspeert et al. (2007) show a single spinal pattern gene
 one scalar descending drive producing both swimming and walking on a real robot, with an
 abrupt switch between gaits rather than a blend. That last result is the closest published
 evidence that gait modes are discrete regimes. What this thread does not contain is
-learning. Ijspeert's repertoire is wired by hand, the drive only selects among behaviours
+learning. Ijspeert's repertoire is wired by hand, the drive only selects among behaviors
 the designer built, and nothing is acquired, retained, or transferred.
 
 **Transfer and continual learning for locomotion.** Continual World (Wołczyk et al., 2021)
 established the benchmark and the vocabulary, twenty sequential manipulation tasks with
 formal metrics for forward transfer and forgetting. The methods it evaluates fall into two
 families this work adopts as baselines. Replay, represented by CLEAR (Rolnick et al.,
-2019), mixes new experience with a uniform buffer and behavioural cloning and virtually
+2019), mixes new experience with a uniform buffer and behavioral cloning and virtually
 eliminates forgetting. Parameter isolation, represented by PackNet (Mallya and Lazebnik,
 2018), prunes and freezes weights per task and achieves zero forgetting by construction.
 Dohare et al. (2024) supply the failure mode both families must survive, showing that
@@ -167,7 +167,7 @@ explicitly scope transfer to low-level weight and feature reuse, and no method i
 thread conditions on the physics of the medium the robot moves through.
 
 **Structured skill memory.** Voyager (Wang et al., 2024) is the canonical growing library,
-storing every verified behaviour as an executable program in a retrievable store and
+storing every verified behavior as an executable program in a retrievable store and
 discovering several times more of its environment than prior methods. LOTUS (Wan et al.,
 2024) is the strongest robot-side version, accumulating skills discovered from unsegmented
 demonstrations and composing them through a meta-controller. On the language side, MemGPT
@@ -199,7 +199,7 @@ contribution and the specific limit it reaches, is browsable in
 ## The gap
 
 Three pieces are missing in current practice. GPU simulators used for underwater robot
-learning [specify an added-mass reaction from potential-flow theory and do not realise
+learning [specify an added-mass reaction from potential-flow theory and do not realize
 it](thread:a) (a free-body probe measures effective mass equal to dry mass), so fidelity is
 assumed where it should be measured. Transfer methods for locomotion [treat task
 variation as one continuous axis](thread:c), which the added-mass anisotropy says it is not. And
@@ -327,7 +327,7 @@ inspectability is the property under test.
 
 Both mechanisms are measured, not merely cited. GOLLUM-style opaque reuse is instantiated
 as the warm-start baseline: the same oracle selection and the same tuning as the
-structured memory, but the whole policy is initialised from the nearest source's weights.
+structured memory, but the whole policy is initialized from the nearest source's weights.
 It is the baseline to beat. LOTUS-style opaque selection is held as a control here, where
 retrieval is an oracle, so the acquisition result is not confounded by retrieval quality;
 whether selection is load-bearing at all is measured by a random-selection ablation, and
@@ -348,7 +348,7 @@ to be counted as finished work but to establish that the apparatus can measure w
 remaining three studies need measured.
 
 A free-body probe on the stock GPU pipeline recovers effective mass equal to dry mass,
-which is to say the added-mass reaction the simulator specifies is not realised at all.
+which is to say the added-mass reaction the simulator specifies is not realized at all.
 With the hydrodynamics plugin active, the same probe carries the analytic potential-flow
 added mass through into effective inertia, 1.115 axial and 1.345 lateral. A seven-rung analytic
 battery, built from fixed-state force comparisons, conservation checks and free decay
@@ -363,7 +363,7 @@ validates the plumbing rather than the physics.
 What this buys the proposed work is interpretability, not a result. Study 2 measures whether
 transfer benefit is flat or scaling in task similarity, and that measurement is only
 meaningful if the simulator reproduces the fluid coupling that makes some task variation
-categorical in the first place. On a platform that specifies added mass and does not realise
+categorical in the first place. On a platform that specifies added mass and does not realize
 it, a flat slope would be indistinguishable from an artifact of the apparatus. Study 1
 removes that alternative explanation before the acquisition experiments begin, which is the
 sense in which it demonstrates feasibility. Every number above traces to a sealed artifact

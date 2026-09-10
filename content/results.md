@@ -12,7 +12,7 @@ figures:
     group: headline
   - n: 2
     file: figures/fig2_gap_cost.png
-    caption: "The specification–realisation gap (free-body effective-mass probe: stock = dry mass; plugin = 1.115 axial / 1.345 lateral) and the cost of approximating it."
+    caption: "The specification–realization gap (free-body effective-mass probe: stock = dry mass; plugin = 1.115 axial / 1.345 lateral) and the cost of approximating it."
     alt: "Two-panel figure: bar comparison of measured effective mass on the stock engine versus the plugin on both body axes, alongside divergence curves quantifying the cost of force-only approximation."
     runs: [exp-000]
     group: rq1

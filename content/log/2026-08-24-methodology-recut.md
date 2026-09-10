@@ -15,7 +15,7 @@ version was archived rather than patched. The recut:
   targets; the claim is about where the boundary falls, so the suite must contain
   it.
 - **The oscillator is frozen before training.** One limit-cycle oscillator with a shared
-  drive generates every gait's travelling wave; freezing it fixes the propulsive
+  drive generates every gait's traveling wave; freezing it fixes the propulsive
   substrate so that what transfers can be attributed cleanly.
 - **The analysis plan is preregistered.** Hypotheses, competence thresholds, seed counts,
   and the near-source/far-source transfer comparison are written down now, while no

@@ -10,7 +10,7 @@ excerpt: A trajectory-overlay comparison got retracted as evidence; in its place
 
 This investigation began as a swim-trajectory comparison (run the forked solver and
 the analytic oracle on the same gait and overlay the paths), and its most important
-result was realising that comparison proves nothing. Steady swim speed is nearly blind
+result was realizing that comparison proves nothing. Steady swim speed is nearly blind
 to the added-mass term, and the historical trajectory "gaps" decomposed entirely into
 integrator and drag confounds, not physics. The earlier "fork matches oracle" reading
 was **retracted in the investigation's own record**, so it is never repeated, here or

@@ -7,11 +7,11 @@ threads:
   - id: a
     name: "Hydrodynamic fidelity in learning simulators"
     chip: "Hydro fidelity"
-    claim: "GPU robot-learning pipelines specify potential-flow added mass and do not realise it; fidelity is asserted, not measured."
+    claim: "GPU robot-learning pipelines specify potential-flow added mass and do not realize it; fidelity is asserted, not measured."
   - id: b
     name: "Anguilliform locomotion and pattern generation"
     chip: "Anguilliform"
-    claim: "Elongated-body theory makes lateral added mass the propulsion term, and CPG oscillators are the standard generator of the travelling wave."
+    claim: "Elongated-body theory makes lateral added mass the propulsion term, and CPG oscillators are the standard generator of the traveling wave."
   - id: c
     name: "Transfer and continual learning for locomotion"
     chip: "Transfer"

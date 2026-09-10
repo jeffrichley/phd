@@ -22,7 +22,7 @@ decisions:
     paper: "paper 2"
     date: 2026-08-21
     title: "0008 — Paper-2 CPG freeze and suite plan (build-ready)"
-    summary: "One central oscillator drives both travelling waves, with pitch riding the same delay line at a fixed lag rather than getting an oscillator of its own; the six action channels and the five acceptance tests that must pass before any retrain are fixed in writing."
+    summary: "One central oscillator drives both traveling waves, with pitch riding the same delay line at a fixed lag rather than getting an oscillator of its own; the six action channels and the five acceptance tests that must pass before any retrain are fixed in writing."
   - id: "compositional-skill-reuse/0007"
     paper: "paper 2"
     date: 2026-08-20
@@ -82,7 +82,7 @@ decisions:
     paper: "paper 2"
     date: 2026-07-14
     title: "0001 — Arrival is touch-and-go; station-keeping is a *separate* skill"
-    summary: "Touch-and-go stays the arrival criterion and precise positioning becomes its own skill, setting the library's rule that distinct behaviours are distinct skills."
+    summary: "Touch-and-go stays the arrival criterion and precise positioning becomes its own skill, setting the library's rule that distinct behaviors are distinct skills."
   - id: "underwater-hydro-fidelity/0002"
     paper: "paper 1"
     date: 2026-07-12
