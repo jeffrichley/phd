@@ -221,6 +221,19 @@ function finish($, name) {
   if ($("#rail").length && !$('#rail a[href="landing.html"]').length) {
     $("#rail").append(`\n    <div class="rail__group"><p class="rail__label">Outward</p><a class="rail__link" href="landing.html"><span class="rail__num">↗</span><span>Public page</span></a></div>`);
   }
+  // "Nine surfaces, one record" counted nine when the rail carried eleven, on the same screen
+  // as the rail. It is the frozen-counter defect inside a SENTENCE, which is why no label sweep
+  // found it: every instrument built for those reads chrome, and prose is invisible to all of
+  // them. Derived from the rail the page actually renders. See phd-lab#66.
+  const NUM_WORD = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+    "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
+  const surfaces = $("#rail .rail__num").filter((_, el) => /^§\d+$/.test($(el).text().trim())).length;
+  const surfaceWord = NUM_WORD[surfaces] ?? String(surfaces);
+  const structureNote = $(".note").filter((_, el) => /surfaces, one record/.test($(el).text())).first();
+  if (structureNote.length) {
+    structureNote.html(structureNote.html().replace(/\b[A-Z][a-z]+ surfaces, one record/,
+      `${surfaceWord[0].toUpperCase()}${surfaceWord.slice(1)} surfaces, one record`));
+  } else if (name === "index.html") warn("index: the Structure note's surface count was not found");
   // footer slots on generated pages; hand-built pages get a matching footer appended (§8.7)
   $('[data-od-slot="site.footer.line"]').text("Jeff Richley · ODU MAE PhD · advisor Dr. Krishnanand Kaipa");
   $('[data-od-slot="site.footer.updated"]').text(BUILD_DATE);
@@ -314,8 +327,20 @@ function finish($, name) {
   const spineOl = $("ol.spine").first();
   if (spineOl.length && overview.spine?.length) {
     spineOl.empty();
-    overview.spine.forEach((m, i) => {
-      spineOl.append(`\n<li data-state="${m.state}"><p class="spine__when">Stage 0${i + 1} · <span class="mono">${m.when}</span></p><h3 class="spine__what">${m.what}</h3><p class="spine__note">${mdInline(m.note)}</p></li>`);
+    // No "Stage NN" here. content/overview.md's spine carries when, what, note and state and
+    // says nothing about stages: the number was the array index, and it collided with §06's
+    // real stage vocabulary while contradicting it. §00's spine is a history ending at now and
+    // §06's is the programme plan, so the date leads and the invented numbering goes. They are
+    // not renumbered to agree, because agreeing would assert a correspondence that does not
+    // exist. See phd-lab#66.
+    //
+    // The state renders as a glyph and a word, matching §06's spine. It was previously emitted
+    // only as data-state, which the CSS draws as a bare coloured dot, and CONTENT-CONTRACT.md
+    // line 277 forbids exactly that: status is never colour alone (WCAG 1.4.1). Jeff's intent
+    // that the last entry reads as current was in the data and unreadable on the page.
+    const spineWord = { done: "Complete", active: "Current", open: "Planned" };
+    overview.spine.forEach((m) => {
+      spineOl.append(`\n<li data-state="${m.state}"><p class="spine__when"><span class="mono">${m.when}</span></p><h3 class="spine__what">${m.what}</h3><p class="spine__note">${mdInline(m.note)}</p><p class="spine__note">${statusSpan(m.state, spineWord[m.state])}</p></li>`);
     });
   } else warn("index: spine not rendered");
   // section-card feet: derive from the same counts the status strip uses
