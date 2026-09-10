@@ -254,10 +254,15 @@ added-mass coupling that changes character across gait regimes, those dynamics a
 available in closed form at all, so the direct method is the applicable one. That is a fact
 about the fluid, not a preference about algorithms.
 
-What those papers establish is standing. Their guarantees are for tabulated finite-state
-problems and for the linear-quadratic case, and the 1992 paper states that whether such
-guarantees extend to function approximation was unknown at the time. Neither licenses a
-claim about the controller proposed here. That is what studies 2 through 4 measure.
+What those papers establish is standing, not a guarantee. There is a convergence theorem and
+its scope is exact: Watkins's result holds if all actions continue to be tried from all
+states, and that is a condition on tabulated finite-state, finite-action Markov decision
+problems. The linear-quadratic case is the other setting where guarantees are available. The
+1992 paper draws the boundary itself, saying it is not currently known whether theoretical
+guarantees of convergence extend to various function representations, and naming the curse of
+dimensionality for continuous state and action spaces. The controller proposed here is
+continuous and function-approximated, so the theorem does not cover it. That is what studies
+2 through 4 measure.
 
 ## Evaluation plan
 
