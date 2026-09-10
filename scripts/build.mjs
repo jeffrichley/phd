@@ -1137,6 +1137,26 @@ for (const e of litEntries) {
     prev: { href: "literature.html", title: "§05 Literature corpus" },
   });
 }
+// Study write-ups (linked from §01 §1.9, §03 and §04; not rail sections). A study page owns
+// the argument its runs support, which no page here owned: §03 owns the runs, §04 owns the
+// plates, §1.9 owns one paragraph of consequence inside the proposal. It is an unnumbered
+// leaf on purpose. The site's grammar is a numbered index owning unnumbered children (lit-*
+// under §05, log-* under §09, people-* under §07), and a numbered "Studies" section holding
+// one entry would advertise the three studies that have nothing to write yet. Promote it
+// when study 2 lands and the index has something to index. See phd-lab#69.
+for (const s of listDir(`${C}/studies`)) {
+  const d = s.data;
+  if (!d.slug) { d.slug = s.file.replace(/\.md$/, ""); warn(`studies: ${s.file} has no slug; defaulting to filename`); }
+  genContentPage(`${d.slug}.html`, {
+    kicker: d.kicker ?? "Study",
+    title: d.title,
+    lead: d.lead,
+    bodyHtml: md(s.content),
+    currentHref: "experiments.html",
+    prev: { href: "experiments.html", title: "§03 Experiments" },
+    next: { href: "results.html", title: "§04 Results & figures" },
+  });
+}
 // People profiles (linked from §07; not rail sections)
 for (const p of listDir(`${C}/people`)) {
   const d = p.data;
