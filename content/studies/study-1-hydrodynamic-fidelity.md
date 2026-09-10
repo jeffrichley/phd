@@ -77,7 +77,7 @@ than against another simulation. The design rule was that a rung counts only if 
 on its own terms, so each one is listed here with what it is checked against.
 
 <div class="table-wrap">
-<table class="simple">
+<table class="simple simple--keyed">
 <caption class="sr-only">The seven rungs of the analytic validation battery and what each is compared against</caption>
 <thead><tr><th scope="col">Rung</th><th scope="col">Compared against</th></tr></thead>
 <tbody>

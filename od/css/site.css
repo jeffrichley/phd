@@ -644,6 +644,15 @@ table.simple th {
 table.simple td { padding: 11px var(--s4) 11px 0; border-bottom: var(--hair); vertical-align: top; overflow-wrap: anywhere; }
 table.simple tbody tr:last-child td { border-bottom: 0; }
 table.simple th:last-child, table.simple td:last-child { padding-right: 0; }
+/* A two-column table whose first column is a short label. Without this the label wraps
+   between its number and its text: table.simple sets overflow-wrap:anywhere for long cell
+   content, and auto layout gives a short first column almost no width, so "1 · Acceleration
+   reaction" broke across two lines. width:1% with nowrap is shrink-to-fit, and .table-wrap
+   still scrolls on a narrow screen. Used by study 1's rung battery. See phd-lab#79. */
+table.simple--keyed th:first-child,
+table.simple--keyed td:first-child {
+  white-space: nowrap; overflow-wrap: normal; width: 1%; padding-right: var(--s5);
+}
 
 /* -- 14.7 Prose extensions -------------------------------------------------- */
 .prose h2 { font-size: var(--t-h2); letter-spacing: var(--ls-tight); margin: var(--s8) 0 var(--s4); }
