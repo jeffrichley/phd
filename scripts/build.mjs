@@ -1117,6 +1117,7 @@ function citeHtml(d) {
 <div class="card" id="plan-of-study" style="margin-top:var(--s4)">
   <div class="row" style="justify-content:space-between"><span class="card__title">Plan of Study</span>${statusSpan("open", planOfStudy.status ?? "Not filed")}</div>
   <p class="card__body">${mdInline(planOfStudy.shape ?? "")}</p>
+  ${(planOfStudy.completed ?? []).length ? `<p class="card__num" style="margin:var(--s4) 0 var(--s2)">Completed, by term</p><div class="table-wrap" style="border:0"><table class="data" style="min-width:0"><caption class="sr-only">Coursework completed by term, each term's class above the dissertation credit taken alongside it</caption><tbody>${planOfStudy.completed.map((t) => `<tr><td class="small muted" style="white-space:nowrap">${mdInline(t.term)}</td><td>${(t.rows ?? []).map((r) => mdInline(r)).join("<br>")}</td></tr>`).join("")}</tbody></table></div><p class="small muted">${mdInline(planOfStudy.completed_totals ?? "")}</p>` : ""}
   <div class="table-wrap" style="border:0"><table class="data" style="min-width:0"><caption class="sr-only">Credit arithmetic from the DegreeWorks audit, with the page each figure is read from</caption><thead><tr><th scope="col">From the ${mdInline(planOfStudy.source ?? "audit")}</th><th scope="col">Where</th></tr></thead><tbody>
 ${rows}
 </tbody></table></div>

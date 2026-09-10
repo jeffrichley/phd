@@ -5,6 +5,30 @@
 # The page reference on each row is where to re-check it.
 status: "Not filed"
 source: "DegreeWorks audit, 2026-08-27"
+# Completed coursework, by term, class before the standing dissertation credit under it.
+# Read that way the record shows a cadence: one class plus one MAE 899 every term, four terms
+# running. The order here is the render order and is deliberate; the audit's own layout groups
+# by course number and destroys it. Verified pair by pair against the rendered PDF rather than
+# extracted, because the course numbers and the titles are two independent columns and pairing
+# them by position gives a wrong answer silently. See phd-lab#96.
+completed:
+  - term: "Spring 2025"
+    rows:
+      - "MAE 880 Engineering Optimization · A · 3"
+      - "MAE 899 Dissertation · P · 3"
+  - term: "Fall 2025"
+    rows:
+      - "MAE 840 Auto Robotic Sys Analy & Cntrl · A · 3"
+      - "MAE 899 Dissertation · P · 3"
+  - term: "Spring 2026"
+    rows:
+      - "MAE 595 Applied Marine Robotics · A · 3"
+      - "MAE 899 Dissertation · P · 3"
+  - term: "Fall 2026, in progress"
+    rows:
+      - "MAE 897 Ind Std: Undulatory Propulsion · IP · (3)"
+      - "MAE 899 Dissertation · IP · (3)"
+completed_totals: "18 completed graduate hours. 21 credits applied against the 48 required, 27 still needed."
 arithmetic:
   - fact: "48 credits required beyond the master's; 21 applied; 27 still needed"
     where: "audit p.2, Major in Engineering"
