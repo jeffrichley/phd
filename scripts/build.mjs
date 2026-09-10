@@ -288,6 +288,16 @@ function finish($, name) {
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
+  // §01's internal "§1.5", "§1.8", "§1.9" and "§1.12" references were plain text. §01 went
+  // from 11 sections to 13 in one day and all four still pointed at the right section, by
+  // luck: nothing would have said otherwise. As anchors they are checked here, at the one
+  // point every page passes through, and a renumbering makes this warn instead of leaving a
+  // sentence aimed at the wrong section. Cross-page references already broke loudly; this is
+  // what gives in-page ones the same property. See phd-lab#67.
+  $('a[href^="#"]').each((_, el) => {
+    const id = ($(el).attr("href") ?? "").slice(1);
+    if (id && !$(`[id="${id}"]`).length) warn(`${name}: in-page link #${id} resolves to no element`);
+  });
   // copy-level fixes (site name, defence/defense, dash style) live in the od/ sources
   // themselves, edited in place and logged in od/NOTES-FOR-OPEN-DESIGN.md — never as
   // build-time string replaces.
@@ -382,6 +392,32 @@ function finish($, name) {
 {
   const $ = page("proposal.html");
   const fm = proposal.data;
+  // OD's margin notes are instructions to the author, and six of them shipped to the reader:
+  // a committee member was being told to "include at least one risk you genuinely cannot
+  // fully mitigate", which makes a finished document look like a filled-in template. Named
+  // one by one rather than pattern-matched, so this can neither over-reach nor go quietly
+  // stale: a label that stops appearing warns instead of silently cutting nothing. Two notes
+  // stay, because they address a reader rather than the author. See phd-lab#67.
+  const AUTHORING_NOTES = ["Falsifiability", "Scope guard", "Mapping", "Credibility",
+    "Common objection", "Why it earns its space"];
+  for (const label of AUTHORING_NOTES) {
+    const note = $(".note").filter((_, el) => $(el).find(".note__who").text().trim() === label).first();
+    if (note.length) note.remove();
+    else warn(`proposal: authoring note "${label}" not found (OD may have renamed it)`);
+  }
+  $("aside.doc__margin").each((_, el) => { if (!$(el).text().trim()) $(el).remove(); });
+  // A button naming an action in the imperative is a claim that the action is available.
+  // §07 is a read-only ledger with no form control on it, so this one sent a committee
+  // member somewhere they could not record anything. Print stays: window.print() works.
+  const decisionBtn = $('a.btn[href="approvals.html#decisions"]');
+  if (decisionBtn.length) decisionBtn.remove();
+  else warn("proposal: the record-a-decision button was not found");
+  // §1.4 carried a coaching note where a falsifier belongs. The falsifier is not new: it is
+  // the one already in §1.10's risk table and named by RQ2. It renders as a sibling of the
+  // thesis rather than inside it, because the thesis is one sentence by contract §3.
+  const thesisEl = $('[data-od-slot="proposal.thesis"]');
+  if (thesisEl.length) thesisEl.after('<div class="prose" data-od-slot="proposal.thesis.falsifier"></div>');
+  else warn("proposal: no proposal.thesis element to hang the falsifier on");
   // heading→slot mapping from frontmatter `slots`
   const sections = {};
   let current = null;
@@ -419,23 +455,58 @@ function finish($, name) {
   });
   // same cap as §1.5, and study 4's contribution is what made it bite: OD carries
   // proposal.contribution.1 through .3 only. Clone the previous entry for anything beyond.
+  //
+  // Each contribution now carries its own trace. OD's note told the author that a
+  // contribution should trace to a question and an evaluation; the note is cut above and the
+  // trace is stated instead. It lives in front matter as data rather than in prose, so a
+  // renumbered section breaks the in-page anchor check in finish() rather than leaving a
+  // sentence that quietly points at the wrong place. See phd-lab#67.
+  const secHref = (label) => `#s${String(label).replace(/^§/, "").replace(/\./g, "")}`;
   fm.contributions.forEach((c, i) => {
+    const item = typeof c === "string" ? { text: c } : c;
     const key = `proposal.contribution.${i + 1}`;
     if (!$(`[data-od-slot="${key}"]`).length) {
       const prev = $(`[data-od-slot="proposal.contribution.${i}"]`);
       if (!prev.length) { warn(`proposal: no clone base for ${key}`); return; }
       prev.after(prev.clone().attr("data-od-slot", key).attr("class", "slot slot--inline").empty());
     }
-    fillSlot($, key, mdInline(c));
+    const trace = [];
+    if (item.answers) trace.push(`Answers <a href="${secHref("§1.5")}">${item.answers}</a>`);
+    if (item.evaluated) trace.push(`Evaluated in <a href="${secHref(item.evaluated)}">${item.evaluated}</a>`);
+    if (item.evidence) trace.push(`Evidence in <a href="${secHref(item.evidence)}">${item.evidence}</a>`);
+    // a contribution with no evaluation is a plan, which is the thing OD's note was warning
+    // the author about. Said once here, as a check, instead of on the page to the reader.
+    if (!item.evaluated && !item.evidence) warn(`proposal: contribution ${i + 1} traces to no evaluation or evidence`);
+    if (!item.answers) warn(`proposal: contribution ${i + 1} traces to no research question`);
+    fillSlot($, key, `<p>${mdInline(item.text)}</p>` +
+      (trace.length ? `<p class="small muted">${trace.join(" · ")}</p>` : ""));
   });
-  // risks table: replace resting rows entirely
+  // risks table: replace resting rows entirely. Four columns overflowed .table-wrap on a
+  // desktop, where the horizontal scroll is a responsive fallback rather than the intent.
+  // Likelihood and impact are one-word ratings that read fine together, so they share a
+  // cell: three columns, both values kept. See phd-lab#67.
+  const riskHeads = $('table:has(caption:contains("Identified risks")) thead tr').children("th");
+  if (riskHeads.length === 4) {
+    $(riskHeads[1]).text("Likelihood / impact");
+    $(riskHeads[2]).remove();
+  } else warn(`proposal: risks table has ${riskHeads.length} header cells, expected 4`);
   const tbody = $('table:has(caption:contains("Identified risks")) tbody');
   if (tbody.length) {
     tbody.empty();
     for (const r of fm.risks) {
-      tbody.append(`\n<tr><td>${mdInline(r.risk)}</td><td>${r.likelihood}</td><td>${r.impact}</td><td>${mdInline(r.mitigation)}</td></tr>`);
+      tbody.append(`\n<tr><td>${mdInline(r.risk)}</td><td>${r.likelihood} / ${r.impact}</td><td>${mdInline(r.mitigation)}</td></tr>`);
     }
   } else warn("proposal: risks tbody not found");
+  // the closing box's prose was a to-do addressed to Jeff, the same class as the six
+  // authoring notes. The button beside it is honest navigation to a real ledger and stays;
+  // only the sentence turns outward, toward the reader who has to trust the ledger.
+  const readyBox = $(".callout").filter((_, el) => /Ready for a decision/.test($(el).find("h3").text())).first();
+  if (readyBox.length) {
+    readyBox.find("h3").first().text("Decisions on this document");
+    readyBox.find("p").first().html(
+      `Every decision on this proposal is recorded in <a href="approvals.html">§07 Committee &amp; approvals</a> against a named version, so an approval always refers to a specific document rather than to whatever this page said on the day it was read.`
+    );
+  } else warn("proposal: the closing decision callout was not found");
   // header metadata: version / status / prepared for / dated — fill text occurrences if present
   const headMeta = $(".pagehead__meta");
   if (headMeta.length) {

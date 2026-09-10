@@ -34,11 +34,22 @@ research_questions:
   - "Is transfer benefit flat in task similarity above the shared-substrate floor, or does it scale? That is the pre-named falsifier."
   - "Can certified operating envelopes let a planner refuse missions outside the skill library's coverage with the uncovered facet named, at a lower false-confidence rate than any opaque similarity threshold?"
   - "Does the structured-memory advantage hold across bodies of differing shape, and does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls? The first half asks whether the result is a property of the architecture or of one robot; the second asks what predicts the scaling RQ2 measures."
+# Each contribution states where it is answered and where it is tested. Contribution 1 is
+# the one asymmetry and it is deliberate: study 1 is complete, so its evidence is the
+# measurements in §1.9 rather than a plan in §1.8.
 contributions:
-  - "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed. The measurements themselves, and what they establish about feasibility, are in §1.9."
-  - "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
-  - "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named. The run-time assurance literature uses *operating envelope* for the state-space region a primary controller is left free to work in (Hobbs et al., 2023); here the term names a certificate over task facets instead, a parametric extent over the dials and a categorical membership over the switches, held per skill card"
-  - "The result shown to be a property of the architecture rather than of one robot: a slenderness sweep that tests whether the structured-memory advantage holds across bodies of differing shape, and whether added-mass anisotropy predicts where the categorical boundary between gait regimes falls, with a carangiform body run out of family to locate the mechanism's bound"
+  - text: "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed"
+    answers: RQ1
+    evidence: "§1.9"
+  - text: "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
+    answers: RQ2
+    evaluated: "§1.8"
+  - text: "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named. The run-time assurance literature uses *operating envelope* for the state-space region a primary controller is left free to work in (Hobbs et al., 2023); here the term names a certificate over task facets instead, a parametric extent over the dials and a categorical membership over the switches, held per skill card"
+    answers: RQ3
+    evaluated: "§1.8"
+  - text: "The result shown to be a property of the architecture rather than of one robot: a slenderness sweep that tests whether the structured-memory advantage holds across bodies of differing shape, and whether added-mass anisotropy predicts where the categorical boundary between gait regimes falls, with a carangiform body run out of family to locate the mechanism's bound"
+    answers: RQ4
+    evaluated: "§1.8"
 slots:
   Abstract: proposal.abstract
   Problem statement: proposal.problem
@@ -46,6 +57,7 @@ slots:
   Literature survey: proposal.literature
   The gap: proposal.gap
   Thesis statement: proposal.thesis
+  Falsifier: proposal.thesis.falsifier
   Approach: proposal.approach
   Evaluation plan: proposal.evaluation
   Baselines: proposal.evaluation.baselines
@@ -189,24 +201,34 @@ substrate and categorically distinct task-specific structure; opaque parameter t
 carries only the substrate, so an inspectable, structured skill-memory is what converts
 the categorical remainder into forward transfer.
 
+## Falsifier
+
+The thesis is false if transfer benefit scales with task similarity, because a benefit
+smooth in similarity leaves no categorical remainder for a structured memory to convert,
+and [RQ2](#s15) is the measurement that decides it.
+
 ## Approach
 
-Four studies, one spine: structure buys what opacity cannot. Study 1 measures the fluid
-coupling (the validation protocol, the plugin that injects Fossen-model hydrodynamics
-into the solver's own force buffer, the quantified bias floor) and establishes *why*
-gait modes are categorical. Study 2 cashes that structure at acquisition time: fifteen
-target skills spanning the dial/switch boundary, each acquired from scratch, from the
-nearest skill, and scaffolded from several retrieved skills through the structured
-memory. Study 3 cashes it at planning time: certified envelopes on every skill card and
-an envelope check that refuses uncovered missions. That architecture, a certifier outside an
-unverified controller admitting or refusing its output against a specified condition, is what
-the controls literature calls run-time assurance. Study 4 varies the body itself: a
-slenderness sweep across anguilliform bodies of differing added-mass anisotropy, same gait
-family, which makes the lateral-to-axial ratio a continuous independent variable rather
-than a fixed property of one robot. One carangiform body, where thrust is foil-dominated
-rather than whole-body reactive, is run last and deliberately out of family. The studies
-are linked, not merely sequential: study 2's transfer-versus-similarity slope decides
-study 3's retrieval policy, and study 4 asks what predicts that slope.
+Four studies, one spine: structure buys what opacity cannot.
+
+- **Study 1 measures the fluid coupling** and establishes *why* gait modes are categorical:
+  the validation protocol, the plugin that injects Fossen-model hydrodynamics into the
+  solver's own force buffer, and the quantified bias floor.
+- **Study 2 cashes that structure at acquisition time.** Fifteen target skills spanning the
+  dial/switch boundary, each acquired from scratch, from the nearest skill, and scaffolded
+  from several retrieved skills through the structured memory.
+- **Study 3 cashes it at planning time.** Certified envelopes on every skill card and an
+  envelope check that refuses uncovered missions. That architecture, a certifier outside an
+  unverified controller admitting or refusing its output against a specified condition, is
+  what the controls literature calls run-time assurance.
+- **Study 4 varies the body itself.** A slenderness sweep across anguilliform bodies of
+  differing added-mass anisotropy, same gait family, which makes the lateral-to-axial ratio a
+  continuous independent variable rather than a fixed property of one robot. One carangiform
+  body, where thrust is foil-dominated rather than whole-body reactive, is run last and
+  deliberately out of family.
+
+The studies are linked, not merely sequential: study 2's transfer-versus-similarity slope
+decides study 3's retrieval policy, and study 4 asks what predicts that slope.
 
 The method's lineage is in the control literature. Sutton, Barto and Williams (1992),
 writing in *IEEE Control Systems Magazine*, argue that reinforcement learning is the direct
@@ -298,7 +320,7 @@ skill blends fail rather than landing between their parents.
 
 Study 1 is complete and at the IEEE RA-L submission gate. Its role in this proposal is not
 to be counted as finished work but to establish that the apparatus can measure what the
-remaining two studies need measured.
+remaining three studies need measured.
 
 A free-body probe on the stock GPU pipeline recovers effective mass equal to dry mass,
 which is to say the added-mass reaction the simulator specifies is not realised at all.
@@ -326,7 +348,7 @@ package and is browsable with its run in [§03](experiments.html) and
 ## Resources
 
 All computation in simulation: development on a personal RTX 4060 Ti; training campaigns
-on DoD HPC allocations, tens of GPU-hours total as of September 2026. No ODU
+on HPC allocations, tens of GPU-hours total as of September 2026. No ODU
 lab resources are required. Every paper and preprint receives a same-day or next-day government
 pre-publication read before it goes out.
 
@@ -362,15 +384,19 @@ are scheduled with my advisor rather than against a departmental calendar. Handb
 places the candidacy examination in the last coursework semester, so the proposal date is
 set by when coursework ends rather than by when the research is ready.
 
-**Relative to approval.** Study 2's acquisition campaign completes by roughly T0 plus two to
-three months, and its analysis and manuscript by roughly T0 plus five. Study 3 begins from
-study 2's certified skill cards, since its retrieval policy is decided by the slope study 2
-measures, and reaches submission by roughly T0 plus eight to nine. Study 4 runs on the
-apparatus study 1 already validated and measures the transfer penalty study 2 defines, so it
-needs both. It is independent of study 3, since nothing in its questions touches
-certification, so it is schedulable against compute rather than against study 3's work, and
-it reaches submission by roughly T0 plus eleven to twelve. The defense follows once all four manuscripts are
-submitted, which is the ODU gate rather than acceptance.
+**Relative to approval.** Each interval below is measured from T0, the approval of this
+document, and each is approximate for the reason given above.
+
+- **T0 plus two to three months.** Study 2's acquisition campaign completes.
+- **T0 plus five.** Study 2's analysis and manuscript reach submission.
+- **T0 plus eight to nine.** Study 3 reaches submission. It begins from study 2's certified
+  skill cards, since its retrieval policy is decided by the slope study 2 measures.
+- **T0 plus eleven to twelve.** Study 4 reaches submission. It runs on the apparatus study 1
+  already validated and measures the transfer penalty study 2 defines, so it needs both. It
+  is independent of study 3, since nothing in its questions touches certification, so it is
+  schedulable against compute rather than against study 3's work.
+- **Once all four manuscripts are submitted.** The defense. Submission is the ODU gate,
+  not acceptance.
 
 **On the size of those intervals.** Study 1 went from the platform's first commit to a
 consistency-passed manuscript in about thirteen days. The intervals above are budgeted well
