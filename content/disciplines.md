@@ -5,6 +5,35 @@
 kicker: "§10 · Disciplines"
 title: "How this record is kept"
 lead: "The rules this program runs on, each one enforced somewhere you can check, not aspirational."
+# The status vocabulary, declared once. The glyph encodes POSITION, not started through done,
+# and the label supplies the FAMILY: work states, decision states, evidence states. That is why
+# one mark carries several words. The build checks this table against every glyph actually
+# rendered across the site, so it cannot drift into being a description of what it used to be.
+glyphs:
+  - mark: "○"
+    position: "Not started, and nothing is preventing it"
+    words: "Open · Draft · Awaiting decision · Not met · Not yet selected · Comment only"
+  - mark: "◇"
+    position: "Not started, sequenced and waiting on something"
+    words: "Planned · Queued"
+  - mark: "◐"
+    position: "In flight"
+    words: "In progress · Running · Current · Advising"
+  - mark: "●"
+    position: "Done, affirmative"
+    words: "Complete · Approved · Supported"
+  - mark: "◑"
+    position: "Done, qualified"
+    words: "Approved with revisions · Approved w/ revisions · Inconclusive · Superseded"
+  - mark: "✕"
+    position: "Done, negative"
+    words: "Failed · Refuted · Changes requested"
+  - mark: "◈"
+    position: "Not started, and not yet reachable"
+    words: "After candidacy · Pending"
+  - mark: "◌"
+    position: "No state recorded, which is itself the finding"
+    words: "Unfilled"
 ---
 
 ## Falsifiers are named before the plot
