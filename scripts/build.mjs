@@ -118,10 +118,11 @@ const STAGEMARKS = {
   "notes.html": `Entries <b>${advisorNotes.length}</b>`,
 };
 const PAGEHEAD_COUNTS = {
-  "questions.html": { Hypotheses: `Hypotheses ${allHypotheses.length} recorded` },
+  "questions.html": { Questions: `Questions ${questions.length} slots`, Hypotheses: `Hypotheses ${allHypotheses.length} recorded` },
   "experiments.html": { Records: `Records ${experiments.length}` },
   "literature.html": { Threads: `Threads ${threads.length}`, Entries: `Entries ${litEntries.length}` },
   "notes.html": { Entries: `Entries ${advisorNotes.length}`, "Open actions": `Open actions ${openActions}` },
+  "timeline.html": { Stages: `Stages ${timelineC.stages.length}` },
 };
 
 // ---------- output scaffold ----------
