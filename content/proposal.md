@@ -299,6 +299,14 @@ sequential fine-tuning or replay. The headline remains forward transfer, because
 obtained by construction is not evidence for the thesis. What is genuinely uncertain, and
 what the study is built to decide, is whether structure buys cheaper acquisition.
 
+The practice is not new to this proposal. One experiment inside study 1, a controlled
+comparison of added-mass approximation schemes, was preregistered on 2026-07-17 before any
+of its data existed, with its hypotheses, its metrics, its seed count and its reporting rule
+fixed in writing beforehand, and that reporting rule commits to publishing the outcome
+whichever way it falls. The preregistration covers that one experiment: the rest of study
+1's evidence, including every measurement reported in [§1.9](#s19), was gathered before the
+plan existed and is not presented as preregistered.
+
 ## Baselines
 
 The direct precedents are the current generation of skill-library agents. LOTUS retrieves
