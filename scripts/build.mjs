@@ -667,9 +667,41 @@ function finish($, name) {
   finish($, "questions.html");
 }
 
+// Grow a hand-authored per-RQ control set to match content/questions.md. phd-lab#45 closed the
+// ordinal-addressing class and reported zero instances left, which was true of its regex: that
+// regex matched OD slot keys, and these are chip and tab markup, so it could not have found
+// them. The rule is the shape rather than the pattern, and this is where the shape is closed:
+// any hand-authored set of per-RQ controls whose length does not come from the collection it
+// describes. `find(n)` locates the control for RQ n; `add(prev, n)` puts the missing one in
+// place. See phd-lab#79.
+function growPerRq(label, find, add) {
+  for (let n = 1; n <= questions.length; n++) {
+    if (find(n).length) continue;
+    const prev = find(n - 1);
+    if (!prev.length) { warn(`${label}: no clone base for RQ${n}`); return; }
+    add(prev, n);
+  }
+}
+
+// A done row cannot rot. A queued or running one rots untouched and invisibly, and these are
+// the first rows on this site that can become false with nobody editing anything. Every
+// non-done row renders the date it entered that state, so invisible staleness becomes visible
+// staleness. Derived from the record's own field: perturb the field and the rendered row
+// moves. See phd-lab#79.
+const stamp = (d, state) => {
+  if (state === "done") return "";
+  const when = d.queued_on ?? d.started_on ?? d.date;
+  if (!when) { warn(`experiments: ${d.id} is ${state} with no date to stamp`); return ""; }
+  const iso = when instanceof Date ? when.toISOString().slice(0, 10) : String(when);
+  return `<br><span class="mono" style="font-size:var(--t-micro);color:var(--muted)">${state} ${iso}</span>`;
+};
+
 // ---------- experiments.html (§03) ----------
 {
   const $ = page("experiments.html");
+  growPerRq("experiments",
+    (n) => $(`[data-filter-group="rq"][data-filter-value="rq${n}"]`),
+    (prev, n) => prev.after(prev.clone().attr("data-filter-value", `rq${n}`).attr("aria-pressed", "false").text(`RQ${n}`)));
   // §03 owns the runs and a study page owns the argument they support, which is the split
   // §00's Structure note requires: nothing here is a summary of something else. Linked so a
   // reader looking at a row can reach the reasoning, and derived from content/studies/ so
@@ -678,7 +710,7 @@ function finish($, name) {
   if (studyLinks.length) {
     const lede = $(".pagehead .lede").first();
     if (lede.length) lede.after(`
-<p class="small muted">The argument these runs support is written up separately: ${studyLinks.join(" · ")}</p>`);
+<p class="small muted">Study write-ups, where the argument behind the runs is made:<br>${studyLinks.join("<br>")}</p>`);
     else warn("experiments: no lede to hang the study links on");
   }
   const tbody = $("table tbody").first();
@@ -700,7 +732,7 @@ function finish($, name) {
   <td>${mdInline(d.env)}</td>
   <td>${mdInline(d.method)}</td>
   <td class="num">${d.seeds}</td>
-  <td>${statusSpan(state)}</td>
+  <td>${statusSpan(state)}${stamp(d, state)}</td>
   <td><button class="rowbtn" data-expand aria-expanded="false" aria-controls="${detailId}" aria-label="Show detail for ${d.id}">+</button></td>
 </tr>
 <tr class="detail" id="${detailId}" hidden>
@@ -726,6 +758,21 @@ function finish($, name) {
 // ---------- results.html (§04) ----------
 {
   const $ = page("results.html");
+  // The same cap on the other widget. RQ4's panel is deliberately empty rather than absent:
+  // showing the full question set tells a reader where evidence exists and where it does not,
+  // and a missing tab hides that RQ4 is real. The panel is built as an honest empty state
+  // rather than cloned from RQ3's, because cloning would carry RQ3's figure number and its
+  // "second plate reserved" note onto a question with no plates.
+  growPerRq("results",
+    (n) => $(`#t-rq${n}`),
+    (prev, n) => {
+      prev.after(prev.clone().attr("id", `t-rq${n}`).attr("aria-controls", `p-rq${n}`)
+        .attr("aria-selected", "false").attr("tabindex", "-1").text(`RQ${n}`));
+      const prevPanel = $(`#p-rq${n - 1}`);
+      if (!prevPanel.length) { warn(`results: no panel to place RQ${n} after`); return; }
+      prevPanel.after(`
+<div id="p-rq${n}" role="tabpanel" aria-labelledby="t-rq${n}" tabindex="0" hidden><div class="grid grid--2"><div class="empty"><strong>No plates yet</strong>Figures for RQ${n} arrive when the study that answers it runs. The question itself is in <a href="questions.html#rq${n}">§02</a>.</div></div></div>`);
+    });
   results.figures.forEach((f) => {
     // locate the figure by its fixed <b>Figure N</b> prefix (only fig 1 has a slot)
     const bTag = $("figcaption b").filter((_, el) => $(el).text().trim() === `Figure ${f.n}`).first();

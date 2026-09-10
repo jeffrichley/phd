@@ -109,7 +109,7 @@ it recovers effective mass equal to the dry mass, on both axes. The reaction is 
 attenuated or mistuned. It is absent. Run [exp-000](experiments.html#d000).
 
 **The plugin delivers it, and the number it delivers is the one the dissertation argues
-from.** The same probe run against the plugin recovers the potential-flow coefficients for
+from.** The same probe run against `lighthill` recovers the potential-flow coefficients for
 the body, and the lateral-to-axial ratio of roughly three is the anisotropy every later
 study depends on. Same run, [exp-000](experiments.html#d000), both arms measured together.
 

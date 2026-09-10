@@ -112,7 +112,29 @@
 
         lastShown = shown;
         if (counter) counter.textContent = shown + ' of ' + items.length + ' shown';
-        if (emptyNote) emptyNote.hidden = shown !== 0;
+        if (emptyNote) {
+          emptyNote.hidden = shown !== 0;
+          // Name the filter that actually emptied the table. The static copy talked about
+          // status, so filtering by RQ emptied the ledger and the page explained itself in
+          // terms of a filter the reader had not touched. Every chip is kept deliberately, so
+          // a chip that matches nothing has to say something true about why. See phd-lab#79.
+          if (shown === 0) {
+            var said = [];
+            Object.keys(active).forEach(function (g) {
+              active[g].forEach(function (v) {
+                var chip = chips.filter(function (c) {
+                  return c.dataset.filterGroup === g && c.dataset.filterValue === v;
+                })[0];
+                if (chip) said.push(chip.textContent.trim());
+              });
+            });
+            var body = emptyNote.querySelector('[data-empty-body]') || emptyNote;
+            if (q && said.length) body.textContent = 'No records match ' + said.join(' and ') + ' with the text you typed.';
+            else if (q) body.textContent = 'No records match the text you typed.';
+            else if (said.length) body.textContent = 'No records against ' + said.join(' and ') + ' yet.';
+            else body.textContent = 'No records to show.';
+          }
+        }
       }
 
       chips.forEach(function (chip) {
