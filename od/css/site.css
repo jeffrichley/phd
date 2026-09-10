@@ -118,6 +118,10 @@ hr { border: 0; border-top: var(--hair); margin: var(--s6) 0; }
   border-radius: var(--r-1); min-height: 40px;
 }
 .rail__link:hover { background: var(--plate); text-decoration: none; }
+/* Study write-ups nest under §03: they own the argument its runs support rather than a
+   section of their own, which is why they carry no section number. The indent is what says
+   "child of the entry above" without spending a rail group on one page. See phd-lab#77. */
+.rail__link--sub { padding-left: var(--s5); grid-template-columns: 1.6em 1fr; }
 .rail__num { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--muted); }
 .rail__link[aria-current="page"] {
   background: var(--accent-soft); color: var(--accent); font-weight: 600;

@@ -218,6 +218,25 @@ function finish($, name) {
     if (cur) $("#rail a").removeAttr("aria-current");
     labLink.after(`\n      <a class="rail__link" href="disciplines.html"${cur}><span class="rail__num">§10</span><span>Disciplines</span></a>`);
   }
+  // Study write-ups join "The record" nested under §03, because they are the argument its runs
+  // support. No section number: a numbered "Studies" heading with one entry would advertise the
+  // three studies that have nothing to write yet, which is why phd-lab#69 rejected it. Derived
+  // from content/studies/ exactly as §03's ledger link is, so study 2's page appears in the rail
+  // of all 44 pages without a template edit. See phd-lab#77.
+  const expLink = $('#rail a[href="experiments.html"]').first();
+  if (expLink.length) {
+    let after = expLink;
+    for (const st of studies) {
+      const href = `${st.data.slug}.html`;
+      if ($(`#rail a[href="${href}"]`).length) continue;
+      const cur = name === href ? ' aria-current="page"' : "";
+      if (cur) $("#rail a").removeAttr("aria-current");
+      const label = String(st.data.rail ?? st.data.title).replace(/^Study (\d+).*$/, "Study $1");
+      after.after(`
+      <a class="rail__link rail__link--sub" href="${href}"${cur}><span class="rail__num">↳</span><span>${label}</span></a>`);
+      after = $(`#rail a[href="${href}"]`).first();
+    }
+  } else if ($("#rail").length) warn(`${name}: no §03 rail link to nest study pages under`);
   // every rail carries the Outward group (od/proposal.html omits it)
   if ($("#rail").length && !$('#rail a[href="landing.html"]').length) {
     $("#rail").append(`\n    <div class="rail__group"><p class="rail__label">Outward</p><a class="rail__link" href="landing.html"><span class="rail__num">↗</span><span>Public page</span></a></div>`);

@@ -195,3 +195,7 @@ CONTENT-CONTRACT.md). Nothing urgent; fold in whenever the design is next touche
   from that trace to the next contribution, so each trace read as a heading for the block
   below it. Fixed with a slot-scoped rule; `.prose` itself is untouched because it is
   sitewide.
+- The rail has no vocabulary for a page nested under a numbered section. Study write-ups are
+  the argument a section's runs support rather than sections of their own, so they carry no
+  section number and would otherwise sit flush with §03. Added `.rail__link--sub`, an indent
+  and a narrower glyph column, generated from `content/studies/`.
