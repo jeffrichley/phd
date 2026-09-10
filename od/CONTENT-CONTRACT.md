@@ -260,7 +260,6 @@ headline_numbers:
   primary_metric: ""
   best_baseline: ""
   seeds_per_cell: ""
-  compute_hours: ""
 ---
 ```
 

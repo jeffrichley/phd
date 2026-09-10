@@ -27,5 +27,4 @@ headline_numbers:
   primary_metric: "bias floor of order 16–20% (force-only approximations)"
   best_baseline: "force-buffer injection check: 0.02% match to the bare engine"
   seeds_per_cell: "deterministic Δt-refinement (7 points); statistical seeds arrive with study 2"
-  compute_hours: ""
 ---

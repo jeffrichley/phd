@@ -172,5 +172,10 @@ Every number above is published elsewhere on this site and links to it. The runs
 `20260812T162510Z` name the frozen packages the claims are read from; the throughput
 measurement is stamped against a named commit of the simulator.
 
+Compute is worth stating because there is so little of it. The throughput benchmark ran about
+eighteen minutes on a single A100 node, bracketed by the stamp and the completion line inside
+its sealed package. The other three runs are deterministic single runs and were never
+submitted to the cluster at all. This study's result is cheap to reproduce.
+
 Paper 1 is at the IEEE RA-L submission gate and is not accepted. Nothing on this page is
 drawn from the manuscript.

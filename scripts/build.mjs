@@ -811,7 +811,6 @@ const stamp = (d, state) => {
     if (k.includes("primary") && hn.primary_metric) v.html(mdInline(hn.primary_metric));
     else if (k.includes("baseline") && hn.best_baseline) v.html(mdInline(hn.best_baseline));
     else if (k.includes("seed") && hn.seeds_per_cell) v.html(mdInline(hn.seeds_per_cell));
-    else if (k.includes("compute")) v.html(hn.compute_hours ? mdInline(hn.compute_hours) : '<span class="dash">—</span>');
   });
   finish($, "results.html");
 }
