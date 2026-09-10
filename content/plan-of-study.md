@@ -44,5 +44,6 @@ shape: "Dr. Kaipa's shape for the remainder is three MAE 897 independent studies
 open:
   - "Which two further courses. CS 828 Deep Learning Fundamentals and Applications and CS 882 Generative AI are Jeff's candidates and have not been raised with Dr. Kaipa."
   - "Whether MAE 601 is required. Unresolved."
+  - "Which bucket MAE 595 Applied Marine Robotics counts in. The audit files it under General Electives rather than Course Work, which is why its arithmetic and Jeff's differ by three credits."
   - "The plan itself is not filed."
 ---
