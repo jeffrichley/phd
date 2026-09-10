@@ -465,6 +465,20 @@ figcaption b { font-family: var(--font-mono); font-size: var(--t-micro); color: 
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 .divider { height: 1px; background: var(--rule); margin: var(--sec-gap) 0; }
+/* §1.7 is four sibling .prose blocks, each ending in a small grey "Answers RQn" trace line.
+   Measured before this rule: 17px between a contribution's text and its own trace (base `p`
+   margin), and 0px between that trace and the next contribution (`p:last-child` zeroes the
+   bottom margin, and the blocks carry none). So the trace sat CLOSER to the contribution
+   below it than to the one it belongs to, and read as that one's heading: every RQ appeared
+   to map one contribution off, all the way down.
+   Spacing alone would only fix it for a reader who already knows the grouping, so the
+   boundary is drawn rather than implied. Scoped by slot key, because `.prose` is sitewide and
+   a bare `.prose p` rule would reach §01's body copy, §05's entries and §10. See phd-lab#73. */
+[data-od-slot^="proposal.contribution."] + [data-od-slot^="proposal.contribution."] {
+  margin-top: var(--s6);
+  padding-top: var(--s6);
+  border-top: var(--hair);
+}
 .prose { max-width: var(--w-text); }
 .prose ul, .prose ol { padding-left: 1.2em; }
 .prose li { margin-bottom: 0.45em; }

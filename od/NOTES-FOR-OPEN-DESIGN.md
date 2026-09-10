@@ -189,3 +189,9 @@ CONTENT-CONTRACT.md). Nothing urgent; fold in whenever the design is next touche
   attribute, and `.card { display: flex }` overrides the UA default, so on `questions.html`
   (9 cards) and `literature.html` (26 cards) every filter ran and hid nothing. Fixed in
   place with a global `[hidden] { display: none !important }` in the reset.
+- `.prose` has no `p` margin rule of its own, so sibling `.prose` blocks inherit only the
+  base `p { margin: 0 0 1em }` and `p:last-child { margin-bottom: 0 }`. On §1.7's four
+  contribution blocks that measured 17px from a contribution to its own trace line and 0px
+  from that trace to the next contribution, so each trace read as a heading for the block
+  below it. Fixed with a slot-scoped rule; `.prose` itself is untouched because it is
+  sitewide.
