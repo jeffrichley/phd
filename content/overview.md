@@ -22,7 +22,7 @@ spine:
     state: done
   - when: "2026-08"
     what: "The claims lock"
-    note: "Thesis claim locked with its falsifier; paper 1 through advisor review; paper 2 methodology preregistered"
+    note: "Thesis claim locked with its falsifier; paper 1 sent to the advisor and awaiting his read; paper 2 methodology preregistered"
     state: done
   - when: "2026-09"
     what: "Submission gate and Fall build"

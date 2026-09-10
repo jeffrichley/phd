@@ -31,7 +31,7 @@ meta:
 pubs:
   - id: pub-001
     status: "Complete; at the submission gate"
-    html: "<strong>Validated Marine Added-Mass Dynamics for GPU Simulation: A Fossen Plugin on Isaac Lab Newton</strong>. J. E. Richley, sole author. Six-page letter targeting IEEE RA-L; through advisor review, submission pending."
+    html: "<strong>Validated Marine Added-Mass Dynamics for GPU Simulation: A Fossen Plugin on Isaac Lab Newton</strong>. J. E. Richley, sole author. Six-page letter targeting IEEE RA-L; with the advisor for his read, submission pending."
 code_html: 'This site and its content pipeline are public at <a href="https://github.com/jeffrichley/phd">github.com/jeffrichley/phd</a>. The research code (the simulation platform and hydrodynamics plugin) is private during publication; a code and data package accompanies each paper at submission, citing sealed artifacts only.'
 contact_html: 'Jeff Richley · <span class="mono">jrich107@odu.edu</span>'
 thrusts:
