@@ -815,9 +815,47 @@ const stamp = (d, state) => {
   finish($, "results.html");
 }
 
+// A citation a reader cannot follow is a citation they have to take on trust, and §1.3's gap
+// is assembled from these entries. Every identifier here was verified against a real record
+// before it shipped: the DOIs resolve through Crossref with matching title and authors, and
+// the arXiv ids were already the ids each paper was read through. An entry that cannot be
+// verified ships bare rather than carrying a plausible guess, because a fabricated identifier
+// on a literature page is worse than a blank one. See phd-lab#82.
+// The source pattern is non-global on purpose: a /g regex carries lastIndex between calls, so
+// .test() is stateful and answers about where it left off rather than about the string it was
+// handed. The first version of this warned on two entries that do have an arXiv id and stayed
+// silent on the one that has nothing.
+const ARXIV_SRC = String.raw`arXiv:(\d{4}\.\d{4,5}(?:v\d+)?)`;
+function citeHtml(d) {
+  const cite = String(d.cite ?? "");
+  const hasArxiv = new RegExp(ARXIV_SRC).test(cite);
+  let html = mdInline(cite).replace(new RegExp(ARXIV_SRC, "g"),
+    (_, id) => `<a href="https://arxiv.org/abs/${id}">arXiv:${id}</a>`);
+  if (d.doi) html += ` · <a href="https://doi.org/${d.doi}">doi.org/${d.doi}</a>`;
+  else if (d.url) {
+    // a documentation entry usually already prints its own address in the citation, so link
+    // that occurrence in place rather than appending a second copy of the same string
+    const bare = String(d.url).replace(/^https?:\/\//, "");
+    if (html.includes(bare)) html = html.replace(bare, `<a href="${d.url}">${bare}</a>`);
+    else html += ` · <a href="${d.url}">${bare}</a>`;
+  }
+  if (!d.doi && !d.url && !hasArxiv) warn(`literature: ${d.id} carries no resolvable identifier`);
+  return html;
+}
+
 // ---------- literature.html (§05) ----------
 {
   const $ = page("literature.html");
+  // "The four threads" was hardwired above a list of five. A corrected hand-written count is
+  // the same defect with a longer fuse, so the heading counts the collection it introduces.
+  // See phd-lab#82.
+  const NUM_WORDS = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight",
+    "nine", "ten", "eleven", "twelve"];
+  const threadHead = $(".eyebrow-rule").filter((_, el) => /threads$/i.test($(el).text().trim())).first();
+  if (threadHead.length) {
+    const word = NUM_WORDS[threads.length] ?? String(threads.length);
+    threadHead.text(`The ${word} threads`);
+  } else warn("literature: no threads heading found to derive");
   // OD ships thread cards and filter chips for exactly a through d, keyed by letter. Same
   // defect as the numeric ordinal caps: a growable collection addressed by a fixed key, and
   // a letter is an ordinal in a hat. A fifth thread warned and rendered nothing, so both the
@@ -862,18 +900,17 @@ const stamp = (d, state) => {
   } else {
     for (const e of litEntries) {
       const d = e.data;
-      const read = d.read ? (d.read instanceof Date ? d.read.toISOString().slice(0, 10) : String(d.read)) : "";
       const bearing = (d.bearing_on ?? []).map((r) => r.toUpperCase()).join(", ");
       litList.append(`\n<li class="card" data-item data-thread="${d.thread}">
   <div class="row" style="justify-content:space-between">
     <span class="card__num">${d.id}</span><span class="tag">Thread ${d.thread.toUpperCase()}</span>
   </div>
-  <p style="margin:var(--s2) 0 0">${mdInline(d.cite)}</p>
+  <p style="margin:var(--s2) 0 0">${citeHtml(d)}</p>
   <div class="grid grid--2" style="margin-top:var(--s3)">
     <div class="prose"><p class="card__num">Does</p><p>${mdInline(d.does)}</p></div>
     <div class="prose"><p class="card__num">Stops · the gap</p><p>${mdInline(d.stops)}</p></div>
   </div>
-  <span class="card__foot"><span>Bearing on: ${bearing || '<span class="dash">—</span>'} · <a href="${d.id}.html">Full distillation →</a></span><span>Read: ${read || '<span class="dash">—</span>'}</span></span>
+  <span class="card__foot"><span>Bearing on: ${bearing || '<span class="dash">—</span>'} · <a href="${d.id}.html">Full distillation →</a></span></span>
 </li>`);
     }
   }
