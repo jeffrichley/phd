@@ -7,7 +7,7 @@
 #
 # The added sentence is the one before "Simulation is the apparatus". The paragraph named
 # studies 1 through 3 and left the generality question unanswered exactly where a reader
-# forms it: everything after "measured on the platform" concerns that platform, so whether
+# forms it: everything after "realized on the platform" concerns that platform, so whether
 # any of it holds for a different body had no answer here. Thrust card 02 was already titled
 # "across bodies" with nothing behind it. Jeff's wording, phd-lab#56.
 #
@@ -52,7 +52,7 @@ A snake-form underwater robot must acquire new skills over its working life with
 teacher at hand for each one. The obvious engineering shortcut, warm-starting the new
 controller from the most similar existing one, works only up to a floor set by the body.
 That floor has a mechanism. A slender body carries about three times the added mass
-broadside as axially (Lamb effective mass 1.345 vs 1.115, measured on the platform), and
+broadside as axially (Lamb effective mass 1.345 vs 1.115, realized on the platform), and
 that broadside term is the reactive thrust of undulatory swimming itself. Gait modes are
 therefore predicted to be distinct dynamical regimes, not settings of one dial: lateral
 undulation, corkscrew roll, and station-keeping recruit different fluid couplings, and
