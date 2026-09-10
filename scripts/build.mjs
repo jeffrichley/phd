@@ -523,36 +523,49 @@ function finish($, name) {
 // ---------- questions.html (§02) ----------
 {
   const $ = page("questions.html");
-  // OD ships exactly three RQ sections, hand-addressed rq.1 through rq.3, so a fourth
-  // question warned and rendered nothing. Clone the previous section for anything the
-  // template does not carry: the page follows the data rather than capping it.
+  // OD ships three RQ sections and they are NOT the same shape: rq.1 and rq.2 carry a
+  // motivation slot and a "Hypotheses" heading, rq.3 carries neither. The old cloner built
+  // each missing section from whichever section came before it, so RQ4 was cloned from RQ3
+  // and inherited both gaps, and two authored motivation paragraphs rendered nowhere.
+  //
+  // The cap was never "two slots". A clone cannot produce what its base lacks, and the base
+  // was the wrong section. So rq.1 is the exemplar and every other section is built from it,
+  // whether or not the template happens to ship one. One path instead of two: a fifth
+  // question needs no template edit, and a slot key added to the exemplar arrives in every
+  // section by construction rather than by being remembered. See phd-lab#68.
   const slotClassFor = (key) =>
     key.endsWith(".question") ? "slot" : key.includes(".h.") ? "slot slot--inline mb-0" : "slot slot--inline";
+  const exemplar = $('[data-od-slot="rq.1.question"]').closest("section.sec");
+  if (!exemplar.length) warn("questions: no rq.1 section to build the other questions from");
+  let prevSection = exemplar;
   questions.forEach((q, qi) => {
     const n = qi + 1;
-    if (!$(`[data-od-slot="rq.${n}.question"]`).length) {
-      const prev = $(`[data-od-slot="rq.${n - 1}.question"]`).closest("section.sec");
-      if (!prev.length) warn(`questions: no clone base for RQ${n} (${q.id})`);
-      else {
-        const clone = prev.clone();
-        clone.find("[data-od-slot]").each((_, el) => {
-          const key = $(el).attr("data-od-slot").replace(`rq.${n - 1}.`, `rq.${n}.`);
-          $(el).attr("data-od-slot", key).attr("class", slotClassFor(key)).empty();
-        });
-        clone.find("li[data-item]").slice(1).remove(); // one card; the hypothesis cloner grows it back
-        clone.attr("id", `rq${n}`).addClass("sec--rule");
-        clone.find(".sec__num").first().text(`RQ${n}`);
-        clone.find(".sec__sub").first().text(q.short ?? `Research question ${n}`);
-        prev.after(clone);
-      }
-    }
-    // real short titles replace "Research question one" placeholders (and RQ3's stray "optional" tag)
-    if (q.short) {
-      const head = $(".sec__num").filter((_, el) => $(el).text().trim() === `RQ${n}`).first().siblings(".sec__sub");
-      if (head.length) head.text(q.short);
+    if (n === 1) {
+      if (q.short) exemplar.find(".sec__sub").first().text(q.short);
+    } else if (exemplar.length) {
+      const built = exemplar.clone();
+      built.find("[data-od-slot]").each((_, el) => {
+        const key = $(el).attr("data-od-slot").replace(/^rq\.1\./, `rq.${n}.`);
+        $(el).attr("data-od-slot", key).attr("class", slotClassFor(key)).empty();
+      });
+      built.find("li[data-item]").slice(1).remove(); // one card; the hypothesis cloner grows it back
+      built.attr("id", `rq${n}`).addClass("sec--rule");
+      built.find(".sec__num").first().text(`RQ${n}`);
+      // .text() on the subtitle also drops rq.3's stray "optional" tag, which the exemplar
+      // does not have and which no question in the data is
+      built.find(".sec__sub").first().text(q.short ?? `Research question ${n}`);
+      const existing = $(`[data-od-slot="rq.${n}.question"]`).closest("section.sec");
+      if (existing.length) existing.replaceWith(built); else prevSection.after(built);
+      prevSection = $(`[data-od-slot="rq.${n}.question"]`).closest("section.sec");
     }
     fillSlot($, `rq.${n}.question`, mdInline(q.question));
-    if ($(`[data-od-slot="rq.${n}.motivation"]`).length) fillSlot($, `rq.${n}.motivation`, md(q.motivation));
+    // this fill used to be wrapped in `if (slot exists)`, the only silently-guarded fillSlot
+    // in the build, which turned a missing slot into missing content with nothing said. Every
+    // other over-cap in this codebase renders a visible slot key, which is how phd-lab#45
+    // found the last two. fillSlot warns by name instead, and the exemplar rebuild above
+    // means the slot is always there to warn about.
+    if (q.motivation) fillSlot($, `rq.${n}.motivation`, md(q.motivation));
+    else warn(`questions: ${q.id} has no motivation`);
     q.hypotheses.forEach((h, hi) => {
       const key = `rq.${n}.h.${hi + 1}`;
       let slotEl = $(`[data-od-slot="${key}"]`);
@@ -576,6 +589,30 @@ function finish($, name) {
       );
     });
   });
+  // the template can also ship MORE sections than the data has questions. Drop those, so the
+  // page follows the data in both directions instead of stranding an empty RQ that reads as
+  // a question nobody has written yet.
+  $("section.sec").each((_, el) => {
+    const key = $(el).find("[data-od-slot^='rq.']").first().attr("data-od-slot");
+    const m = key && key.match(/^rq\.(\d+)\./);
+    if (m && Number(m[1]) > questions.length) $(el).remove();
+  });
+  // The status vocabulary defined four statuses and then told the author what to do about
+  // three of them. Same family as §01's six authoring notes: a definition addresses a reader,
+  // an instruction addresses Jeff. The definitions stay word for word, ○ Open is untouched,
+  // and each instruction is named in full so a reworded card warns rather than keeping it.
+  // See phd-lab#68.
+  const STATUS_COACHING = [
+    "Cite the run IDs, not the impression.",
+    "Say what additional evidence would resolve it.",
+    "Keep it visible: a refuted hypothesis that was honestly tested is a contribution.",
+  ];
+  for (const sentence of STATUS_COACHING) {
+    const body = $(".card__body")
+      .filter((_, el) => $(el).text().replace(/\s+/g, " ").includes(sentence)).first();
+    if (!body.length) { warn(`questions: status coaching sentence not found: "${sentence}"`); continue; }
+    body.html(body.html().replace(/\s+/g, " ").replace(sentence, "").trim());
+  }
   finish($, "questions.html");
 }
 
