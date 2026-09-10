@@ -173,6 +173,15 @@ hr { border: 0; border-top: var(--hair); margin: var(--s6) 0; }
   color: var(--fg); text-transform: none; letter-spacing: normal; font-size: var(--t-small);
 }
 
+/* §06's two tracks: the program's own gates and the dissertation work, side by side at wide
+   and stacked at narrow. Two columns is the whole point at desktop, because it is what says the
+   tracks are concurrent; below that the labelled headings carry it instead. No time axis, so
+   nothing here needs to line up horizontally. See phd-lab#85. */
+.tracks { display: grid; gap: var(--s7); }
+@media (min-width: 900px) { .tracks { grid-template-columns: 1fr 1fr; gap: var(--s7) var(--s6); } }
+.track { min-width: 0; }
+.track .spine { margin-top: var(--s5); }
+
 .sec { margin-bottom: var(--sec-gap); scroll-margin-top: 80px; }
 .sec__head { display: flex; gap: var(--s4); align-items: baseline; margin-bottom: var(--s5); }
 .sec__num {

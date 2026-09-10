@@ -975,12 +975,63 @@ function citeHtml(d) {
   // re-render the whole spine from content — filling stray slots grafts notes onto stale headings
   const stageState = (st) => (st === "open" ? "planned" : st);
   const wordMap = { done: "Complete", active: "In progress", planned: "Planned" };
+  // One ordered list of eight stages asserted a sequence the program does not follow, and the
+  // page already said so: stage 05's own note puts the candidacy exam in the last coursework
+  // semester by handbook rule, so it is scheduled by the coursework calendar and not by the
+  // studies it sat between. A committee member read that order as research waits on candidacy.
+  // It does not, and the site was hiding the advisor's confidence inside an ordering that
+  // implied the opposite.
+  //
+  // Two tracks from the same eight stages, and a dependency is drawn only where a stage's own
+  // note states one. Absence of a dependency is the claim that two stages are concurrent, so
+  // the tracks say that in a sentence rather than leaving it to be inferred from whitespace.
+  // Deliberately not a time axis: six of eight stages are undated by design, and a calendar
+  // would reintroduce every one of them. See phd-lab#85.
+  const stageBy = new Map((timelineC.stages ?? []).map((s) => [s.n, s]));
+  const stageRef = (n) => {
+    const t = stageBy.get(n);
+    if (!t) { warn(`timeline: stage ${n} is referenced by another stage and does not exist`); return `stage ${n}`; }
+    return `<a href="#stage-${n}">${t.short ?? t.what.split(":")[0].split("(")[0].trim()}</a>`;
+  };
+  const TRACKS = [
+    ["program", "Program", "The degree's own gates, on the university's calendar."],
+    ["research", "Research", "The dissertation work: the platform, and the four studies."],
+  ];
   const spineOl = $("ol.spine").first();
   if (spineOl.length && timelineC.stages?.length) {
-    spineOl.empty();
-    for (const s of timelineC.stages) {
-      spineOl.append(`\n<li data-state="${s.state}"><p class="spine__when">Stage 0${s.n} · <span class="mono">${s.when}</span></p><h3 class="spine__what">${s.what}</h3><p class="spine__note">${mdInline(s.note)}</p><p class="spine__note">${statusSpan(stageState(s.state), wordMap[stageState(s.state)])}</p></li>`);
-    }
+    const host = spineOl.parent();
+    const known = new Set(TRACKS.map(([id]) => id));
+    for (const s of timelineC.stages)
+      if (!known.has(s.track)) warn(`timeline: stage ${s.n} has no known track (${s.track ?? "unset"})`);
+    const blocks = TRACKS.map(([id, label, lede]) => {
+      const rows = timelineC.stages.filter((s) => s.track === id);
+      if (!rows.length) { warn(`timeline: track ${id} has no stages`); return ""; }
+      const items = rows.map((s) => {
+        const st = stageState(s.state);
+        // A dependency names a gate rather than a stage wherever the two differ. Stage 02 is
+        // Complete and its gate, paper 1 submitted, is not: study 1 being finished is not the
+        // paper being sent. A need that resolved to that stage's filled glyph would tell a
+        // reader candidacy is unblocked, which is the confident wrong answer this ticket
+        // exists to remove rather than relocate.
+        const deps = (s.needs ?? []).map((d) => {
+          if (typeof d === "number") return stageRef(d);
+          const on = (d.stages ?? []).filter((n) => stageBy.has(n));
+          if (on.length !== (d.stages ?? []).length) warn(`timeline: stage ${s.n} gates on a stage that does not exist`);
+          if (!d.gate) { warn(`timeline: stage ${s.n} has a dependency with no gate text`); return on.map(stageRef).join(", "); }
+          return on.length === 1 ? `<a href="#stage-${on[0]}">${d.gate}</a>` : d.gate;
+        });
+        const indep = (s.independent_of ?? []).map(stageRef);
+        const list = (xs) => xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`;
+        const rel = [
+          deps.length ? `Waits on ${list(deps)}` : "Waits on nothing else here",
+          indep.length ? `independent of ${list(indep)}` : "",
+        ].filter(Boolean).join(" · ");
+        return `\n<li id="stage-${s.n}" data-state="${s.state}"><p class="spine__when">Stage 0${s.n} · <span class="mono">${s.when}</span></p><h3 class="spine__what">${s.what}</h3><p class="spine__note">${mdInline(s.note)}</p><p class="spine__note small muted">${rel}</p><p class="spine__note">${statusSpan(st, wordMap[st])}</p></li>`;
+      }).join("");
+      return `<div class="track"><p class="eyebrow-rule">${label}</p><p class="small muted">${lede}</p><ol class="spine">${items}\n</ol></div>`;
+    }).join("\n");
+    spineOl.replaceWith(`<p class="small muted" style="margin-bottom:var(--s5)">The two tracks run concurrently. A stage waits only on what its own line says it waits on; anything not named is not a dependency.</p>\n<div class="tracks">${blocks}</div>`);
+    if (!host.find(".track").length) warn("timeline: tracks did not render");
   } else warn("timeline: spine not rendered");
   // 90-day working list → checklist items ("[x] " prefix marks done)
   const list = $(".checklist").first();

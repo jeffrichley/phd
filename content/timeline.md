@@ -4,41 +4,68 @@
 # open — no invented dates.
 stages:
   - n: 1
+    short: "coursework"
+    track: program
     what: "Coursework foundation"
     when: "2025 → end set by the Plan of Study"
     state: active
     note: "48 credits beyond the master's (24 coursework + 24 dissertation); GPA 4.00; Fall 2026 = MAE 897 Undulatory Propulsion + MAE 899. Later terms are slotted when the Plan of Study and the offering rotation land; deliberately undated here."
   - n: 2
+    short: "study 1"
+    track: research
     what: "Study 1: fluid coupling, measured"
     when: "—"
     state: done
     note: "Complete; at the IEEE RA-L submission gate, sole author"
   - n: 3
+    short: "the platform build"
+    track: research
     what: "Skill-library platform build + first training campaign"
     when: "Fall 2026 (MAE 897)"
     state: open
     note: "Build tickets cut 2026-09-08; then the 10-seed baseline retrain on HPC"
   - n: 4
+    short: "study 2"
+    track: research
+    needs: [3]
     what: "Study 2: skill acquisition across regimes"
     when: "—"
     state: open
     note: "Methodology and analysis plan preregistered 2026-08-24; runs follow the platform build"
   - n: 5
+    short: "candidacy"
+    track: program
+    needs:
+      - 1
+      - gate: "paper 1 submitted"
+        stages: [2]
     what: "Candidacy / formal proposal"
     when: "—"
     state: open
     note: "Gate: paper 1 submitted; papers 2, 3 and 4 locked questions + methods. Candidacy exam sits in the last coursework semester by handbook rule"
   - n: 6
+    short: "study 3"
+    track: research
+    needs: [4]
     what: "Study 3: operating envelope (MAE 897: Envelope Certification)"
     when: "—"
     state: open
     note: "Follows study 2's trained skill cards; its retrieval policy is decided by study 2's slope"
   - n: 7
+    short: "study 4"
+    track: research
+    needs: [2, 4]
+    independent_of: [6]
     what: "Study 4: the slenderness sweep (embodiment as the variable)"
     when: "—"
     state: open
     note: "Needs studies 1 and 2 and is independent of study 3; the reasoning is in [§1.12](proposal.html#s112)"
   - n: 8
+    short: "the defense"
+    track: program
+    needs:
+      - gate: "all four papers submitted"
+        stages: [2, 4, 6, 7]
     what: "Defense"
     when: "—"
     state: open
