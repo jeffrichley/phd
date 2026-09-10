@@ -1608,11 +1608,15 @@ logEntries.forEach((e, i) => {
   if (!items.length) rep.parent().find(".empty").removeAttr("hidden");
   // The decision entries come from a committed file that CI cannot re-derive, so staleness has to
   // be visible to a reader rather than only to a local build. The stamp says what the count was
-  // true of, the way §03's queued rows carry the date they were entered against.
+  // In CI phd-lab is absent and the drift guard cannot run, so this rendered date is the only
+  // thing a reader has to judge currency by. That is the whole of what it carries: an earlier
+  // version also said the entries were drawn from the lab's records and were kept in the lab,
+  // which on a page titled Lab log says "lab" three times and tells a reader nothing.
   if (decisions_.length && decisionsDoc.generated) {
     const g = decisionsDoc.generated;
     const when = g instanceof Date ? g.toISOString().slice(0, 10) : String(g);
-    rep.after(`\n<p class="small muted" style="margin-top:var(--s5)">The ${decisions_.length} decision entries are drawn from the lab's decision records, as of <span class="mono">${when}</span>. Each names its paper and number; the records themselves are kept in the lab.</p>`);
+    rep.after(`
+<p class="small muted" style="margin-top:var(--s5)">Decisions last synced <span class="mono">${when}</span>.</p>`);
   }
   finish($, FEED_INDEX);
 }
