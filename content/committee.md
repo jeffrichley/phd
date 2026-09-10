@@ -4,6 +4,6 @@
 advisor: "Dr. Krishnanand Kaipa, CRAMLab, ODU MAE"
 chair_html: '<strong>Dr. Krishnanand Kaipa</strong>, Associate Professor, Mechanical &amp; Aerospace Engineering, Old Dominion University. Directs CRAMLab. <a href="people-krishnanand-kaipa.html">Full profile →</a>'
 advisory_committee: "Form D1 in progress: Dr. Kaipa plus two MAE faculty; names appear here once confirmed"
-dissertation_committee: "Form D2 is a post-candidacy decision (outside-department seat required); tracked, not guessed at"
+dissertation_committee: "Form D2 is filed after passing the candidacy examination and before advancement to candidacy, and at least one member comes from outside the department; tracked, not guessed at"
 decisions: []
 ---
