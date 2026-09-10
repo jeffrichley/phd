@@ -133,6 +133,15 @@ if (!docStatus) warn("proposal.md front matter has no status; §00's stagemark c
 const proposalSections = page("proposal.html")("section.sec.doc").length;
 let proposalFilled = 0; // set while §01 renders, read by §07's card tag
 const resultPlates = page("results.html")(".plate").length;
+// Committee seats are counted from the roster OD renders, the same way plates are counted
+// from the plate elements: the markup is the structure a reader sees, so it is the only thing
+// that can be right about how many seats there are. See phd-lab#65's label sweep.
+const committeeSeats = (() => {
+  const $a = page("approvals.html");
+  // located from the chair's own card rather than by sibling order: #54 inserted the
+  // committee.standing slot between the heading and the grid, and a .next() walk found it
+  return $a('[data-od-slot="committee.chair"]').closest(".card").parent().children(".card").length;
+})();
 const openActions = advisorNotes
   .flatMap((n) => n.data.actions ?? [])
   .filter((a) => !/^\[x\]/i.test(a)).length;
@@ -154,7 +163,12 @@ const STAGEMARKS = {
   "index.html": `Proposal in ${docStatus}`,
 };
 const PAGEHEAD_COUNTS = {
-  "questions.html": { Questions: `Questions ${questions.length} slots`, Hypotheses: `Hypotheses ${allHypotheses.length} recorded` },
+  // "slots" is right where the things are unfilled and wrong where they are filled. §02's four
+  // questions are all written, so it was mockup language that survived the things arriving;
+  // §07's committee genuinely has three empty seats, so there it describes the real state.
+  "questions.html": { Questions: `Questions ${questions.length}`, Hypotheses: `Hypotheses ${allHypotheses.length} recorded` },
+  "approvals.html": { Members: `Members ${committeeSeats} slots`, Decisions: `Decisions ${decisions.length}` },
+  "results.html": { Plates: `Plates ${resultPlates} reserved` },
   "experiments.html": { Records: `Records ${experiments.length}` },
   "literature.html": { Threads: `Threads ${threads.length}`, Entries: `Entries ${litEntries.length}` },
   "notes.html": { Entries: `Entries ${advisorNotes.length}`, "Open actions": `Open actions ${openActions}` },
