@@ -76,6 +76,23 @@ const logEntries = listDir(`${C}/log`)
 const allHypotheses = questions.flatMap((q) => q.hypotheses);
 const openHypotheses = allHypotheses.filter((h) => h.status === "open").length;
 const supportedHypotheses = allHypotheses.filter((h) => h.status === "supported").length;
+
+// A thrust foot used to read "0 of 6 supported". Jeff read it and asked what it was saying,
+// which is the finding: a status line nobody decodes is worse than one that reads badly, and
+// no reordering fixes a line that is not being read. content/questions.md has exactly two
+// statuses, so 0 of 6 supported is literally true and reads as tested and failed, when the
+// honest state is untested. The count leads on every card so a scanner cannot sort them into
+// the good one and the bad one. See phd-lab#61.
+function hypothesisTally(supported, total) {
+  if (total === 0) return '<span class="dash">&mdash;</span>';
+  const noun = total === 1 ? "1 hypothesis" : `${total} hypotheses`;
+  if (supported === 0) return `${noun} · ${total === 1 ? "not tested yet" : "none tested yet"}`;
+  if (supported === total) {
+    if (total === 1) return `${noun} · supported`;
+    return `${noun} · ${total === 2 ? "both" : "all"} supported`;
+  }
+  return `${noun} · ${supported} supported`;
+}
 const disciplinesC = mdFile(`${C}/disciplines.md`);
 const tenetCount = (disciplinesC.content.match(/^## /gm) ?? []).length;
 const litEntries = listDir(`${C}/literature`, (f) => /^lit-\d+\.md$/.test(f));
@@ -716,7 +733,7 @@ function finish($, name) {
           : "Not yet mapped to a question";
         // the site's own empty marker, so an unmapped thrust stays visible to the sweep
         // that counts unfilled dashes rather than rendering one the sweep cannot see
-        const tally = covered.length ? `${supported} of ${hyps.length} supported` : '<span class="dash">&mdash;</span>';
+        const tally = covered.length ? hypothesisTally(supported, hyps.length) : '<span class="dash">&mdash;</span>';
         grid.append(`
 <div class="card">
   <span class="card__num">${String(i + 1).padStart(2, "0")}</span>
