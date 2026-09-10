@@ -2,7 +2,7 @@
 version: v0.1
 status: draft
 prepared_for: "Dr. Krishnanand Kaipa, CRAMLab, ODU MAE"
-dated: 2026-09-08
+dated: 2026-09-10
 subtitle: "Lifelong skill acquisition for snake-form underwater robots: embodiment as the variable, learning as the means"
 risks:
   - risk: "Coursework pace, not research, gates the calendar (15 coursework credits remain)"

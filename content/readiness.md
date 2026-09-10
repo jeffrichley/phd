@@ -23,6 +23,6 @@ conditions:
     met: true
     evidence: "No hardware and no sim-to-real claim; morphology is bounded to swimming bodies, with the reason the mechanism claim has no purchase beyond them."
   - condition: "Version number cut and dated"
-    met: false
-    evidence: "The document is still v0.1 and the cut is Jeff's own act. Owned by phd-lab#46."
+    met: true
+    evidence: "Cut at v0.1, dated 2026-09-10. The number stays v0.1 because nothing has a decision recorded against it yet; the date is when the version was cut, not when it is sent. §01's header carries both."
 ---
