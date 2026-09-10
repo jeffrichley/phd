@@ -107,6 +107,7 @@ const timelineC = mdFile(`${C}/timeline.md`).data;
 const publicC = mdFile(`${C}/public.md`);
 const committee = mdFile(`${C}/committee.md`).data;
 const readiness = mdFile(`${C}/readiness.md`).data.conditions ?? [];
+const planOfStudy = mdFile(`${C}/plan-of-study.md`).data;
 const results = mdFile(`${C}/results.md`).data;
 const threads = mdFile(`${C}/literature/_threads.md`).data.threads;
 const listDir = (d, filter = (f) => f.endsWith(".md") && !f.startsWith("_")) =>
@@ -1100,6 +1101,29 @@ function citeHtml(d) {
     spineOl.replaceWith(`<p class="small muted" style="margin-bottom:var(--s5)">The two tracks run concurrently. A stage waits only on what its own line says it waits on; anything not named is not a dependency.</p>\n<div class="tracks">${blocks}</div>`);
     if (!host.find(".track").length) warn("timeline: tracks did not render");
   } else warn("timeline: spine not rendered");
+  // The Plan of Study is the most deferred-to object on this site and had no surface: Stage 01,
+  // §1.10's top risk, the Next-90-days row and §08's 08-24 entry all point at it and none of them
+  // landed anywhere. A block rather than a numbered page, because it is one table plus a status
+  // and a new §NN renumbers the site. Its numbers are read off the DegreeWorks audit rather than
+  // off this page's own prose about the audit, and each row says where to re-check it. It states
+  // what is open rather than presenting a filed plan, because it is not filed. See phd-lab#95.
+  const posCard = $(".card").filter((_, el) => /Program requirements/i.test($(el).find(".card__title").text())).first();
+  if (!posCard.length) warn("timeline: no requirements card to place the Plan of Study beside");
+  else if (!planOfStudy?.arithmetic?.length) warn("timeline: content/plan-of-study.md declares no arithmetic");
+  else {
+    const rows = planOfStudy.arithmetic
+      .map((a) => `<tr><td>${mdInline(a.fact)}</td><td class="small muted">${mdInline(a.where)}</td></tr>`).join("");
+    posCard.after(`
+<div class="card" id="plan-of-study" style="margin-top:var(--s4)">
+  <div class="row" style="justify-content:space-between"><span class="card__title">Plan of Study</span>${statusSpan("open", planOfStudy.status ?? "Not filed")}</div>
+  <p class="card__body">${mdInline(planOfStudy.shape ?? "")}</p>
+  <div class="table-wrap" style="border:0"><table class="data" style="min-width:0"><caption class="sr-only">Credit arithmetic from the DegreeWorks audit, with the page each figure is read from</caption><thead><tr><th scope="col">From the ${mdInline(planOfStudy.source ?? "audit")}</th><th scope="col">Where</th></tr></thead><tbody>
+${rows}
+</tbody></table></div>
+  <p class="card__num" style="margin:var(--s4) 0 var(--s2)">Open</p>
+  <ul class="checklist">${(planOfStudy.open ?? []).map((o) => checkItem(o)).join("")}</ul>
+</div>`);
+  }
   // 90-day working list → checklist items ("[x] " prefix marks done)
   const list = $(".checklist").first();
   if (list.length && timelineC.ninety_days?.length) {

@@ -16,7 +16,7 @@ stages:
     what: "Coursework foundation"
     when: "2025 → end set by the Plan of Study"
     state: active
-    note: "48 credits beyond the master's (24 coursework + 24 dissertation), against ODU's 3.00 GPA requirement, which Jeff currently clears at 4.00. Fall 2026 = MAE 897 Undulatory Propulsion + MAE 899. Later terms are slotted when the Plan of Study and the offering rotation land; deliberately undated here."
+    note: "48 credits beyond the master's (24 coursework + 24 dissertation), against ODU's 3.00 GPA requirement, which Jeff currently clears at 4.00. Fall 2026 = MAE 897 Undulatory Propulsion + MAE 899. Later terms are slotted when the [Plan of Study](timeline.html#plan-of-study) and the offering rotation land; deliberately undated here."
   - n: 10
     short: "diagnostic exam"
     track: program
@@ -103,7 +103,7 @@ stages:
 ninety_days:
   - "Confirm paper 1 RA-L submission logged"
   - "File Form D1, the advisory committee (Dr. Kaipa + two MAE faculty)"
-  - "File the Plan of Study"
+  - "File the [Plan of Study](timeline.html#plan-of-study)"
   - "MAE 897 build: skill-library platform per the cut tickets"
   - "Run the 10-seed baseline retrain on HPC ([exp-004](experiments.html#d004))"
 ---

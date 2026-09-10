@@ -15,4 +15,4 @@ not been raised with him. Whether MAE 601 is required is unresolved.
 
 Each 897 topic is one dissertation deliverable, so coursework and research pull in the
 same direction instead of competing for the calendar. The exact arithmetic against the
-audit's still-needed credits is reconciled in the Plan of Study.
+audit's still-needed credits is reconciled in the [Plan of Study](timeline.html#plan-of-study).

@@ -8,7 +8,7 @@ risks:
   - risk: "Coursework pace, not research, gates the calendar (15 coursework credits remain)"
     likelihood: medium
     impact: high
-    mitigation: "MAE 897 independent studies ride the dissertation's own research pieces; MAE 899 is front-loadable; the Plan of Study (requests in flight) settles the remaining course slots and the 800-level arithmetic"
+    mitigation: "MAE 897 independent studies ride the dissertation's own research pieces; MAE 899 is front-loadable; the [Plan of Study](timeline.html#plan-of-study) (requests in flight) settles the remaining course slots and the 800-level arithmetic"
   - risk: "The thesis is falsified: transfer benefit scales with task similarity"
     likelihood: medium
     impact: medium
