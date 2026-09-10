@@ -111,6 +111,12 @@ const results = mdFile(`${C}/results.md`).data;
 const threads = mdFile(`${C}/literature/_threads.md`).data.threads;
 const listDir = (d, filter = (f) => f.endsWith(".md") && !f.startsWith("_")) =>
   fs.existsSync(d) ? fs.readdirSync(d).filter(filter).sort().map((f) => ({ file: f, ...mdFile(path.join(d, f)) })) : [];
+// What a track is, defined once: §06 renders the spine from this and landing.html derives its
+// public summary from the same list, so the two cannot describe different programs.
+const TRACKS = [
+  ["program", "Program", "The degree's own gates, on the university's calendar."],
+  ["research", "Research", "The dissertation work: the platform, and the four studies."],
+];
 const experiments = listDir(`${C}/experiments`);
 // Four surfaces counted experiments.length and called the result "logged", "recorded" or
 // "runs". phd-lab#79 added a queued row on purpose, so from that commit every one of them
@@ -1053,10 +1059,6 @@ function citeHtml(d) {
     if (!t) { warn(`timeline: stage ${n} is referenced by another stage and does not exist`); return `stage ${n}`; }
     return `<a href="#stage-${n}">${t.short ?? t.what.split(":")[0].split("(")[0].trim()}</a>`;
   };
-  const TRACKS = [
-    ["program", "Program", "The degree's own gates, on the university's calendar."],
-    ["research", "Research", "The dissertation work: the platform, and the four studies."],
-  ];
   const spineOl = $("ol.spine").first();
   if (spineOl.length && timelineC.stages?.length) {
     const host = spineOl.parent();
@@ -1246,6 +1248,36 @@ function citeHtml(d) {
 {
   const $ = page("landing.html");
   const fm = publicC.data;
+  // "Where it stands" carried four hand-written rows wired to nothing: experiments "not started"
+  // twelve words above a completed paper drawn from them, on the one page a stranger reads
+  // without context. It also described a seven-stage scheme in four bands that exists nowhere
+  // else on the site.
+  //
+  // Derived per track rather than per stage, because the public page wants fewer rows than §06's
+  // eight and because a band scheme would have to be re-invented every time a stage is added.
+  // One row per track means the row count follows the tracks, and a stage joining or moving
+  // changes the counts inside a row rather than the shape of the block. See phd-lab#92.
+  const stagesBox = $(".stages").first();
+  if (!stagesBox.length) warn("landing: no .stages block to derive");
+  else {
+    const rows = TRACKS.map(([id, label]) => {
+      const st = timelineC.stages.filter((s) => s.track === id);
+      if (!st.length) return "";
+      const done = st.filter((s) => s.state === "done");
+      const active = st.filter((s) => s.state === "active");
+      const ahead = st.length - done.length - active.length;
+      const name = (s) => s.short ?? s.what.split(":")[0].split("(")[0].trim();
+      const head = active.length ? name(active[0]) : done.length ? name(done[done.length - 1]) : "Not started";
+      const parts = [];
+      if (done.length) parts.push(`${done.map(name).join(", ")} complete`);
+      if (active.length) parts.push(`${active.map(name).join(", ")} under way`);
+      parts.push(ahead === 0 ? "nothing else queued" : `${ahead} ${ahead === 1 ? "stage" : "stages"} ahead`);
+      const state = active.length ? "active" : done.length === st.length ? "done" : "";
+      return `<div${state ? ` data-state="${state}"` : ""}><p class="stages__n">${label}</p><p class="stages__t">${head.charAt(0).toUpperCase() + head.slice(1)}</p><p class="stages__d">${parts.join(". ")}.</p></div>`;
+    }).filter(Boolean);
+    if (!rows.length) warn("landing: no tracks produced a row");
+    else stagesBox.html(rows.join("\n"));
+  }
   const pitch = publicC.content.replace(/^## Pitch\s*/m, "");
   $(".hero h1").first().text(fm.headline); // the correct program name, replacing OD's placeholder
   fillSlot($, "public.lede", mdInline(pitch)); // slot is itself a <p>; block markdown would nest <p><p>
