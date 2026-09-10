@@ -62,7 +62,7 @@ decisions:
     paper: "paper 1"
     date: 2026-07-17
     title: "0003 — Frame as a measured scope mismatch; the validation protocol is a co-contribution"
-    summary: "A model documented for one regime was adopted for another, so nobody is wrong and that is the finding; and the validation protocol any simulator could run is promoted from this paper's method to a contribution in its own right."
+    summary: "MuJoCo documents its fluid model as phenomenological and its own source disables the added-mass acceleration reaction for a stated architectural reason, and the field then adopted it where that term is first-order. Nobody is wrong, and that is the finding; the validation protocol any simulator could run is promoted from this paper's method to a contribution in its own right."
   - id: "compositional-skill-reuse/0004"
     paper: "paper 2"
     date: 2026-07-15
