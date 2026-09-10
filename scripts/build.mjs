@@ -272,6 +272,43 @@ fs.cpSync("figures", path.join(OUT, "figures"), { recursive: true });
 const FEED_INDEX = "lab-log.html";
 const entryHref = (slug) => `log-${slug}.html`;
 
+// The feed is composed once, at module scope, because more than one page counts it.
+// §00's card foot used to add two sources by hand; when results became a third source it
+// silently kept saying 21 while the page rendered 24. One collection, one count.
+// §09's lead promises results first and the feed carried none, which made it a decision log.
+// Results derive from content/experiments/ at the same merge point that already fuses two
+// sources: one entry per completed run, linked to its row on §03 where the metrics, seeds and
+// commit live. A run whose finding a lab note already tells is not repeated here — the note
+// names it with `covers:`, so the exclusion is a link in the data and not an id written into
+// this file. A queued run has no result and must not appear until it reports. See phd-lab#98.
+const covered = new Set(logEntries.flatMap((e) => [].concat(e.data.covers ?? [])));
+const results_ = experiments
+  .filter((e) => e.data.status === "done" && !covered.has(e.data.id))
+  .map((e) => ({
+    id: String(e.data.id),
+    date: e.data.date instanceof Date ? e.data.date.toISOString().slice(0, 10) : String(e.data.date),
+    tag: "result",
+    title: mdInline(String(e.data.env ?? "")),
+    body: mdInline(String(e.data.excerpt ?? "")),
+    href: `experiments.html#d${String(e.data.id).replace(/\D/g, "")}`,
+    note: `${e.data.id}${e.data.hypothesis && e.data.hypothesis !== "—" ? ` · ${e.data.hypothesis}` : ""} · run record on the experiment ledger`,
+  }));
+{
+  // Same shape as the decision guard: a completed run with no authored excerpt fails the build
+  // rather than shipping a blank feed entry, because a warning in a build that exits 0 is how
+  // a gap ships.
+  const bare = results_.filter((r) => !String(r.body).trim());
+  if (bare.length) {
+    for (const b of bare) console.error(`FATAL: completed run ${b.id} has no authored excerpt for the lab log`);
+    throw new Error(`${bare.length} completed run(s) have no excerpt. Add one to content/experiments/, or the run ships blank.`);
+  }
+}
+const feed = [
+  ...logEntries.map((e) => ({ date: e.date, tag: e.data.tag ?? "", title: e.data.title, body: e.data.excerpt, href: entryHref(e.slug) })),
+  ...results_,
+  ...decisions_.map((d) => ({ date: d.date, tag: "decision", title: mdInline(d.title.replace(/^\d+\s*[—-]\s*/, "")), body: d.summary, href: null, note: `${d.paper} · decision ${d.n}, recorded in the lab` })),
+].sort((a, b) => b.date.localeCompare(a.date) || (a.title < b.title ? 1 : -1));
+
 function finish($, name) {
   // global path rewrites + invariants
   $('a[href="tpl-feed-index.html"]').attr("href", FEED_INDEX);
@@ -532,7 +569,7 @@ function finish($, name) {
   <span class="card__title">Lab log</span>
   <p class="card__body">The published, dated record of results, findings, decisions, and
     milestones; the page to watch between meetings.</p>
-  <span class="card__foot"><span>${logEntries.length + decisions_.length} entries</span><span>Live</span></span>
+  <span class="card__foot"><span>${feed.length} entries</span><span>Live</span></span>
 </a>\n<a class="card" href="disciplines.html">
   <span class="card__num">§10</span>
   <span class="card__title">Disciplines</span>
@@ -1550,10 +1587,6 @@ logEntries.forEach((e, i) => {
   // Log entries have their own page; a decision does not, because its record is an ADR in the
   // lab, which is private. It renders linkless rather than pointing at a URL that 404s for a
   // committee reader. Both kinds sort together by date, so the feed reads as one record.
-  const feed = [
-    ...logEntries.map((e) => ({ date: e.date, tag: e.data.tag ?? "", title: e.data.title, body: e.data.excerpt, href: entryHref(e.slug) })),
-    ...decisions_.map((d) => ({ date: d.date, tag: "decision", title: mdInline(d.title.replace(/^\d+\s*[—-]\s*/, "")), body: d.summary, href: null, note: `${d.paper} · decision ${d.n}, recorded in the lab` })),
-  ].sort((a, b) => b.date.localeCompare(a.date) || (a.title < b.title ? 1 : -1));
   const items = feed.map((e) => {
     const inner = `
     <time class="feed__date" datetime="${e.date}">${e.date}</time>

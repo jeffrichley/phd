@@ -2,6 +2,7 @@
 title: "The swim was the wrong instrument: the added-mass fork passes the right one"
 date: 2026-07-31
 tag: finding
+covers: exp-001
 excerpt: A trajectory-overlay comparison got retracted as evidence; in its place, a seven-rung analytic battery (force comparisons, conservation checks, free decay), and the fork passes all seven.
 ---
 <!-- Source: anguilla docs/investigations/2026-07-31-added-mass-fork-validation/
