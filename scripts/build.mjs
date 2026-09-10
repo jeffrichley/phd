@@ -248,6 +248,9 @@ const STAGEMARKS = {
   // where the program is, and §00's own card grid says it again a few centimetres below.
   // The front door's job is what am I looking at, not where in the programme are we.
   "index.html": `Proposal in ${docStatus}`,
+  // Derives from the same value §00's card reads, so the stat cannot disagree with the card
+  // pointing at its page. §09's entry is assigned below, where the feed array exists.
+  "disciplines.html": `Tenets <b>${tenetCount}</b>`,
 };
 const PAGEHEAD_COUNTS = {
   // "slots" is right where the things are unfilled and wrong where they are filled. §02's four
@@ -316,6 +319,9 @@ const feed = [
     return { date: d.date, tag: "decision", title: mdInline(d.title.replace(/^\d+\s*[—-]\s*/, "")), body: d.summary, href: null, note: `${d.paper} · decision ${n}, recorded in the lab` };
   }),
 ].sort((a, b) => b.date.localeCompare(a.date) || (a.title < b.title ? 1 : -1));
+// §09's topbar stat, assigned here because it counts the array composed directly above. Same
+// source as §00's lab-log card, so the two cannot disagree.
+STAGEMARKS[FEED_INDEX] = `Entries <b>${feed.length}</b>`;
 
 function finish($, name) {
   // global path rewrites + invariants
@@ -1493,19 +1499,27 @@ ${rows}
 }
 
 // ---------- generated content pages (tpl-content): §10 Disciplines, people ----------
-function genContentPage(name, { kicker, title, lead, bodyHtml, currentHref, prev, next, dropPagenav }) {
+// sectionChrome: a numbered section of the record wears the same header as §00-§08, with the
+// wordmark and a live stat. The leaf pages this function also builds - the 26 literature
+// entries, study 1, the person page - keep the document-title header, which is correct for
+// them. §10 is the only caller that opts in. See phd-lab, the §09/§10 header ruling.
+function genContentPage(name, { kicker, title, lead, bodyHtml, currentHref, prev, next, dropPagenav, sectionChrome }) {
   const $ = page("tpl-content.html");
   $("#rail").replaceWith(railFrom);
   if (currentHref) setCurrent($, currentHref);
-  fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
-  $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
-  $('[data-od-slot="site.stage"]').remove();
+  if (!sectionChrome) {
+    fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
+    $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
+    $('[data-od-slot="site.stage"]').remove();
+  }
   $("title").text(`${title} · ${SITE_NAME}`); // middot, matching the hand-built pages
   fillSlot($, "page.kicker", kicker);
   fillSlot($, "page.title", title);
   fillSlot($, "page.lead", lead);
   $('[data-od-slot="page.meta"]').remove();
-  $('[data-od-slot="page.status"]').remove();
+  // page.status is this template's topbar stagemark. A section page keeps it and finish()
+  // fills it from STAGEMARKS; a leaf page has no stat to show and drops it.
+  if (!sectionChrome) $('[data-od-slot="page.status"]').remove();
   $("[data-od-block]").remove();
   $(".doc__margin .note, .margin-stack .note").remove(); // tpl demo margin notes, not content
   $('meta[name="description"]').attr("content", escAttr(lead));
@@ -1583,9 +1597,9 @@ logEntries.forEach((e, i) => {
   const $ = page("tpl-feed-index.html");
   $("#rail").replaceWith(railFrom);
   setCurrent($, "tpl-feed-index.html"); // pre-rewrite href; finish() rewrites it
-  fillSlot($, "site.title", "Lifelong Learning for Snake-Form Underwater Robots");
-  $('[data-od-slot="site.subtitle"]').text("Dissertation progress · Jeff Richley, ODU MAE");
-  $('[data-od-slot="site.stage"]').remove();
+  // §09 is a numbered section, so it keeps the template's own wordmark header and its
+  // stagemark, which finish() fills from STAGEMARKS. The feed ENTRY pages below are leaves
+  // and still take the document-title header.
   $("title").text(`§09 Lab log · ${SITE_NAME}`);
   fillSlot($, "feed.kicker", "§09 · Lab log");
   fillSlot($, "feed.title", "Lab log");
@@ -1643,7 +1657,7 @@ logEntries.forEach((e, i) => {
   genContentPage("disciplines.html", {
     kicker: d.data.kicker, title: d.data.title, lead: d.data.lead,
     bodyHtml: md(d.content) + legend, currentHref: "disciplines.html",
-    prev: { href: FEED_INDEX, title: "§09 Lab log" },
+    prev: { href: FEED_INDEX, title: "§09 Lab log" }, sectionChrome: true,
   });
   checkGlyphs(d.data.glyphs ?? []);
 }
