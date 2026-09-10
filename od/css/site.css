@@ -33,6 +33,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 img, svg, iframe { max-width: 100%; }
+/* The filter chips and the search box hide a row by setting `hidden` on it, and the browser's
+   own [hidden] rule is a UA default: any author rule that sets `display` beats it. `.card` sets
+   display:flex, so on §02 and §05 every filter ran correctly and hid nothing. Global and
+   !important because it is the whole point of the attribute, and because the alternative is one
+   targeted rule per component that can hold a filtered item, which is what was here before and
+   what left two pages broken. Keeps `table.data tr[hidden]` and `.feed__item[hidden]` working. */
+[hidden] { display: none !important; }
 h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 600; line-height: var(--lh-head); }
 p { margin: 0 0 1em; text-wrap: pretty; }
 p:last-child { margin-bottom: 0; }

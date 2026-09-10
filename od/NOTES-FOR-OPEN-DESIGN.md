@@ -184,3 +184,8 @@ CONTENT-CONTRACT.md). Nothing urgent; fold in whenever the design is next touche
   list is hardcoded; `content/people/` and `content/disciplines.md` (new collections)
   have no schema; `proposal.thesis` single-sentence rule and figure-`alt` rules are
   contract-only (now enforced by the build with warnings).
+- `site.css` had no global `[hidden]` rule, only `table.data tr[hidden]` and
+  `.feed__item[hidden]`. The filter chips and search box hide rows by setting the `hidden`
+  attribute, and `.card { display: flex }` overrides the UA default, so on `questions.html`
+  (9 cards) and `literature.html` (26 cards) every filter ran and hid nothing. Fixed in
+  place with a global `[hidden] { display: none !important }` in the reset.
