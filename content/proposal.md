@@ -349,8 +349,8 @@ remaining three studies need measured.
 
 A free-body probe on the stock GPU pipeline recovers effective mass equal to dry mass,
 which is to say the added-mass reaction the simulator specifies is not realised at all.
-With the hydrodynamics plugin active, the same probe recovers 1.115 axial and 1.345
-lateral, matching the potential-flow coefficients for the body. A seven-rung analytic
+With the hydrodynamics plugin active, the same probe carries the analytic potential-flow
+added mass through into effective inertia, 1.115 axial and 1.345 lateral. A seven-rung analytic
 battery, built from fixed-state force comparisons, conservation checks and free decay
 rather than from integrated trajectories, passes on every rung, with the added-mass
 Coriolis term matching the Fossen reference to 2 × 10⁻⁸. A sealed timestep-refinement study
