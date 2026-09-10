@@ -352,7 +352,10 @@ function finish($, name) {
   const stageMarks = timelineC.stages
     .filter((st) => st.state !== "open")
     .sort((a, b) => a.n - b.n)
-    .map((st) => ({ n: String(st.n).padStart(2, "0"), word: st.state === "done" ? "complete" : st.state }));
+    // Named rather than numbered. phd-lab#90 numbers stages within their track, so "Stage 01"
+    // would name two different stages and this summary sits on the public page where a reader
+    // has no track headings to disambiguate it against.
+    .map((st) => ({ n: st.short ?? st.what.split(":")[0].split("(")[0].trim(), word: st.state === "done" ? "complete" : st.state }));
   if (stageMarks.length) {
     $("span, p, li").filter((_, el) => /^Stage\s+\d+\s+of\s+\d+$/.test($(el).text().replace(/\s+/g, " ").trim()))
       .each((_, el) => {
@@ -360,7 +363,7 @@ function finish($, name) {
         // the landing hero's meta spans do not, and neither should gain or lose it here
         const bold = /<b>/.test($(el).html() ?? "");
         $(el).html(stageMarks
-          .map((m) => `Stage ${bold ? `<b>${m.n}</b>` : m.n} ${m.word}`)
+          .map((m) => `${bold ? `<b>${m.n}</b>` : m.n} ${m.word}`)
           .join(" · "));
       });
   } else warn("stage counter: every stage is open, so no state clause was rendered");
@@ -1063,7 +1066,12 @@ function citeHtml(d) {
     const blocks = TRACKS.map(([id, label, lede]) => {
       const rows = timelineC.stages.filter((s) => s.track === id);
       if (!rows.length) { warn(`timeline: track ${id} has no stages`); return ""; }
-      const items = rows.map((s) => {
+      // Numbered within the track, because global numbers left gaps inside each column and
+      // non-contiguous numbers read as one sequence someone sorted into two, which is the exact
+      // impression the two tracks exist to remove. The track name rides along so a number is
+      // unambiguous read on its own. The anchor keeps the stage's global id, so the dependency
+      // lines and every link into them are untouched. See phd-lab#90.
+      const items = rows.map((s, i) => {
         const st = stageState(s.state);
         // A dependency names a gate rather than a stage wherever the two differ. Stage 02 is
         // Complete and its gate, paper 1 submitted, is not: study 1 being finished is not the
@@ -1083,7 +1091,7 @@ function citeHtml(d) {
           deps.length ? `Waits on ${list(deps)}` : "Waits on nothing else here",
           indep.length ? `independent of ${list(indep)}` : "",
         ].filter(Boolean).join(" · ");
-        return `\n<li id="stage-${s.n}" data-state="${s.state}"><p class="spine__when">Stage 0${s.n} · <span class="mono">${s.when}</span></p><h3 class="spine__what">${s.what}</h3><p class="spine__note">${mdInline(s.note)}</p><p class="spine__note small muted">${rel}</p><p class="spine__note">${statusSpan(st, wordMap[st])}</p></li>`;
+        return `\n<li id="stage-${s.n}" data-state="${s.state}"><p class="spine__when">${label} ${i + 1} · <span class="mono">${s.when}</span></p><h3 class="spine__what">${s.what}</h3><p class="spine__note">${mdInline(s.note)}</p><p class="spine__note small muted">${rel}</p><p class="spine__note">${statusSpan(st, wordMap[st])}</p></li>`;
       }).join("");
       return `<div class="track"><p class="eyebrow-rule">${label}</p><p class="small muted">${lede}</p><ol class="spine">${items}\n</ol></div>`;
     }).join("\n");
