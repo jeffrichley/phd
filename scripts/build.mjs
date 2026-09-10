@@ -131,6 +131,37 @@ const runTally = (verb = "complete") =>
 const studies = listDir(`${C}/studies`);
 const advisorNotes = listDir(`${C}/notes`);
 const decisions = listDir(`${C}/decisions`);
+// The seventeen recorded decisions in phd-lab, joined into §09's feed as one-line entries.
+// Generated into content/decisions.md by scripts/decisions.mjs, because CI checks out this repo
+// alone and a build-time read of phd-lab would find them here and none there, exiting 0 while
+// the deploy dropped all of them.
+//
+// Two guards, both because a warning in a build that exits 0 is how a gap ships:
+//   - a decision with no authored summary is fatal, not a warning. The alternative is shipping a
+//     generated restatement of the decision's title, which is noise wearing a summary's shape.
+//   - staleness is visible rather than silent. The page renders the generation date, and when
+//     phd-lab IS reachable the build compares the committed file against the source directory and
+//     dies if they disagree. In CI phd-lab is absent, so the rendered stamp is what a reader has.
+// See phd-lab#98.
+const decisionsDoc = fs.existsSync(`${C}/decisions.md`) ? mdFile(`${C}/decisions.md`).data : {};
+const decisions_ = (decisionsDoc.decisions ?? []).map((d) => ({
+  ...d,
+  date: d.date instanceof Date ? d.date.toISOString().slice(0, 10) : String(d.date),
+}));
+{
+  const bare = decisions_.filter((d) => !String(d.summary ?? "").trim());
+  if (bare.length) {
+    for (const b of bare) console.error(`FATAL: decision ${b.id} has no authored summary`);
+    throw new Error(`${bare.length} decision(s) have no summary. Write them, or run scripts/decisions.mjs to see which.`);
+  }
+  const labDirs = ["underwater-hydro-fidelity", "compositional-skill-reuse"]
+    .map((d) => path.resolve(process.env.PHD_LAB ?? "../../phd-lab", "papers", d, "decisions"));
+  if (labDirs.every((d) => fs.existsSync(d))) {
+    const onDisk = labDirs.flatMap((d) => fs.readdirSync(d).filter((f) => /^\d{4}-.*\.md$/.test(f)));
+    if (onDisk.length !== decisions_.length)
+      throw new Error(`content/decisions.md holds ${decisions_.length} decisions and phd-lab holds ${onDisk.length}. Re-run scripts/decisions.mjs.`);
+  }
+}
 const logEntries = listDir(`${C}/log`)
   .map((e) => ({ ...e, slug: e.file.replace(/\.md$/, ""), date: e.data.date instanceof Date ? e.data.date.toISOString().slice(0, 10) : String(e.data.date) }))
   .sort((a, b) => b.date.localeCompare(a.date) || b.file.localeCompare(a.file)); // newest first, stable
@@ -501,7 +532,7 @@ function finish($, name) {
   <span class="card__title">Lab log</span>
   <p class="card__body">The published, dated record of results, findings, decisions, and
     milestones; the page to watch between meetings.</p>
-  <span class="card__foot"><span>${logEntries.length} entries</span><span>Live</span></span>
+  <span class="card__foot"><span>${logEntries.length + decisions_.length} entries</span><span>Live</span></span>
 </a>\n<a class="card" href="disciplines.html">
   <span class="card__num">§10</span>
   <span class="card__title">Disciplines</span>
@@ -1516,23 +1547,40 @@ logEntries.forEach((e, i) => {
   fillSlot($, "feed.lead", "Dated record of results, findings, decisions, and milestones. Newest first.");
   const rep = $('[data-od-repeat="feed.entries"]');
   $('meta[name="description"]').attr("content", "Dated record of results, findings, decisions, and milestones from the dissertation lab.");
-  const items = logEntries.map((e) => {
-    const tag = e.data.tag ?? "";
-    return `
-<li class="feed__item" data-item data-tag="${tag}" data-od-item>
-  <a class="feed__link" href="${entryHref(e.slug)}">
+  // Log entries have their own page; a decision does not, because its record is an ADR in the
+  // lab, which is private. It renders linkless rather than pointing at a URL that 404s for a
+  // committee reader. Both kinds sort together by date, so the feed reads as one record.
+  const feed = [
+    ...logEntries.map((e) => ({ date: e.date, tag: e.data.tag ?? "", title: e.data.title, body: e.data.excerpt, href: entryHref(e.slug) })),
+    ...decisions_.map((d) => ({ date: d.date, tag: "decision", title: mdInline(d.title.replace(/^\d+\s*[—-]\s*/, "")), body: d.summary, href: null, note: `${d.paper} · decision ${d.n}, recorded in the lab` })),
+  ].sort((a, b) => b.date.localeCompare(a.date) || (a.title < b.title ? 1 : -1));
+  const items = feed.map((e) => {
+    const inner = `
     <time class="feed__date" datetime="${e.date}">${e.date}</time>
     <div>
-      <span class="feed__title">${e.data.title}</span>
-      <p class="feed__excerpt">${e.data.excerpt}</p>
+      <span class="feed__title">${e.title}</span>
+      <p class="feed__excerpt">${e.body}</p>
+      ${e.note ? `<p class="small muted">${e.note}</p>` : ""}
     </div>
-    ${tag ? `<span class="tag tag--${tag}">${tag}</span>` : ""}
-  </a>
+    ${e.tag ? `<span class="tag tag--${e.tag}">${e.tag}</span>` : ""}`;
+    return `
+<li class="feed__item" data-item data-tag="${e.tag}" data-od-item>
+  ${e.href ? `<a class="feed__link" href="${e.href}">${inner}
+  </a>` : `<div class="feed__link">${inner}
+  </div>`}
 </li>`;
   });
   rep.find("[data-od-item]").remove();
   rep.append(items.join("\n"));
   if (!items.length) rep.parent().find(".empty").removeAttr("hidden");
+  // The decision entries come from a committed file that CI cannot re-derive, so staleness has to
+  // be visible to a reader rather than only to a local build. The stamp says what the count was
+  // true of, the way §03's queued rows carry the date they were entered against.
+  if (decisions_.length && decisionsDoc.generated) {
+    const g = decisionsDoc.generated;
+    const when = g instanceof Date ? g.toISOString().slice(0, 10) : String(g);
+    rep.after(`\n<p class="small muted" style="margin-top:var(--s5)">The ${decisions_.length} decision entries are drawn from the lab's decision records, as of <span class="mono">${when}</span>. Each names its paper and number; the records themselves are kept in the lab.</p>`);
+  }
   finish($, FEED_INDEX);
 }
 // §10 Disciplines
