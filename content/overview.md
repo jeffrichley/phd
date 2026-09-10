@@ -2,7 +2,7 @@
 # → index.html (§00 Overview). Sources: locked thesis claim (#4); wayfinder #1;
 # admin/README.md standing facts. Status-strip values must be regenerated, never guessed.
 thesis: "In snake-form locomotion under fluid coupling, skills decompose into a shared propulsive substrate and categorically distinct task-specific structure; opaque parameter transfer carries only the substrate, so an inspectable, structured skill-memory is what converts the categorical remainder into forward transfer."
-next_milestone: "Paper 1 through the RA-L submission gate; Fall 2026 MAE 897 build of the skill-library platform"
+next_milestone: "Dr. Kaipa's read of paper 1, which is with him now; then Fall 2026 MAE 897 build of the skill-library platform"
 status_strip:
   advisor_decision: "Proposal drafted — delivery to advisor due 2026-09-15"
   run_count: 3

@@ -73,6 +73,15 @@ const threads = mdFile(`${C}/literature/_threads.md`).data.threads;
 const listDir = (d, filter = (f) => f.endsWith(".md") && !f.startsWith("_")) =>
   fs.existsSync(d) ? fs.readdirSync(d).filter(filter).sort().map((f) => ({ file: f, ...mdFile(path.join(d, f)) })) : [];
 const experiments = listDir(`${C}/experiments`);
+// Four surfaces counted experiments.length and called the result "logged", "recorded" or
+// "runs". phd-lab#79 added a queued row on purpose, so from that commit every one of them
+// asserted an event that had not happened. The fix is not a smaller number: counting only
+// completed runs hides the queued row and undoes the reason it exists. One derived phrase,
+// used by all four, so they cannot disagree again. See phd-lab#83.
+const runsDone = experiments.filter((e) => e.data.status === "done").length;
+const runsAhead = experiments.length - runsDone;
+const runTally = (verb = "complete") =>
+  runsAhead ? `${runsDone} ${verb} · ${runsAhead} queued` : `${runsDone} ${verb}`;
 const studies = listDir(`${C}/studies`);
 const advisorNotes = listDir(`${C}/notes`);
 const decisions = listDir(`${C}/decisions`);
@@ -154,7 +163,7 @@ const openActions = advisorNotes
 // passes through it and a new page cannot quietly skip it.
 const STAGEMARKS = {
   "questions.html": `Open <b>${openHypotheses}</b> of ${allHypotheses.length} hypotheses`,
-  "experiments.html": `Runs <b>${experiments.length}</b> recorded`,
+  "experiments.html": `Runs <b>${runsDone}</b> complete${runsAhead ? ` · ${runsAhead} queued` : ""}`,
   "results.html": `Plates <b>${resultPlates}</b> · ${results.figures.length} filled`,
   "literature.html": `Threads <b>${threads.length}</b> · ${litEntries.length} entries`,
   "notes.html": `Entries <b>${advisorNotes.length}</b>`,
@@ -170,7 +179,7 @@ const PAGEHEAD_COUNTS = {
   "questions.html": { Questions: `Questions ${questions.length}`, Hypotheses: `Hypotheses ${allHypotheses.length} recorded` },
   "approvals.html": { Members: `Members ${committeeSeats} slots`, Decisions: `Decisions ${decisions.length}` },
   "results.html": { Plates: `Plates ${resultPlates} reserved` },
-  "experiments.html": { Records: `Records ${experiments.length}` },
+  "experiments.html": { Records: `Records ${runTally()}` },
   "literature.html": { Threads: `Threads ${threads.length}`, Entries: `Entries ${litEntries.length}` },
   "notes.html": { Entries: `Entries ${advisorNotes.length}`, "Open actions": `Open actions ${openActions}` },
   "timeline.html": { Stages: `Stages ${timelineC.stages.length}` },
@@ -247,8 +256,27 @@ function finish($, name) {
   // them. Derived from the rail the page actually renders. See phd-lab#66.
   const NUM_WORD = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
     "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
-  const surfaces = $("#rail .rail__num").filter((_, el) => /^§\d+$/.test($(el).text().trim())).length;
+  // The count never broke; the definition stopped matching the screen. Matching on §NN was
+  // right while every rail entry had a section number, and phd-lab#77 put a study page in the
+  // rail without one, so a reader counting entries got twelve while the sentence said eleven.
+  // Counting every rail entry that is a page keeps the sentence true when the next study
+  // joins, and needs no edit to do it. See phd-lab#83.
+  const surfaces = $("#rail a.rail__link").filter((_, el) => {
+    const href = $(el).attr("href") ?? "";
+    return href && !href.startsWith("#") && !href.startsWith("http");
+  }).length;
   const surfaceWord = NUM_WORD[surfaces] ?? String(surfaces);
+  // The reading order is where Dr. Kaipa decides what to read, and it named no study page even
+  // though study 1 is the only surface that shows a study end to end. Derived from
+  // content/studies/ the way §03's ledger link and the rail entry already are, so study 2
+  // joins the path without an edit. See phd-lab#83.
+  const orderNote = $(".note").filter((_, el) => /reading order/i.test($(el).find(".note__who").text())).first();
+  if (orderNote.length && studies.length) {
+    const links = studies.map((st) => `<a href="${st.data.slug}.html">${String(st.data.rail ?? st.data.title).replace(/^(Study \d+).*$/, "$1")}</a>`);
+    const html = orderNote.html() ?? "";
+    if (html.includes("§02 →")) orderNote.html(html.replace("§02 →", `§02 → ${links.join(" → ")} →`));
+    else warn("index: the reading order note did not carry the expected path");
+  }
   const structureNote = $(".note").filter((_, el) => /surfaces, one record/.test($(el).text())).first();
   if (structureNote.length) {
     structureNote.html(structureNote.html().replace(/\b[A-Z][a-z]+ surfaces, one record/,
@@ -327,7 +355,17 @@ function finish($, name) {
 // ---------- index.html (§00) ----------
 {
   const $ = page("index.html");
+  // The sentence under the title is the thesis claim, and §00 carried it unlabelled, so a
+  // reader could not tell whether it was an abstract, a summary or the research question. The
+  // label is chrome around the sentence and never an edit to it: the claim stays byte-identical
+  // with §01 and the landing page. The falsifier goes beside it, because a claim shown next to
+  // what would disprove it is §10's argument made once at the top of the site. See phd-lab#83.
   fillSlot($, "overview.thesis", mdInline(overview.thesis));
+  const thesisEl = $('[data-od-slot="overview.thesis"]');
+  if (thesisEl.length) {
+    thesisEl.before('<p class="kicker kicker--accent" style="margin-bottom:var(--s2)">Thesis claim</p>');
+    thesisEl.after('<p class="small muted" style="margin-top:var(--s3)">Its falsifier is stated with it: <a href="questions.html#rq2">RQ2 in §02</a> asks whether transfer benefit is flat in task similarity or scales, and a scaling result refutes this claim.</p>');
+  } else warn("index: no thesis slot to label");
   fillSlot($, "overview.next_milestone", mdInline(overview.next_milestone));
   // status strip: match by label
   $(".stat").each((_, el) => {
@@ -337,10 +375,10 @@ function finish($, name) {
       // the status pill doesn't wrap: short word in the pill, detail on a small line below,
       // and the whole stat links to the decision record so it's reachable without scrolling
       const [word, ...rest] = String(overview.status_strip.advisor_decision).split(" — ");
-      v.html(`<a href="approvals.html#decisions" style="text-decoration:none">${statusSpan("open", word)}</a>` +
+      v.html(`<a href="approvals.html#decisions" style="text-decoration:none">${statusSpan("active", word)}</a>` +
         (rest.length ? `<br><span class="small muted">${rest.join(" — ")} · <a href="approvals.html#decisions">decision record</a></span>` : ""));
     }
-    if (k === "Experiments logged") v.html(`<span class="mono">${experiments.length}</span>`);
+    if (k === "Experiments") v.html(`<span class="mono">${runTally()}</span>`);
     if (k === "Open hypotheses") v.html(`<span class="mono">${openHypotheses}</span>`);
   });
   // pagehead meta: the dashes are known facts
@@ -349,10 +387,18 @@ function finish($, name) {
     const v = { Program: overview.meta?.program, Advisor: overview.meta?.advisor, Committee: overview.meta?.committee, Updated: BUILD_DATE }[label];
     if (!v) return;
     // Committee and Advisor link straight to their sections; no scrolling to find them
-    if (label === "Committee") $(el).html(`${label} <a class="mono" href="approvals.html#roster">${v}</a>`);
-    else if (label === "Advisor") $(el).html(`${label} <a class="mono" href="people-krishnanand-kaipa.html">${v}</a>`);
-    else $(el).html(`${label} <span class="mono">${v}</span>`);
+    // Four labelled facts rendered as four bare spans with no separator, so they read as one
+    // paragraph. A separator character was the wrong fix: a middot between inline spans strands
+    // itself at the start of a line when the row wraps, and this block wraps on every phone. It
+    // is a two-column definition grid instead, which has no separator to strand. Both halves are
+    // real elements so the grid can place them; the label keeps the block's mono uppercase
+    // register and the value drops it, which is what makes the label subordinate. See phd-lab#83.
+    const val = label === "Committee" ? `<a href="approvals.html#roster">${v}</a>`
+      : label === "Advisor" ? `<a href="people-krishnanand-kaipa.html">${v}</a>`
+      : v;
+    $(el).html(`<span class="meta__k">${label}</span><span class="meta__v mono">${val}</span>`);
   });
+  $(".pagehead__meta").first().addClass("pagehead__meta--pairs");
   // journey spine: re-render every <li> from overview.spine (stale exemplar text otherwise ships)
   const spineOl = $("ol.spine").first();
   if (spineOl.length && overview.spine?.length) {
@@ -377,7 +423,7 @@ function finish($, name) {
   const feet = {
     "proposal.html": [`${proposalSections} sections`, "Draft"],
     "questions.html": [`${allHypotheses.length} hypotheses`, supportedQuestions(questions)],
-    "experiments.html": [`${experiments.length} runs`, "Ledger live"],
+    "experiments.html": [runTally("runs complete"), "Ledger live"],
     "results.html": [`${results.figures.length} of ${resultPlates} plates filled`, "Study 1"],
     "literature.html": [`${threads.length} threads`, litEntries.length ? `${litEntries.length} entries` : "Entries pending verification"],
     "timeline.html": [`${timelineC.stages.length} stages`, "In motion"],

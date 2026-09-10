@@ -177,5 +177,6 @@ eighteen minutes on a single A100 node, bracketed by the stamp and the completio
 its sealed package. The other three runs are deterministic single runs and were never
 submitted to the cluster at all. This study's result is cheap to reproduce.
 
-Paper 1 is at the IEEE RA-L submission gate and is not accepted. Nothing on this page is
-drawn from the manuscript.
+Paper 1 is at the IEEE RA-L submission gate, which is to say it is written and with the
+advisor for his read, and it has not been submitted. Nothing on this page is drawn from the
+manuscript.

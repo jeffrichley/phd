@@ -159,6 +159,20 @@ hr { border: 0; border-top: var(--hair); margin: var(--s6) 0; }
   text-transform: uppercase; letter-spacing: var(--ls-wide);
 }
 
+/* §00's pagehead meta is four labelled facts rather than the short counters the other pages
+   carry, and as flex-wrapped siblings with no separator they read as one paragraph. A two-column
+   definition grid separates them at every width without a separator character, which would
+   strand itself at the start of a line whenever the row wraps. `display: contents` lets each
+   pair's wrapper hand its two halves straight to the grid. See phd-lab#83. */
+.pagehead__meta--pairs {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--s2) var(--s5); align-items: baseline;
+}
+.pagehead__meta--pairs > span { display: contents; }
+.pagehead__meta--pairs .meta__v {
+  color: var(--fg); text-transform: none; letter-spacing: normal; font-size: var(--t-small);
+}
+
 .sec { margin-bottom: var(--sec-gap); scroll-margin-top: 80px; }
 .sec__head { display: flex; gap: var(--s4); align-items: baseline; margin-bottom: var(--s5); }
 .sec__num {
