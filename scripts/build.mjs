@@ -96,6 +96,15 @@ function hypothesisTally(supported, total) {
 const disciplinesC = mdFile(`${C}/disciplines.md`);
 const tenetCount = (disciplinesC.content.match(/^## /gm) ?? []).length;
 const litEntries = listDir(`${C}/literature`, (f) => /^lit-\d+\.md$/.test(f));
+// The document's version and status live in content/proposal.md's front matter and are what
+// #46's version cut edits. Three stagemarks render a document status and all three shipped as
+// mockup text no code touched: index's "Stage 01 · Proposal in draft", proposal's
+// "Doc v0.1 · Draft" and approvals' "Doc v0.1 · awaiting decision". They do not share a
+// string, so the seam carries a per-page phrase rather than one global one, and each page is
+// one row in STAGEMARKS below. See phd-lab#64 and #46.
+const docVersion = String(proposal.data.version ?? "").trim();
+const docStatus = String(proposal.data.status ?? "").trim();
+if (!docStatus) warn("proposal.md front matter has no status; §00's stagemark cannot derive");
 // S01's section count is derived, never asserted: od/proposal.html is the structure that
 // produces the rail and the sNN anchors, so it is the only thing that can be right about it.
 const proposalSections = page("proposal.html")("section.sec.doc").length;
@@ -116,6 +125,10 @@ const STAGEMARKS = {
   "results.html": `Plates <b>${resultPlates}</b> · ${results.figures.length} filled`,
   "literature.html": `Threads <b>${threads.length}</b> · ${litEntries.length} entries`,
   "notes.html": `Entries <b>${advisorNotes.length}</b>`,
+  // §00 keeps the document status and loses the stage position: §06's stagemark answers
+  // where the program is, and §00's own card grid says it again a few centimetres below.
+  // The front door's job is what am I looking at, not where in the programme are we.
+  "index.html": `Proposal in ${docStatus}`,
 };
 const PAGEHEAD_COUNTS = {
   "questions.html": { Questions: `Questions ${questions.length} slots`, Hypotheses: `Hypotheses ${allHypotheses.length} recorded` },
