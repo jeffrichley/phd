@@ -37,7 +37,7 @@ research_questions:
 contributions:
   - "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed. The measurements themselves, and what they establish about feasibility, are in §1.9."
   - "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
-  - "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named"
+  - "Certified operating envelopes and the envelope check: coverage as set containment, missions outside the library's union refused with the uncovered facet named. The run-time assurance literature uses *operating envelope* for the state-space region a primary controller is left free to work in (Hobbs et al., 2023); here the term names a certificate over task facets instead, a parametric extent over the dials and a categorical membership over the switches, held per skill card"
   - "The result shown to be a property of the architecture rather than of one robot: a slenderness sweep that tests whether the structured-memory advantage holds across bodies of differing shape, and whether added-mass anisotropy predicts where the categorical boundary between gait regimes falls, with a carangiform body run out of family to locate the mechanism's bound"
 slots:
   Abstract: proposal.abstract
