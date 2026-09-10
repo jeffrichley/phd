@@ -71,8 +71,17 @@ rail groups it. A regeneration from the older table would have dropped the Disci
 from every page and looked correct doing it, because the contract described exactly what it
 would have produced.
 
-Still missing there, reported rather than fixed: §10 has a row now but no description and no
-content schema, where §09 gets four sentences. `content/people/` has neither.
+**Two collections the contract still does not describe**, and this is the record of the gap
+rather than an attempt to fill it. §10 Disciplines has a rail-table row and nothing else: no
+description, no content schema. §09 gets four sentences, its generating templates named, and
+its href-rewrite rule documented. `content/people/` is in neither the table nor the schema,
+while generating `people-*.html`, one of which is live and reachable from §07's roster.
+
+Both build correctly today, so this is a documentation gap rather than a build failure. The
+risk it names is a regenerating OD session producing a page for a section its own contract
+does not describe. **The descriptions are yours to write**, in your voice and for collections
+you designed the shape of; inventing them here is how a contract acquires an
+authoritative-sounding rule that is wrong.
 
 **SECTION COUNT IS NOW DERIVED, 2026-09-09.** Three of your files asserted that §01 has
 eleven sections, and the build re-asserted it on every run from a string literal in

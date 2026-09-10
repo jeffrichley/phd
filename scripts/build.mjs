@@ -214,6 +214,14 @@ function finish($, name) {
           .join(" · "));
       });
   } else warn("stage counter: every stage is open, so no state clause was rendered");
+  // OD's authoring comments are documentation for whoever edits the templates, and they
+  // ship to every reader: 477 of them, 137 KB across the site, and a third of disciplines.html
+  // by weight. They render as nothing, so nobody sees the cost. Stripped here, at the one
+  // point every page passes through, rather than per page. The od/ sources keep them, which
+  // is where they are useful. Checked first for anything a machine reads: no IE conditional
+  // comments, no server-side includes, no template markers, no formatter or linter pragmas.
+  // See phd-lab#57.
+  $.root().find("*").contents().filter((_, n) => n.type === "comment").remove();
   if (!$('meta[name="robots"][content="noindex"]').length) warn(`${name}: missing noindex`);
   if (name !== "landing.html") // landing intentionally keeps its standalone .landnav chrome
     for (const sel of ["#navToggle", "#backdrop", "#rail"]) if (!$(sel).length) warn(`${name}: missing ${sel}`);
