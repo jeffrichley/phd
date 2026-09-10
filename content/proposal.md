@@ -374,11 +374,9 @@ package and is browsable with its run in [§03](experiments.html) and
 ## Resources
 
 All computation in simulation: development on a personal RTX 4060 Ti; training campaigns
-on HPC allocations, tens of GPU-hours total as of September 2026. No ODU
-lab resources are required. Every paper and preprint receives a same-day or next-day government
-pre-publication read before it goes out.
+on HPC allocations. No ODU lab resources are required.
 
-The record behind those numbers is public, and its parts have ordinary names. Every run
+The record behind the numbers in this document is public, and its parts have ordinary names. Every run
 reported anywhere in this document is logged with its seeds, configuration and outcome, so
 the artifacts behind a claim are available rather than described. Every hypothesis carries
 its falsifier and is registered before the runs that test it, which is a preregistration
