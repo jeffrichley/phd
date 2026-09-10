@@ -40,7 +40,12 @@ const checkItem = (raw) => {
 };
 
 const STATUS = {
-  open: ["○", "Open"], planned: ["○", "Planned"], pending: ["○", "Pending"],
+  // One glyph, one label, site-wide. content/disciplines.md states ○ Open, and §06 rendered
+  // ○ Planned on six stages beside ○ Open on five working-list rows: the same mark carrying two
+  // meanings on one page. Planned is a real distinction from Open, a stage that is sequenced
+  // against one that is merely not started, so it keeps its word and takes its own mark rather
+  // than the word being flattened away. See phd-lab#84.
+  open: ["○", "Open"], planned: ["◇", "Planned"], pending: ["◈", "Pending"],
   active: ["◐", "In progress"], running: ["◐", "Running"], queued: ["○", "Queued"],
   done: ["●", "Complete"], supported: ["●", "Supported"], approved: ["●", "Approved"],
   inconclusive: ["◑", "Inconclusive"], revisions: ["◑", "Approved w/ revisions"],
@@ -414,9 +419,10 @@ function finish($, name) {
     // only as data-state, which the CSS draws as a bare coloured dot, and CONTENT-CONTRACT.md
     // line 277 forbids exactly that: status is never colour alone (WCAG 1.4.1). Jeff's intent
     // that the last entry reads as current was in the data and unreadable on the page.
-    const spineWord = { done: "Complete", active: "Current", open: "Planned" };
+    const spineWord = { done: "Complete", active: "Current", planned: "Planned" };
     overview.spine.forEach((m) => {
-      spineOl.append(`\n<li data-state="${m.state}"><p class="spine__when"><span class="mono">${m.when}</span></p><h3 class="spine__what">${m.what}</h3><p class="spine__note">${mdInline(m.note)}</p><p class="spine__note">${statusSpan(m.state, spineWord[m.state])}</p></li>`);
+      const ms = m.state === "open" ? "planned" : m.state;
+      spineOl.append(`\n<li data-state="${m.state}"><p class="spine__when"><span class="mono">${m.when}</span></p><h3 class="spine__what">${m.what}</h3><p class="spine__note">${mdInline(m.note)}</p><p class="spine__note">${statusSpan(ms, spineWord[ms])}</p></li>`);
     });
   } else warn("index: spine not rendered");
   // section-card feet: derive from the same counts the status strip uses
@@ -967,12 +973,13 @@ function citeHtml(d) {
 {
   const $ = page("timeline.html");
   // re-render the whole spine from content — filling stray slots grafts notes onto stale headings
-  const wordMap = { done: "Complete", active: "In progress", open: "Planned" };
+  const stageState = (st) => (st === "open" ? "planned" : st);
+  const wordMap = { done: "Complete", active: "In progress", planned: "Planned" };
   const spineOl = $("ol.spine").first();
   if (spineOl.length && timelineC.stages?.length) {
     spineOl.empty();
     for (const s of timelineC.stages) {
-      spineOl.append(`\n<li data-state="${s.state}"><p class="spine__when">Stage 0${s.n} · <span class="mono">${s.when}</span></p><h3 class="spine__what">${s.what}</h3><p class="spine__note">${mdInline(s.note)}</p><p class="spine__note">${statusSpan(s.state, wordMap[s.state])}</p></li>`);
+      spineOl.append(`\n<li data-state="${s.state}"><p class="spine__when">Stage 0${s.n} · <span class="mono">${s.when}</span></p><h3 class="spine__what">${s.what}</h3><p class="spine__note">${mdInline(s.note)}</p><p class="spine__note">${statusSpan(stageState(s.state), wordMap[stageState(s.state)])}</p></li>`);
     }
   } else warn("timeline: spine not rendered");
   // 90-day working list → checklist items ("[x] " prefix marks done)

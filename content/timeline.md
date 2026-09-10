@@ -37,16 +37,16 @@ stages:
     what: "Study 4: the slenderness sweep (embodiment as the variable)"
     when: "—"
     state: open
-    note: "Runs on the apparatus study 1 validated and measures the transfer penalty study 2 defines, so it needs both. It is independent of study 3, since nothing in RQ4 touches certification, so it is schedulable against compute rather than against study 3. Placed here because §1.11 puts its submission last, not because the order is settled"
+    note: "Needs studies 1 and 2 and is independent of study 3; the reasoning is in [§1.12](proposal.html#s112)"
   - n: 8
     what: "Defense"
     when: "—"
     state: open
     note: "Gate: all four papers submitted; acceptance is upside, not required"
 ninety_days:
-  - "Confirm paper 1 RA-L submission logged (gov pre-publication read, anonymized package)"
+  - "Confirm paper 1 RA-L submission logged"
   - "File Form D1, the advisory committee (Dr. Kaipa + two MAE faculty)"
   - "File the Plan of Study"
   - "MAE 897 build: skill-library platform per the cut tickets"
-  - "S0 10-seed baseline retrain on HPC"
+  - "Run the 10-seed baseline retrain on HPC ([exp-004](experiments.html#d004))"
 ---

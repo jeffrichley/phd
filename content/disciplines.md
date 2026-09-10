@@ -66,7 +66,8 @@ true when it was written, or a new dated entry saying otherwise.
 ## Empty means not done
 
 Nothing on this site is padded to look finished. Unfilled sections render as labelled
-placeholders; a hypothesis stays **○ Open** until a preregistered run reports; a figure
+placeholders; a hypothesis stays **○ Open** until a preregistered run reports; a stage that
+is sequenced but not started is **◇ Planned**, which is a different thing from open; a figure
 plate stays empty until there is a run behind it; statuses are exact words (*drafted,
 delivered, under review, submitted*), never optimistic blurs. If a surface here looks
 sparse, that is the state of the work, and it will fill in public.
