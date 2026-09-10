@@ -44,10 +44,14 @@ research_questions:
     text: "Does the structured-memory advantage hold across bodies of differing shape, and does a body's added-mass anisotropy predict where the categorical boundary between gait regimes falls? The first half asks whether the result is a property of the architecture or of one robot; the second asks what predicts the scaling RQ2 measures."
 # Each contribution states where it is answered and where it is tested. Contribution 1 is
 # the one asymmetry and it is deliberate: study 1 is complete, so its evidence is the
-# measurements in §1.9 rather than a plan in §1.8.
+# measurements in §1.9 rather than a plan in §1.8. `state` says why, because a trace that
+# differs from its neighbours without saying why invites the reader to guess, and the guess
+# is unflattering. "Study complete" and not "Complete": the study is finished, the paper is
+# at the submission gate and not accepted.
 contributions:
   - text: "A validation protocol and hydrodynamics plugin that make GPU-simulator added-mass physics measured rather than assumed"
     answers: RQ1
+    state: "Study complete"
     evidence: "§1.9"
   - text: "The forward-transfer measurement across the dial/switch boundary: structured, inspectable skill memory versus nearest-skill warm-starting, on fifteen acquisition targets spanning parametric and categorical task variation"
     answers: RQ2

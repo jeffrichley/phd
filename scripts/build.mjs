@@ -495,7 +495,16 @@ function finish($, name) {
     const trace = [];
     if (item.answers) trace.push(`Answers <a href="${secHref("§1.5")}">${item.answers}</a>`);
     if (item.evaluated) trace.push(`Evaluated in <a href="${secHref(item.evaluated)}">${item.evaluated}</a>`);
-    if (item.evidence) trace.push(`Evidence in <a href="${secHref(item.evidence)}">${item.evidence}</a>`);
+    // `state` is optional and exists because contribution 1's trace reads differently from the
+    // other three: three say "Evaluated in §1.8" and one says "Evidence in §1.9", and a reader
+    // who does not know why sees three that follow a pattern and one that does not. The label
+    // stated the difference without the reason, so the reader supplied one and the cheapest
+    // available reading was that something was missing. It is a field rather than a hardcoded
+    // string so a second finished study inherits it. See phd-lab#67.
+    if (item.evidence) {
+      const where = `<a href="${secHref(item.evidence)}">${item.evidence}</a>`;
+      trace.push(item.state ? `${item.state}; evidence in ${where}` : `Evidence in ${where}`);
+    } else if (item.state) warn(`proposal: contribution ${i + 1} has a state but nowhere to hang it`);
     // a contribution with no evaluation is a plan, which is the thing OD's note was warning
     // the author about. Said once here, as a check, instead of on the page to the reader.
     if (!item.evaluated && !item.evidence) warn(`proposal: contribution ${i + 1} traces to no evaluation or evidence`);
