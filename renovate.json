@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":dependencyDashboard"
+  ],
+  "timezone": "America/New_York",
+  "labels": ["dependencies"],
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "automerge": false
+  },
+  "platformAutomerge": false,
+  "packageRules": [
+    {
+      "description": "Group all non-major updates into one PR. No auto-merge: the only workflow deploys the site from main, so nothing checks a pull request.",
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest", "lockFileMaintenance"],
+      "groupName": "non-major dependencies",
+      "automerge": false
+    },
+    {
+      "description": "Majors get their own PR and require human review.",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "description": "Python is disabled everywhere; this repo has none, but the rule keeps it from ever moving on its own.",
+      "matchDepNames": ["python"],
+      "enabled": false
+    }
+  ]
+}
